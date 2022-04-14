@@ -101,7 +101,8 @@ Criar uma pasta para usar somente o controle de versões
 mkdir nome da pasta
 Ex: mkdir servidor
 
-
+  
+  ds
 
 --------------------------------------------------------------
 Comando para criar um repositório que será utilizado como controle de versões
