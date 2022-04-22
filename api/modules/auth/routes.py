@@ -5,6 +5,7 @@ from modules.auth.validator import validate_login
 
 auth_routes = Blueprint('auth', __name__)
 
+
 USERS = [
     {
         'id': 1,
@@ -20,7 +21,7 @@ USERS = [
         'name': 'Marcos',
         'email': 'marcoshefa@gmail.com',
         'celular': '12974020975',
-        'password': 123456,
+        'password': '123456',
         'created_at': datetime(2022, 5, 1, 12, 0),
         'updated_at': datetime(2022, 5, 1, 12, 0),
     }
@@ -55,3 +56,18 @@ def login():
         'messagem': f'Bem-Vindo, login realizado com Sucesso!',
         'email': dados_recebido['email']
     }
+
+@auth_routes.route('/users', methods=['GET',])
+def usuario():
+    dados_recebido = request.args
+    for usuario in USERS:
+        if usuario['id'] == int(dados_recebido['id']):
+            return usuario
+
+@auth_routes.route('/users_todos', methods=['GET',])
+def listausuario():
+        return {
+            'usuarios': USERS,
+            }
+
+
