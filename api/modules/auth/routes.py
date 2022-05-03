@@ -1,57 +1,14 @@
-from ast import If
-from datetime import datetime
-from mailbox import NotEmptyError
 from flask import Blueprint, request
 
 from modules.auth.validator import validate_login
 from modules.auth.validator import validate_user_id
 from modules.auth.validator import validate_t
+from modules.auth.controllers import login, list_all_users, user_id, delete_user, update_users, create_new_user
 
 auth_routes = Blueprint('auth', __name__)
 
-
-USERS = [
-    {
-        'id': 1,
-        'name': 'Carlos Noronha',
-        'email': 'carlos@floatacademy.com',
-        'celular': '12974020976',
-        'password': '12345678',
-        'created_at': datetime(2022, 5, 1, 12, 0),
-        'updated_at': datetime(2022, 5, 1, 12, 0),
-    },
-    {
-        'id': 2,
-        'name': 'Marcos',
-        'email': 'marcoshefa@gmail.com',
-        'celular': '12974020975',
-        'password': '123456',
-        'created_at': datetime(2022, 5, 1, 12, 0),
-        'updated_at': datetime(2022, 5, 1, 12, 0),
-    }
-]
-
-EMPRESAS = [
-    {
-        'ID_empresa': 1,
-        'nome':'Quimlab',
-        'endereco':'jacareí',
-        'telefone':'1239554646',
-        'telefone_emergencia':'01234567',
-        'email':'quimlab@quimlab.com.br',
-    },
-    {
-        'ID_empresa': 2,
-        'nome':'Quimlab2',
-        'endereco':'jacareí2',
-        'telefone':'12395546462',
-        'telefone_emergencia':'012345672',
-        'email':'quimlab@quimlab.com.br2',
-    }
-]
-
 @auth_routes.route('/login', methods=["POST"])
-def login():
+def login_route():
     # request.json => para pegar as informacoes do corpo da requisicao
     # request.args => para pegar os parametros da url
     
@@ -62,17 +19,9 @@ def login():
         return msg, 400
 
     # processamento
-    usuario_selecionado = None
-    for user in USERS:
-        if user['email'] == dados_recebido['email']:
-            usuario_selecionado = user
-            break
-
-    if not usuario_selecionado:
-        return 'Usuário não encontrado', 404
-
-    if user['password'] != dados_recebido['password']:
-        return 'Senha Incorreta', 403
+    msg, status = login(dados_recebido)
+    if status>= 400:
+        return msg, status
     
     # formatamos o retorno
     return {
@@ -83,15 +32,23 @@ def login():
 @auth_routes.route('/users', methods=['GET',])
 def usuario():
     dados_recebido = request.args
-    for usuario in USERS:
-        if usuario['id'] == int(dados_recebido['id']):
-            return usuario
+    msg, status = validate_user_id(dados_recebido)
+    if not status:
+        return msg, 400
+
+    usuario = user_id(dados_recebido['id'])
+    if not usuario:
+       return 'Usuário não encontrado!', 404
+
+    return usuario
 
 @auth_routes.route('/users_todos', methods=['GET',])
 def listausuario():
-        return {
-            'usuarios': USERS,
-            }
+    new_users = list_all_users()
+
+    return {
+        'users_list': new_users
+    }
 
 @auth_routes.route('/user', methods=["DELETE"])
 def user_deleted():
@@ -100,13 +57,10 @@ def user_deleted():
     if not status:
         return msg, 400
 
-    new_users = []
-    for user in USERS:
-        if user['id'] != int(dados_recebido['id']):
-            new_users.append(user)
+    new_users = delete_user(dados_recebido['id'])
 
     return {
-        'new_users_list': new_users
+        'new_user_list':new_users
     }
 
 @auth_routes.route('/user', methods=["PUT"])
@@ -117,38 +71,28 @@ def user_atualisa():
         return msg, 400
 
     dados_recebido_corpo = request.json
+    new_users = update_users(dados_recebido_url['id'], dados_recebido_corpo)
 
-    new_users = []
-    for user in USERS:
-        if int(dados_recebido_url['id']) == user['id']:
-            if 'nome' in dados_recebido_corpo:
-                user['name'] = dados_recebido_corpo['nome']
+    return {'new_users_list': new_users}
 
-            if 'email' in dados_recebido_corpo:
-                user['email'] = dados_recebido_corpo['email']
-
-            if 'celular' in dados_recebido_corpo:
-                user['celular'] = dados_recebido_corpo['celular']
-        new_users.append(user)
-
-    return {
-        'new_users_list': new_users
-    }
-
-@auth_routes.route('/empresa', methods=["GET"])
-def listaempresa():
-        return {
-            'empresas': EMPRESAS,
-            }
+#@auth_routes.route('/empresa', methods=["GET"])
+#def listaempresa():
+        #return {
+            #'empresas': EMPRESAS,
+            #}
 
 @auth_routes.route('/novo_usuario', methods=["POST"])
 def novousurario():
-    dados_recebido_url = request.args
-    msg, status = validate_t(dados_recebido_url)
+    dados_recebido = request.json
+    msg, status = validate_t(dados_recebido)
     if not status:
         return msg, 400
 
-    for user in USERS:
-        if user['email'] == (dados_recebido_url['email']):
-            return 'Usuário já cadastrado'
+    dados_recebido_corpo = request.json
+    USERS = create_new_user(dados_recebido_corpo)
+
+    return USERS
+   
+    
+    
 
