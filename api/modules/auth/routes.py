@@ -2,8 +2,10 @@ from flask import Blueprint, request
 
 from modules.auth.validator import validate_login
 from modules.auth.validator import validate_user_id
-from modules.auth.validator import validate_t
-from modules.auth.controllers import login, list_all_users, user_id, delete_user, update_users, create_new_user
+#from modules.auth.validator import validate_t
+from modules.auth.controllers import login, list_all_users, update_user, delete_user, user_id
+
+#create_new_user,
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -36,11 +38,10 @@ def usuario():
     if not status:
         return msg, 400
 
-    usuario = user_id(dados_recebido['id'])
-    if not usuario:
-       return 'Usuário não encontrado!', 404
-
-    return usuario
+    user = user_id(dados_recebido['id'])
+    return {
+        'usuario':user 
+    }
 
 @auth_routes.route('/users_todos', methods=['GET',])
 def listausuario():
@@ -63,6 +64,24 @@ def user_deleted():
         'new_user_list':new_users
     }
 
+# @auth_routes.route('/empresa', methods=["GET"])
+# def listaempresa():
+#         return {
+#             'empresas': EMPRESAS,
+#             }
+
+# @auth_routes.route('/novo_usuario', methods=["POST"])
+# def novousurario():
+#     dados_recebido = request.json
+#     msg, status = validate_t(dados_recebido)
+#     if not status:
+#         return msg, 400
+
+#     dados_recebido_corpo = request.json
+#     USERS = create_new_user(dados_recebido_corpo)
+
+#     return USERS
+   
 @auth_routes.route('/user', methods=["PUT"])
 def user_atualisa():
     dados_recebido_url = request.args
@@ -71,28 +90,7 @@ def user_atualisa():
         return msg, 400
 
     dados_recebido_corpo = request.json
-    new_users = update_users(dados_recebido_url['id'], dados_recebido_corpo)
+    new_users = update_user(dados_recebido_url['id'], dados_recebido_corpo)
 
-    return {'new_users_list': new_users}
-
-#@auth_routes.route('/empresa', methods=["GET"])
-#def listaempresa():
-        #return {
-            #'empresas': EMPRESAS,
-            #}
-
-@auth_routes.route('/novo_usuario', methods=["POST"])
-def novousurario():
-    dados_recebido = request.json
-    msg, status = validate_t(dados_recebido)
-    if not status:
-        return msg, 400
-
-    dados_recebido_corpo = request.json
-    USERS = create_new_user(dados_recebido_corpo)
-
-    return USERS
-   
+    return {'new_users_list': new_users}  
     
-    
-

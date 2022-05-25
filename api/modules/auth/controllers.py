@@ -1,110 +1,112 @@
 from datetime import datetime
-
-USERS = [
-    {
-        'id': 1,
-        'name': 'Carlos Noronha',
-        'email': 'carlos@floatacademy.com',
-        'celular': '12974020976',
-        'password': '12345678',
-        'created_at': datetime(2022, 5, 1, 12, 0),
-        'updated_at': datetime(2022, 5, 1, 12, 0),
-    },
-    {
-        'id': 2,
-        'name': 'Marcos',
-        'email': 'marcoshefa@gmail.com',
-        'celular': '12974020975',
-        'password': '123456',
-        'created_at': datetime(2022, 5, 1, 12, 0),
-        'updated_at': datetime(2022, 5, 1, 12, 0),
-    }
-]
-
-EMPRESAS = [
-    {
-        'ID_empresa': 1,
-        'nome':'Quimlab',
-        'endereco':'jacareí',
-        'telefone':'1239554646',
-        'telefone_emergencia':'01234567',
-        'email':'quimlab@quimlab.com.br',
-    },
-    {
-        'ID_empresa': 2,
-        'nome':'Quimlab2',
-        'endereco':'jacareí2',
-        'telefone':'12395546462',
-        'telefone_emergencia':'012345672',
-        'email':'quimlab@quimlab.com.br2',
-    }
-]
+from database import mysql
 
 def login(dados_recebido):
         
-    usuario_selecionado = None
-    for user in USERS:
-        if user['email'] == dados_recebido['email']:
-            usuario_selecionado = user
-            break
+    cursor = mysql.get_db().cursor()
+
+    cursor.execute("SELECT * FROM User WHERE email = %s", [dados_recebido['email']])
+    usuario_selecionado = cursor.fetchone()
 
     if not usuario_selecionado:
         return 'Usuário não encontrado', 404
 
-    if user['password'] != dados_recebido['password']:
+    if usuario_selecionado[4] != dados_recebido['password']:
         return 'Senha Incorreta', 403
+
+    cursor.close()
 
     return '', 200
 
+
 def list_all_users():
-    new_users = []
+    cursor = mysql.get_db().cursor()
 
-    for user in USERS:
-        new_user = user
-        del new_user['password']
-        new_users.append(new_user)
+    cursor.execute("SELECT * FROM User")
 
-    return new_users
+    users_db = cursor.fetchall()
+
+    all_users = []
+
+    for user in users_db:
+        new_user = {
+            'id': user[0],
+            'name': user[1],
+            'email': user[2],
+            'celular': user[3],
+            'created_at': user[5],
+            'update_at': user[6],
+            'permission_id': user[7]
+        }
+
+        all_users.append(new_user)
+
+    cursor.close()
+
+    return all_users
 
 def user_id(id):
-    for usuario in USERS:
-        if int(id) == usuario['id']:
-            del usuario['password']
-            return usuario
+    cursor = mysql.get_db().cursor()
 
-    return None
+    # verificar se existe o usuario com o ID X no banco
+    cursor.execute("SELECT * FROM User WHERE ID = %s", [id])
+    usuario_selecionado = cursor.fetchone()
+
+    if not usuario_selecionado:
+        return 'Usuário não encontrado', 404
+    
+    return usuario_selecionado
 
 def delete_user(id):
-    new_users = []
-    for user in USERS:
-        if user['id'] != int(id):
-            new_users.append(user)
+    cursor = mysql.get_db().cursor()
 
-    return new_users
+    # verificar se existe o usuario com o ID X no banco
+    cursor.execute("SELECT * FROM User WHERE ID = %s", [id])
+    usuario_selecionado = cursor.fetchone()
 
-def update_users(id, dados_recebido_corpo):
-    new_users = []
-    for user in USERS:
-        if int(id) == user['id']:
-            if 'nome' in dados_recebido_corpo:
-                user['name'] = dados_recebido_corpo['nome']
+    if not usuario_selecionado:
+        return 'Usuário não encontrado', 404
+    
+    cursor.execute("DELETE FROM User WHERE ID = %s", [id])
 
-            if 'email' in dados_recebido_corpo:
-                user['email'] = dados_recebido_corpo['email']
+    mysql.get_db().commit()
 
-            if 'celular' in dados_recebido_corpo:
-                user['celular'] = dados_recebido_corpo['celular']
-        new_users.append(user)
+    cursor.close()
+    
+    return 'Usuário deletado com sucesso!', 200
 
-    return new_users
+def update_user(id, dados_recebido_corpo):
+    cursor = mysql.get_db().cursor()
 
-def create_new_user(dados_recebido):
-    for user in USERS:
-        if user['email'] == (dados_recebido['email']):
-            return 'Usuário já cadastrado',409
+    # verificar se existe o usuario com o ID X no banco
+    cursor.execute("SELECT * FROM User WHERE ID = %s", [id])
+    usuario_selecionado = cursor.fetchone()
 
-    new_users = []
-    USERS.append(dados_recebido)
-    return {
-        'new_list':USERS
-    }
+    if not usuario_selecionado:
+        return 'Usuário não encontrado', 404
+
+    # organizar as novas informacoes
+    novo_nome = dados_recebido_corpo['name']
+    novo_email = dados_recebido_corpo['email']
+    novo_celular = dados_recebido_corpo['celular']
+    data_atual = datetime.now()
+
+    # atualizar no banco de dados com as novas informacoes para o usuario
+    cursor.execute("UPDATE User SET name = %s, email = %s, celular = %s, update_at = %s WHERE ID = %s", 
+        [novo_nome, novo_email, novo_celular, data_atual, id])
+    
+    mysql.get_db().commit()
+
+    cursor.close()
+
+    return 'Usuário atualizado com sucesso!', 200
+
+# def create_new_user(dados_recebido):
+#     for user in USERS:
+#         if user['email'] == (dados_recebido['email']):
+#             return 'Usuário já cadastrado',409
+
+#     USERS.append(dados_recebido)
+#     return {
+#         'new_list':USERS
+#     }
