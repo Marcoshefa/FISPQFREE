@@ -1,11 +1,8 @@
 from flask import Blueprint, request
 
-from modules.auth.validator import validate_login
-from modules.auth.validator import validate_user_id
-#from modules.auth.validator import validate_t
-from modules.auth.controllers import login, list_all_users, update_user, delete_user, user_id
-
-#create_new_user,
+from modules.auth.validator import validate_login, validate_empresa, validate_cnpj,validate_user_id, validate_t
+from modules.auth.controllers import login, list_all_users, update_user, delete_user, user_id, create_new_user, create_new_company, empresa_cnpj, list_all_company, delete_company, update_company
+from Decorators import validate_token
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -32,6 +29,7 @@ def login_route():
     }
 
 @auth_routes.route('/users', methods=['GET',])
+@validate_token
 def usuario():
     dados_recebido = request.args
     msg, status = validate_user_id(dados_recebido)
@@ -44,6 +42,7 @@ def usuario():
     }
 
 @auth_routes.route('/users_todos', methods=['GET',])
+@validate_token
 def listausuario():
     new_users = list_all_users()
 
@@ -52,6 +51,7 @@ def listausuario():
     }
 
 @auth_routes.route('/user', methods=["DELETE"])
+@validate_token
 def user_deleted():
     dados_recebido = request.args
     msg, status = validate_user_id(dados_recebido)
@@ -64,25 +64,21 @@ def user_deleted():
         'new_user_list':new_users
     }
 
-# @auth_routes.route('/empresa', methods=["GET"])
-# def listaempresa():
-#         return {
-#             'empresas': EMPRESAS,
-#             }
+@auth_routes.route('/novo_usuario', methods=["POST"])
+@validate_token
+def novousurario():
+    dados_recebido = request.json
+    msg, status = validate_t(dados_recebido)
+    if not status:
+        return msg, 400
 
-# @auth_routes.route('/novo_usuario', methods=["POST"])
-# def novousurario():
-#     dados_recebido = request.json
-#     msg, status = validate_t(dados_recebido)
-#     if not status:
-#         return msg, 400
+    dados_recebido_corpo = request.json
+    USERS = create_new_user(dados_recebido_corpo)
 
-#     dados_recebido_corpo = request.json
-#     USERS = create_new_user(dados_recebido_corpo)
-
-#     return USERS
+    return USERS
    
 @auth_routes.route('/user', methods=["PUT"])
+@validate_token
 def user_atualisa():
     dados_recebido_url = request.args
     msg, status = validate_user_id(dados_recebido_url)
@@ -94,3 +90,64 @@ def user_atualisa():
 
     return {'new_users_list': new_users}  
     
+@auth_routes.route('/nova_empresa', methods=["POST"])
+@validate_token
+def novaempresa():
+    dados_recebido = request.json
+    msg, status = validate_empresa(dados_recebido)
+    if not status:
+        return msg, 400
+
+    dados_recebido_corpo = request.json
+    EMPRESA = create_new_company(dados_recebido_corpo)
+
+    return EMPRESA
+
+@auth_routes.route('/company', methods=['GET',])
+@validate_token
+def empresa():
+    dados_recebido = request.args
+    msg, status = validate_cnpj(dados_recebido)
+    if not status:
+        return msg, 400
+
+    company_cnpj = empresa_cnpj(dados_recebido['cnpj'])
+    return {
+        'Empresa':company_cnpj
+    }
+
+@auth_routes.route('/company_all', methods=['GET',])
+@validate_token
+def listaempresas():
+    list_company = list_all_company()
+
+    return {
+        'company_list': list_company
+    }
+
+@auth_routes.route('/company', methods=["DELETE"])
+@validate_token
+def company_deleted():
+    dados_recebido = request.args
+    msg, status = validate_cnpj(dados_recebido)
+    if not status:
+        return msg, 400
+
+    delete_empresa = delete_company(dados_recebido['cnpj'])
+
+    return {
+        'new_company_list':delete_empresa
+    }
+
+@auth_routes.route('/company', methods=["PUT"])
+@validate_token
+def company_atualisa():
+    dados_recebido_url = request.args
+    msg, status = validate_cnpj(dados_recebido_url)
+    if not status:
+        return msg, 400
+
+    dados_recebido_corpo = request.json
+    new_company = update_company(dados_recebido_url['cnpj'], dados_recebido_corpo)
+
+    return {'new_company_list': new_company}

@@ -24,3 +24,15 @@ def validate_t(dados_recebidos):
         return 'name obrigatorio!', False
 
     return '', True
+
+def validate_empresa(dados_recebidos):
+    if not dados_recebidos.get('cnpj'):
+        return 'CNPJ obrigatorio!', False
+
+    return '', True
+
+def validate_cnpj(dados_recebidos):
+    if not dados_recebidos.get('cnpj'):
+        return 'CNPJ obrigatório!', False
+
+    return '', True
