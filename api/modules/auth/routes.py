@@ -25,7 +25,8 @@ def login_route():
     # formatamos o retorno
     return {
         'messagem': f'Bem-Vindo, login realizado com Sucesso!',
-        'email': dados_recebido['email']
+        'email': dados_recebido['email'],
+        "token": msg
     }
 
 @auth_routes.route('/users', methods=['GET',])

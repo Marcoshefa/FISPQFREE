@@ -1,4 +1,6 @@
-from datetime import datetime
+import jwt
+import pytz
+from datetime import datetime, timedelta
 from database import mysql
 
 def login(dados_recebido):
@@ -14,9 +16,18 @@ def login(dados_recebido):
     if usuario_selecionado[4] != dados_recebido['password']:
         return 'Senha Incorreta', 403
 
+    data_hora_atual = datetime.now(tz=pytz.timezone('America/Sao_Paulo'))
+    dados = {
+        'id': usuario_selecionado[0],
+        'name': usuario_selecionado[1],
+        'permission_id': usuario_selecionado[7],
+        'iat': data_hora_atual,
+        'exp': data_hora_atual + timedelta(hours=3)
+    }
+    token = jwt.encode(dados, "SENHA_TOKEN", algorithm="HS256")
     cursor.close()
 
-    return '', 200
+    return token, 200
 
 
 def list_all_users():
