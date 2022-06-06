@@ -1,6 +1,7 @@
 import jwt
 import pytz
-from datetime import datetime, timedelta
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from database import mysql
 
 def login(dados_recebido):
@@ -22,7 +23,7 @@ def login(dados_recebido):
         'name': usuario_selecionado[1],
         'permission_id': usuario_selecionado[7],
         'iat': data_hora_atual,
-        'exp': data_hora_atual + timedelta(hours=3)
+        'exp': data_hora_atual + relativedelta(years=1)
     }
     token = jwt.encode(dados, "SENHA_TOKEN", algorithm="HS256")
     cursor.close()
@@ -260,3 +261,23 @@ def update_company(cnpj, dados_recebido_corpo):
     cursor.close()
 
     return 'Empresa atualizado com sucesso!', 200
+
+def create_new_usercompany(dados_recebido):
+    cursor = mysql.get_db().cursor()
+
+    userID= dados_recebido['User_ID']
+    empresaID = dados_recebido['Empresa_ID_empresa']
+
+    # cursor.execute("SELECT * FROM User_has_Empresa WHERE User_ID = %s", and [userID])
+    # user = cursor.fetchone()
+    # if user:
+    #     return 'Permissão de usuário e ampresa já existe no banco de dados', 409
+
+    cursor.execute("INSERT INTO User_has_Empresa(User_ID, Empresa_ID_empresa) VALUES (%s, %s)", 
+        [userID, empresaID])
+
+    mysql.get_db().commit()
+
+    cursor.close()
+
+    return 'Permissão de usuário e empresa cadastrada com sucesso', 201

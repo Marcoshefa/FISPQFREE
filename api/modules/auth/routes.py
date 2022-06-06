@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 
-from modules.auth.validator import validate_login, validate_empresa, validate_cnpj,validate_user_id, validate_t
-from modules.auth.controllers import login, list_all_users, update_user, delete_user, user_id, create_new_user, create_new_company, empresa_cnpj, list_all_company, delete_company, update_company
+from modules.auth.validator import validate_login, validate_empresa, validate_cnpj,validate_user_id, validate_t, validate_usuarioempresa
+from modules.auth.controllers import login, list_all_users, update_user, delete_user, user_id, create_new_user, create_new_company, empresa_cnpj, list_all_company, delete_company, update_company, create_new_usercompany
 from Decorators import validate_token
 
 auth_routes = Blueprint('auth', __name__)
@@ -33,6 +33,10 @@ def login_route():
 @validate_token
 def usuario():
     dados_recebido = request.args
+    dados_recebidos = request.user
+    if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(dados_recebido['id']):
+        return 'Usuário não tem permissão', 403
+
     msg, status = validate_user_id(dados_recebido)
     if not status:
         return msg, 400
@@ -45,6 +49,10 @@ def usuario():
 @auth_routes.route('/users_todos', methods=['GET',])
 @validate_token
 def listausuario():
+    dados_recebidos = request.user
+    if dados_recebidos['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+    
     new_users = list_all_users()
 
     return {
@@ -54,12 +62,16 @@ def listausuario():
 @auth_routes.route('/user', methods=["DELETE"])
 @validate_token
 def user_deleted():
-    dados_recebido = request.args
-    msg, status = validate_user_id(dados_recebido)
+    dados_recebido_url = request.args
+    dados_recebidos = request.user
+    if dados_recebidos['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+
+    msg, status = validate_user_id(dados_recebido_url)
     if not status:
         return msg, 400
 
-    new_users = delete_user(dados_recebido['id'])
+    new_users = delete_user(dados_recebido_url['id'])
 
     return {
         'new_user_list':new_users
@@ -69,6 +81,10 @@ def user_deleted():
 @validate_token
 def novousurario():
     dados_recebido = request.json
+    dados_recebidos = request.user
+    if dados_recebidos['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+
     msg, status = validate_t(dados_recebido)
     if not status:
         return msg, 400
@@ -82,6 +98,10 @@ def novousurario():
 @validate_token
 def user_atualisa():
     dados_recebido_url = request.args
+    dados_recebidos = request.user
+    if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(dados_recebido_url['id']):
+        return 'Usuário não tem permissão', 403
+
     msg, status = validate_user_id(dados_recebido_url)
     if not status:
         return msg, 400
@@ -95,6 +115,10 @@ def user_atualisa():
 @validate_token
 def novaempresa():
     dados_recebido = request.json
+    dados_recebidos_token = request.user
+    if dados_recebidos_token['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+
     msg, status = validate_empresa(dados_recebido)
     if not status:
         return msg, 400
@@ -120,6 +144,10 @@ def empresa():
 @auth_routes.route('/company_all', methods=['GET',])
 @validate_token
 def listaempresas():
+    dados_recebidos_token = request.user
+    if dados_recebidos_token['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+
     list_company = list_all_company()
 
     return {
@@ -130,6 +158,10 @@ def listaempresas():
 @validate_token
 def company_deleted():
     dados_recebido = request.args
+    dados_recebidos_token = request.user
+    if dados_recebidos_token['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+
     msg, status = validate_cnpj(dados_recebido)
     if not status:
         return msg, 400
@@ -144,6 +176,10 @@ def company_deleted():
 @validate_token
 def company_atualisa():
     dados_recebido_url = request.args
+    dados_recebidos_token = request.user
+    if dados_recebidos_token['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+
     msg, status = validate_cnpj(dados_recebido_url)
     if not status:
         return msg, 400
@@ -152,3 +188,24 @@ def company_atualisa():
     new_company = update_company(dados_recebido_url['cnpj'], dados_recebido_corpo)
 
     return {'new_company_list': new_company}
+
+@auth_routes.route('/user_company', methods=["POST"])
+@validate_token
+def usuarioempresa():
+    dados_recebido = request.json
+    dados_recebidos_token = request.user
+    if dados_recebidos_token['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+
+    msg, status = validate_usuarioempresa(dados_recebido)
+    if not status:
+        return msg, 400
+
+    if dados_recebido['User_ID'] == dados_recebidos_token['id']:
+    #and dados_recebido['Empresa_ID_empresa'] == dados_recebidos_token['Empresa_ID_empresa']:
+        return 'Permissão de usuário e empresa já cadastrado', 403
+
+    dados_recebido_corpo = request.json
+    USUARIOEMPRESA = create_new_usercompany(dados_recebido_corpo)
+
+    return USUARIOEMPRESA

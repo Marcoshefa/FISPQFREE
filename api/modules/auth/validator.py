@@ -7,8 +7,8 @@ def validate_login(dados_recebidos):
 
     return '', True
 
-def validate_user_id(dados_recebidos):
-    if not dados_recebidos.get('id'):
+def validate_user_id(dados_recebidos_url):
+    if not dados_recebidos_url.get('id'):
         return 'ID obrigatorio!', False
 
     return '', True
@@ -34,5 +34,14 @@ def validate_empresa(dados_recebidos):
 def validate_cnpj(dados_recebidos):
     if not dados_recebidos.get('cnpj'):
         return 'CNPJ obrigatório!', False
+
+    return '', True
+
+def validate_usuarioempresa(dados_recebidos):
+    if not dados_recebidos.get('User_ID'):
+        return 'User_ID obrigatorio!', False
+
+    if not dados_recebidos.get('Empresa_ID_empresa'):
+        return 'Empresa_ID_empresa obrigatorio!', False
 
     return '', True
