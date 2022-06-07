@@ -272,7 +272,7 @@ def create_new_usercompany(dados_recebido):
     # user = cursor.fetchone()
     # if user:
     #     return 'Permissão de usuário e ampresa já existe no banco de dados', 409
-
+#
     cursor.execute("INSERT INTO User_has_Empresa(User_ID, Empresa_ID_empresa) VALUES (%s, %s)", 
         [userID, empresaID])
 
@@ -280,4 +280,4 @@ def create_new_usercompany(dados_recebido):
 
     cursor.close()
 
-    return 'Permissão de usuário e empresa cadastrada com sucesso', 201
+    return 'Permissão do usuário e empresa cadastrada com sucesso', 201
