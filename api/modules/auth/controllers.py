@@ -7,9 +7,15 @@ from database import mysql
 def login(dados_recebido):
         
     cursor = mysql.get_db().cursor()
+    
+    # cursor.execute("SELECT * FROM User A INNER JOIN User_has_Empresa B ON A.ID = User_ID WHERE A.email = %s", dados_recebido['email'])
+    # usuario_selecionado = cursor.fetchall() 
 
     cursor.execute("SELECT * FROM User WHERE email = %s", [dados_recebido['email']])
     usuario_selecionado = cursor.fetchone()
+
+    cursor.execute("SELECT Empresa_ID_empresa FROM User_has_Empresa WHERE User_ID = %s", usuario_selecionado[0])
+    empresa_selecionada = cursor.fetchall()
 
     if not usuario_selecionado:
         return 'Usuário não encontrado', 404
@@ -23,8 +29,18 @@ def login(dados_recebido):
         'name': usuario_selecionado[1],
         'permission_id': usuario_selecionado[7],
         'iat': data_hora_atual,
-        'exp': data_hora_atual + relativedelta(years=1)
+        'exp': data_hora_atual + relativedelta(years=1),
+        'idcompany':empresa_selecionada[1]
     }
+
+    # cursor.execute("SELECT * FROM User_has_Empresa WHERE User_ID = %s", dados['id'])
+    # empresa_selecionado = cursor.fetchall()
+    # dados2 = {
+    #     'UserID': empresa_selecionado[0],
+    #     'EmpresaIDempresa': empresa_selecionado[1]
+    # }
+
+
     token = jwt.encode(dados, "SENHA_TOKEN", algorithm="HS256")
     cursor.close()
 
@@ -272,7 +288,7 @@ def create_new_usercompany(dados_recebido):
     # user = cursor.fetchone()
     # if user:
     #     return 'Permissão de usuário e ampresa já existe no banco de dados', 409
-#
+
     cursor.execute("INSERT INTO User_has_Empresa(User_ID, Empresa_ID_empresa) VALUES (%s, %s)", 
         [userID, empresaID])
 
