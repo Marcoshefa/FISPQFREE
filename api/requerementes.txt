@@ -1,0 +1,6 @@
+Flask
+Flask-MySQL
+mysqlclient
+PyJWT
+PyMySQL
+pytz
