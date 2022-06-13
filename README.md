@@ -10,11 +10,11 @@ Software para geração de FISPQ
 ## Install
 
 ### Clone of the project
-`
+``` 
 
-git clone
+git clone https://github.com/Marcoshefa/FISPQFREE.git
 
-`
+```
 
 
 
