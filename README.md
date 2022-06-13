@@ -7,13 +7,15 @@ Software para geração de FISPQ
 - Python >= 3.6
 - Banco de dados MYSQL >=5.6
 
-## install
-'
-'
+## Install
+
+### Clone of the project
+`
+
 git clone
 
-'
-'
+`
+
 
 
 ## Running
