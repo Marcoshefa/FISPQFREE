@@ -15,7 +15,16 @@ Software para geração de FISPQ
 git clone https://github.com/Marcoshefa/FISPQFREE.git
 
 ```
+### Install dependencies
 
+```
+
+
+```
 
 
 ## Running
+
+Access the ``db`` folder and execute `setup.sql` file in your database.
+
+then, running in command line:
