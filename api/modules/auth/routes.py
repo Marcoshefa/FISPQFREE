@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 
-from modules.auth.validator import validate_login, validate_empresa, validate_cnpj,validate_user_id, validate_t, validate_usuarioempresa
-from modules.auth.controllers import login, list_all_users, update_user, delete_user, user_id, create_new_user, create_new_company, empresa_cnpj, list_all_company, delete_company, update_company, create_new_usercompany
+from modules.auth.validator import validate_login, validate_empresa, validate_cnpj,validate_user_id, validate_t, validate_usuarioempresa, validate_user_company
+from modules.auth.controllers import login, list_all_users, update_user, delete_user, user_id, create_new_user, create_new_company, empresa_cnpj, list_all_company, delete_company, update_company, create_new_usercompany, list_permission, delele_access
 from Decorators import validate_token
 
 auth_routes = Blueprint('auth', __name__)
@@ -46,7 +46,7 @@ def usuario():
         'usuario':user 
     }
 
-@auth_routes.route('/users_todos', methods=['GET',])
+@auth_routes.route('/users_all', methods=['GET',])
 @validate_token
 def listausuario():
     dados_recebidos = request.user
@@ -166,7 +166,7 @@ def company_deleted():
     if not status:
         return msg, 400
 
-    delete_empresa = delete_company(dados_recebido['cnpj'])
+    delete_empresa = delete_company()
 
     return {
         'new_company_list':delete_empresa
@@ -209,3 +209,57 @@ def usuarioempresa():
     USUARIOEMPRESA = create_new_usercompany(dados_recebido_corpo)
 
     return USUARIOEMPRESA
+
+@auth_routes.route('/user_company_all', methods=['GET',])
+@validate_token
+def lista_empresas():
+    dados_recebido = request.args
+    dados_recebidos_token = request.user
+        
+    msg, status = validate_user_id(dados_recebido)
+    if not status:
+        return msg, 400
+
+    if dados_recebidos_token['permission_id'] != '1'and dados_recebidos_token['id'] != int(dados_recebido['id']):
+        return 'Usuário não tem permissão', 403
+
+    list_user_company_all = list_permission(dados_recebido['id'])
+
+    return {
+        'user_company_list': list_user_company_all
+    }
+
+# @auth_routes.route('/create_permission', methods=['POST',])
+# @validate_token
+# def createpermission():
+#     dados_recebido = request.args
+#     dados_recebidos = request.user
+#     if dados_recebidos['permission_id'] != '1':
+#         return 'Usuário não tem permissão', 403
+
+#     msg, status = validate_user_id(dados_recebido)
+#     if not status:
+#         return msg, 400
+
+#     user = list_permission()
+#     return {
+#         'usuario':user 
+#     }
+
+@auth_routes.route('/delete_permission', methods=["DELETE"])
+@validate_token
+def delete_permission():
+    dados_recebido = request.json
+    dados_recebidos_token = request.user
+    if dados_recebidos_token['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+
+    msg, status = validate_user_company(dados_recebido)
+    if not status:
+        return msg, 400
+
+    delete_permission = delele_access(dados_recebido)
+
+    return {
+        'new_company_list':delete_permission
+    }

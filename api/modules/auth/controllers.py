@@ -7,9 +7,6 @@ from database import mysql
 def login(dados_recebido):
         
     cursor = mysql.get_db().cursor()
-    
-    # cursor.execute("SELECT * FROM User A INNER JOIN User_has_Empresa B ON A.ID = User_ID WHERE A.email = %s", dados_recebido['email'])
-    # usuario_selecionado = cursor.fetchall() 
 
     cursor.execute("SELECT * FROM User WHERE email = %s", [dados_recebido['email']])
     usuario_selecionado = cursor.fetchone()
@@ -32,14 +29,6 @@ def login(dados_recebido):
         'exp': data_hora_atual + relativedelta(years=1),
         'idcompany':empresa_selecionada[1]
     }
-
-    # cursor.execute("SELECT * FROM User_has_Empresa WHERE User_ID = %s", dados['id'])
-    # empresa_selecionado = cursor.fetchall()
-    # dados2 = {
-    #     'UserID': empresa_selecionado[0],
-    #     'EmpresaIDempresa': empresa_selecionado[1]
-    # }
-
 
     token = jwt.encode(dados, "SENHA_TOKEN", algorithm="HS256")
     cursor.close()
@@ -297,3 +286,47 @@ def create_new_usercompany(dados_recebido):
     cursor.close()
 
     return 'Permissão do usuário e empresa cadastrada com sucesso', 201
+
+def list_permission(id):
+    cursor = mysql.get_db().cursor()
+
+    cursor.execute("SELECT Empresa_ID_empresa FROM User_has_Empresa WHERE User_ID = %s",[id]) 
+
+    usuario_empresa = cursor.fetchall()
+
+    if not usuario_empresa:
+        return 'Usuário não encontrado', 404
+    all_company = []
+
+    for empresa in usuario_empresa:
+        new_empresa = {
+        'id_empresa': empresa[0],
+        }
+
+        all_company.append(new_empresa)
+
+    cursor.close()
+
+    return all_company
+
+def delele_access(dados_recebido):
+    cursor = mysql.get_db().cursor()
+
+    id = dados_recebido['User_ID']
+    empresa = dados_recebido['id_company']
+
+    # verificar se existe o usuario com o cnpj X no banco
+    cursor.execute("SELECT * FROM User_has_Empresa WHERE User_ID = %s and Empresa_ID_empresa = %s", [id, empresa])
+    empresa_selecionada = cursor.fetchone()
+   
+
+    if not empresa_selecionada:
+        return 'Empresa não encontrado', 404
+    
+    cursor.execute("DELETE FROM User_has_Empresa WHERE User_ID = %s and Empresa_ID_empresa = %s", [id, empresa])
+
+    mysql.get_db().commit()
+
+    cursor.close()
+    
+    return 'Empresa deletada com sucesso!', 200
