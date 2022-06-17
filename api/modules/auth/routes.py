@@ -220,7 +220,7 @@ def lista_empresas():
     if not status:
         return msg, 400
 
-    if dados_recebidos_token['permission_id'] != '1'and dados_recebidos_token['id'] != int(dados_recebido['id']):
+    if dados_recebidos_token['permission_id'] != '1' and dados_recebidos_token['id'] != int(dados_recebido['id']):
         return 'Usuário não tem permissão', 403
 
     list_user_company_all = list_permission(dados_recebido['id'])

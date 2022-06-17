@@ -27,7 +27,7 @@ def login(dados_recebido):
         'permission_id': usuario_selecionado[7],
         'iat': data_hora_atual,
         'exp': data_hora_atual + relativedelta(years=1),
-        'idcompany':empresa_selecionada[1]
+        'idcompany':empresa_selecionada[0]
     }
 
     token = jwt.encode(dados, "SENHA_TOKEN", algorithm="HS256")

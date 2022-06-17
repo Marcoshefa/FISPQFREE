@@ -13,14 +13,20 @@ Software para geração de FISPQ
 ``` 
 git clone https://github.com/Marcoshefa/FISPQFREE.git
 
+```
+```
 cd FISPFREE
+
 ```
 ### Install dependencies
 
 ```
 cd api
 
+```
+```
 pip3 install -r requerements.txt
+
 ```
 
 
