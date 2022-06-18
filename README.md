@@ -15,7 +15,7 @@ git clone https://github.com/Marcoshefa/FISPQFREE.git
 
 ```
 ```
-cd FISPFREE
+cd FISPQFREE
 
 ```
 ### Install dependencies
@@ -25,7 +25,7 @@ cd api
 
 ```
 ```
-pip3 install -r requerements.txt
+pip3 install -r requirements.txt
 
 ```
 
