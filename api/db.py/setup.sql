@@ -1,47 +1,39 @@
-CREATE SCHEMA IF NOT EXISTS `DB_FISPQ`;
+CREATE DATABASE  IF NOT EXISTS `DB_FISPQ2`;
+USE `DB_FISPQ2`;
 
-CREATE TABLE IF NOT EXISTS `DB_FISPQ`.`User` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `celular` INT(15) NULL,
-  `password` VARCHAR(255) NOT NULL,
-  `created_at` TIMESTAMP NULL,
-  `update_at` TIMESTAMP NULL,
-  `permission_id` VARCHAR(45) NULL,
-  PRIMARY KEY (`ID`))
-ENGINE = InnoDB;
+DROP TABLE IF EXISTS `Empresa`;
 
+CREATE TABLE `Empresa` (
+  `ID_empresa` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) NOT NULL,
+  `endereco` varchar(500) NOT NULL,
+  `telefone` varchar(45) NOT NULL,
+  `telefone_emergencia` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `cnpj` varchar(45) NOT NULL,
+  PRIMARY KEY (`ID_empresa`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `DB_FISPQ`.`Empresa` (
-  `ID_empresa` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NULL,
-  `endereco` VARCHAR(500) NULL,
-  `telefone` VARCHAR(45) NULL,
-  `Telefone_emergencia` VARCHAR(45) NULL,
-  `email` VARCHAR(45) NULL,
-  PRIMARY KEY (`ID_empresa`))
-ENGINE = InnoDB;
+DROP TABLE IF EXISTS `User`;
 
+CREATE TABLE `User` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `celular` varchar(20) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `update_at` timestamp NULL DEFAULT NULL,
+  `permission_id` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `DB_FISPQ`.`User_has_Empresa` (
-  `User_ID` INT NOT NULL,
-  `Empresa_ID_empresa` INT NOT NULL,
-  PRIMARY KEY (`User_ID`, `Empresa_ID_empresa`),
-  INDEX `fk_User_has_Empresa_Empresa1_idx` (`Empresa_ID_empresa` ASC) VISIBLE,
-  INDEX `fk_User_has_Empresa_User_idx` (`User_ID` ASC) VISIBLE,
-  CONSTRAINT `fk_User_has_Empresa_User`
-    FOREIGN KEY (`User_ID`)
-    REFERENCES `DB_FISPQ`.`User` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_User_has_Empresa_Empresa1`
-    FOREIGN KEY (`Empresa_ID_empresa`)
-    REFERENCES `DB_FISPQ`.`Empresa` (`ID_empresa`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+DROP TABLE IF EXISTS `User_has_Empresa`;
 
-INSERT INTO `DB_FISPQ`.`User` (
-`name`, `email`, `celular`, `PASSWORD`, `permission_id`) VALUES
-('admin', 'admin@gmail.com', '12988974', 'Admin','1');
+CREATE TABLE `User_has_Empresa` (
+  `User_ID` int NOT NULL,
+  `Empresa_ID_empresa` int NOT NULL,
+  PRIMARY KEY (`User_ID`,`Empresa_ID_empresa`),
+  KEY `fk_User_has_Empresa_Empresa1_idx` (`Empresa_ID_empresa`),
+  KEY `fk_User_has_Empresa_User_idx` (`User_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
