@@ -37,3 +37,7 @@ CREATE TABLE `User_has_Empresa` (
   KEY `fk_User_has_Empresa_Empresa1_idx` (`Empresa_ID_empresa`),
   KEY `fk_User_has_Empresa_User_idx` (`User_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `DB_FISPQ`.`User` (
+`name`, `email`, `celular`, `PASSWORD`, `permission_id`) VALUES
+('admin', 'admin@gmail.com', '12988974', 'Admin','1');

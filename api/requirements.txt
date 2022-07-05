@@ -4,3 +4,4 @@ mysqlclient
 PyJWT
 PyMySQL
 pytz
+flask_cors

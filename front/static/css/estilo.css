@@ -1,0 +1,12 @@
+h1 {
+    color: red;
+}
+
+.alerta {
+    background-color: red;
+    color: #FFF;
+    border: 1px solid #CCC;
+    padding: 5px;
+    border-radius: 10px;
+    display: none;
+}

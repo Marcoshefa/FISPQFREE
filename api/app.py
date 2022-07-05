@@ -1,8 +1,10 @@
 from flask import Flask
 from modules.auth.routes import auth_routes
 from database import mysql
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_PORT'] = 3306
