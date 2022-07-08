@@ -136,14 +136,15 @@ def create_new_user(dados_recebido):
     email = dados_recebido['email']
     celular = dados_recebido ['celular']
     password = dados_recebido['password']
+    permission_id = dados_recebido ['permission_id']
 
     cursor.execute("SELECT * FROM User WHERE email = %s", [email])
     user = cursor.fetchone()
     if user:
         return 'Usuário já existe no banco de dados', 409
 
-    cursor.execute("INSERT INTO User (name, email, celular, password, permission_id) VALUES (%s, %s, %s, %s, 1)", 
-        [name, email, celular, password])
+    cursor.execute("INSERT INTO User (name, email, celular, password, permission_id) VALUES (%s, %s, %s, %s, %s)", 
+        [name, email, celular, password, permission_id])
 
     mysql.get_db().commit()
 
