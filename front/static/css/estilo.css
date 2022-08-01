@@ -1,12 +1,233 @@
-h1 {
-    color: red;
+/*body img#tela {
+    width: 1980px;
+}
+body .login {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: -1000px;
+}
+body .login img {
+    width: 260px;
 }
 
-.alerta {
-    background-color: red;
+body .login .container {
+    width: 540px;
+    margin-top: 30px;
+    box-sizing: border-box;
+    background: rgba(30, 75, 123, 0.72);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 47px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body .login .container .title {
+    background: #FFFFFF;
+    border-radius: 7px;
+    padding: 6px 12px;
+    margin-top: -18px;
+}
+
+body .login .container .title p {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #1E4B7B;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+body .login .container .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+body .login .container .form p {
+    margin-top: 30px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #FFFFFF;
+}
+
+body .login .container .form .box-inputs {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body .login .container .form .box-inputs input {
+    width: 340px;
+    background: #FFFFFF;
+    font-family: 'Inter';
+    color: #333333;
+    border: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+body .login .container .form .btn-login {
+    background: #214E7E;
+    border-radius: 8px;
+    border: none;
     color: #FFF;
-    border: 1px solid #CCC;
-    padding: 5px;
-    border-radius: 10px;
-    display: none;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    padding: 10px 38px;
+    cursor: pointer;
+    margin-bottom: 45px;
+}
+
+body .login .container .form .btn-login:hover {
+    background-color: #97B753;
+}
+
+@media screen and (max-width: 580px) {
+    body .login .container {
+        width: 90%;
+    }
+
+    body .login .container .form .box-inputs input {
+        width: 85%;
+    }
+}*/
+
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Jacques+Francois&display=swap');
+
+
+body img#tela {
+    width: 1980px;
+    height:1080px;
+}
+
+body .login {
+    background: url("../images/tela.png");
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    /* margin-top: -1060px; */
+}
+
+body .login img#logo {
+    width: 200px;
+}
+
+body .login img#background_title{
+    width: 700px;
+    margin-top: 50px;
+
+}
+body .login .container {
+
+    box-sizing: border-box;
+    width: 575px;
+    background: rgba(4, 35, 37, 0.9);
+    border: 1px solid #0B0274;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 68px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 15px;
+    margin-bottom: 40px;
+}
+
+body .login p {
+   
+    width: 847px;
+    height: 169px;   
+    font-family: 'Jacques Francois', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 90px;
+    line-height: 169px;
+    color: #5CF162;
+    margin-top: -190px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body .login .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body .login .container .form .box-inputs {
+    
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body .login .container .form .box-inputs input {
+    
+    width: 356px;
+    background: #FFFFFF;
+    font-family: 'Inter';
+    font-size: 20px;
+    color: #333333;
+    border: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+body .login .container .form .btn-login {
+    background: #C4C4C4;
+    border: none;
+    color: #0E09F8;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 48px;
+    padding: 5px 28px;
+    cursor: pointer;
+    margin-bottom: 45px;
+}
+
+body .login .container .form .btn-login:hover {
+    background-color: #97B753;
+}
+
+@media screen and (max-width: 580px) {
+    body .login {
+        width: 90%;
+    }
+
+    body .login .container .form .box-inputs input {
+        width: 85%;
+    }
 }

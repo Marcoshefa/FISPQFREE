@@ -5,29 +5,42 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>FISPQ - software para geração de FISPQ</title>
+        <title>FISPQ - Software para geração de FISPQ</title>
         
+                
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
         <link rel="stylesheet" href="static/css/estilo.css">
         <script src="static/js/index.js"></script>
     </head>
 
     <body>
-        <h1 id="titulo">O fantástico gerador de FISPQ</h1>
-        <button onclick="trocaCor()">troca cor do titulo</button>
-
-        <br>
-        <br>
-
-        <div id="alerta" class="alerta"></div>
+        <div>
+            <!-- <img id="tela" src="static/images/tela.png" alt="Tela login" /> -->
         
-        <input type="email" id="email" placeholder="digite seu email">
-        <input type="password" id="password" placeholder="digite sua senha">
+            <div class="login">
+                <img id="background_title" src="static/images/f_title.png" alt="backgroud_title" />
+                <p>FISPQ FREE</p>
+                    <div class= "container">
+                        <img id="logo" src="static/images/logoFF.png" alt="Logo FISPQ FREE" />
+                    
 
-        <br>
-        <br>
 
-        <button onclick="chamaLogin()">login</button>
-        <button onclick="limpar()">Limpar</button>
+                        <form class="form">
+                            
+                                <div class="box-inputs">
+                                    <input type="email" id="email" placeholder="E-mail"> 
+                                    <input type="password" id="password"placeholder="Senha"> 
+                                </div>
+
+                            <button type="button" class="btn-login" onclick="chamaLogin()">ENTRAR</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
     
 </html>

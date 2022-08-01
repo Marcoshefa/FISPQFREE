@@ -10,12 +10,13 @@ def login(dados_recebido):
 
     cursor.execute("SELECT * FROM User WHERE email = %s", [dados_recebido['email']])
     usuario_selecionado = cursor.fetchone()
+    
+    if not usuario_selecionado:
+        return 'Usuário não encontrado', 404
 
     cursor.execute("SELECT Empresa_ID_empresa FROM User_has_Empresa WHERE User_ID = %s", usuario_selecionado[0])
     empresa_selecionada = cursor.fetchall()
 
-    if not usuario_selecionado:
-        return 'Usuário não encontrado', 404
 
     if usuario_selecionado[4] != dados_recebido['password']:
         return 'Senha Incorreta', 403
