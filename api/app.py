@@ -1,5 +1,6 @@
 from flask import Flask
 from modules.auth.routes import auth_routes
+from modules.user.routes import user_routes
 from database import mysql
 from flask_cors import CORS
 
@@ -15,5 +16,6 @@ app.config['MYSQL_DATABASE_DB'] = 'DB_FISPQ'
 mysql.init_app(app)
 
 app.register_blueprint(auth_routes)
+app.register_blueprint(user_routes)
 
 app.run(host='localhost', port=5000)

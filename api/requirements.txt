@@ -1,7 +1,7 @@
 Flask
 Flask-MySQL
 mysqlclient
-PyJWT
+PyJWT==2.4.0
 PyMySQL
 pytz
 flask_cors

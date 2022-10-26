@@ -29,22 +29,22 @@ def login_route():
         "token": msg
     }
 
-@auth_routes.route('/users', methods=['GET',])
-@validate_token
-def usuario():
-    dados_recebido = request.args
-    dados_recebidos = request.user
-    if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(dados_recebido['id']):
-        return 'Usuário não tem permissão', 403
+# @user_routes.route('/user>', methods=['GET',])
+# @validate_token
+# def usuario():
+#     dados_recebido = request.args
+#     dados_recebidos = request.user
+#     if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(dados_recebido['id']):
+#         return 'Usuário não tem permissão', 403
 
-    msg, status = validate_user_id(dados_recebido)
-    if not status:
-        return msg, 400
+#     msg, status = validate_user_id(dados_recebido)
+#     if not status:
+#         return msg, 400
 
-    user = user_id(dados_recebido['id'])
-    return {
-        'usuario':user 
-    }
+#     user = user_id(dados_recebido['id'])
+#     return {
+#         'usuario':user 
+#     }
 
 @auth_routes.route('/users_all', methods=['GET',])
 @validate_token
@@ -59,57 +59,57 @@ def listausuario():
         'users_list': new_users
     }
 
-@auth_routes.route('/user', methods=["DELETE"])
-@validate_token
-def user_deleted():
-    dados_recebido_url = request.args
-    dados_recebidos = request.user
-    if dados_recebidos['permission_id'] != '1':
-        return 'Usuário não tem permissão', 403
+# @user_routes.route('</user>', methods=["DELETE"])
+# @validate_token
+# def user_deleted():
+#     dados_recebido_url = request.args
+#     dados_recebidos = request.user
+#     if dados_recebidos['permission_id'] != '1':
+#         return 'Usuário não tem permissão', 403
 
-    msg, status = validate_user_id(dados_recebido_url)
-    if not status:
-        return msg, 400
+#     msg, status = validate_user_id(dados_recebido_url)
+#     if not status:
+#         return msg, 400
 
-    new_users = delete_user(dados_recebido_url['id'])
+#     new_users = delete_user(dados_recebido_url['id'])
 
-    return {
-        'new_user_list':new_users
-    }
+#     return {
+#         'new_user_list':new_users
+#     }
 
-@auth_routes.route('/novo_usuario', methods=["POST"])
-@validate_token
-def novousurario():
-    dados_recebido = request.json
-    dados_recebidos = request.user
-    if dados_recebidos['permission_id'] != '1':
-        return 'Usuário não tem permissão', 403
+# @user_routes.route('</novo_usuario>', methods=["POST"])
+# @validate_token
+# def novousurario():
+#     dados_recebido = request.json
+#     dados_recebidos = request.user
+#     if dados_recebidos['permission_id'] != '1':
+#         return 'Usuário não tem permissão', 403
 
-    msg, status = validate_t(dados_recebido)
-    if not status:
-        return msg, 400
+#     msg, status = validate_t(dados_recebido)
+#     if not status:
+#         return msg, 400
 
-    dados_recebido_corpo = request.json
-    USERS = create_new_user(dados_recebido_corpo)
+#     dados_recebido_corpo = request.json
+#     USERS = create_new_user(dados_recebido_corpo)
 
-    return USERS
+#     return USERS
    
-@auth_routes.route('/user', methods=["PUT"])
-@validate_token
-def user_atualisa():
-    dados_recebido_url = request.args
-    dados_recebidos = request.user
-    if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(dados_recebido_url['id']):
-        return 'Usuário não tem permissão', 403
+# @user_routes.route('</user>', methods=["PUT"])
+# @validate_token
+# def user_atualisa():
+#     dados_recebido_url = request.args
+#     dados_recebidos = request.user
+#     if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(dados_recebido_url['id']):
+#         return 'Usuário não tem permissão', 403
 
-    msg, status = validate_user_id(dados_recebido_url)
-    if not status:
-        return msg, 400
+#     msg, status = validate_user_id(dados_recebido_url)
+#     if not status:
+#         return msg, 400
 
-    dados_recebido_corpo = request.json
-    new_users = update_user(dados_recebido_url['id'], dados_recebido_corpo)
+#     dados_recebido_corpo = request.json
+#     new_users = update_user(dados_recebido_url['id'], dados_recebido_corpo)
 
-    return {'new_users_list': new_users}  
+#     return {'new_users_list': new_users}  
     
 @auth_routes.route('/nova_empresa', methods=["POST"])
 @validate_token

@@ -131,24 +131,30 @@ def update_user(id, dados_recebido_corpo):
     return 'Usuário atualizado com sucesso!', 200
 
 def create_new_user(dados_recebido):
+
+    # instancia o banco de dados
     cursor = mysql.get_db().cursor()
 
+    # Pega as informações do banco de dados
     name = dados_recebido['name']
     email = dados_recebido['email']
     celular = dados_recebido ['celular']
     password = dados_recebido['password']
     permission_id = dados_recebido ['permission_id']
 
+    # cria o SQL
     cursor.execute("SELECT * FROM User WHERE email = %s", [email])
     user = cursor.fetchone()
     if user:
         return 'Usuário já existe no banco de dados', 409
 
+    # insere as insformações no banco de dados
     cursor.execute("INSERT INTO User (name, email, celular, password, permission_id) VALUES (%s, %s, %s, %s, %s)", 
         [name, email, celular, password, permission_id])
 
     mysql.get_db().commit()
 
+    #fecha a instancia do banco de dados
     cursor.close()
 
     return 'Usuário cadastrado com sucesso', 201
