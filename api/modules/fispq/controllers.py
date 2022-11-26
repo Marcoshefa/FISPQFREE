@@ -15,12 +15,12 @@ def list_all_fispqs():
 
     for fispq in fispqs_db:
         new_fispq = {
-            'id_Fispq': fispq[0],
-            'produto': fispq[1],
-            'onu': fispq[46],
-            'nome_embarque': fispq[47],
-            'created_at': fispq[48],
-            'update_at': fispq[49],
+            'idFispq': fispq[0],
+            'produto': fispq[5],
+            'onu': fispq[69],
+            'nome_embarque': fispq[70],
+            'created_at': fispq[1],
+            'update_at': fispq[2],
             
         }
 
@@ -33,19 +33,19 @@ def list_all_fispqs():
 def fispq_id(id):
     cursor = mysql.get_db().cursor()
 
-    cursor.execute("SELECT * FROM Fispq WHERE id = %s", [id])
-    fispq_selecionado = cursor.fetchone()
+    cursor.execute("SELECT * FROM Fispq WHERE idFispq = %s", [id])
+    fispq_selecionada = cursor.fetchone()
 
-    if not fispq_selecionado:
+    if not fispq_selecionada:
         return 'Fispq não encontrada', 404
 
     fispq = {
-        'id_Fispq': fispq[0],
-        'produto': fispq[1],
-        'onu': fispq[46],
-        'nome_embarque': fispq[47],
-        'created_at': fispq[48],
-        'update_at': fispq[49],
+        'idFispq': fispq_selecionada[0],
+        'produto': fispq_selecionada[5],
+        'onu': fispq_selecionada[69],
+        'nome_embarque': fispq_selecionada[70],
+        'created_at': fispq_selecionada[1],
+        'update_at': fispq_selecionada[2],
     }
 
     cursor.close()
@@ -56,13 +56,13 @@ def delete_fispq(id_fispq):
     cursor = mysql.get_db().cursor()
 
     # verificar se existe o usuario com o ID X no banco
-    cursor.execute("SELECT * FROM Fispq WHERE ID = %s", [id_fispq])
+    cursor.execute("SELECT * FROM Fispq WHERE idFispq = %s", [id_fispq])
     fispq_selecionado = cursor.fetchone()
 
     if not fispq_selecionado:
         return 'Fispq não encontrada', 404
     
-    cursor.execute("DELETE FROM Fispq WHERE ID = %s", [id_fispq])
+    cursor.execute("DELETE FROM Fispq WHERE idFispq = %s", [id_fispq])
 
     mysql.get_db().commit()
 
@@ -74,21 +74,28 @@ def update_fispq(id, dados_recebido_corpo):
     cursor = mysql.get_db().cursor()
 
     # verificar se existe o usuario com o ID X no banco
-    cursor.execute("SELECT * FROM Fispq WHERE ID = %s", [id])
+    cursor.execute("SELECT * FROM Fispq WHERE idFispq = %s", [id])
     fispq_selecionado = cursor.fetchone()
 
     if not fispq_selecionado:
         return 'Fispq não encontrada', 404
 
     # organizar as novas informacoes
-    novo_nome = dados_recebido_corpo['name']
-    novo_email = dados_recebido_corpo['email']
-    novo_celular = dados_recebido_corpo['celular']
+    novo_produto = dados_recebido_corpo['produto']
+    novo_onu = dados_recebido_corpo['onu']
+    novo_nome_embarque = dados_recebido_corpo['nome_embarque']
     data_atual = datetime.now()
 
+        #     'id_Fispq': fispq[0],
+        # 'produto': fispq[1],
+        # 'onu': fispq[46],
+        # 'nome_embarque': fispq[47],
+        # 'created_at': fispq[48],
+        # 'update_at': fispq[49],
+
     # atualizar no banco de dados com as novas informacoes para o usuario
-    cursor.execute("UPDATE Fispq SET name = %s, email = %s, celular = %s, update_at = %s WHERE ID = %s", 
-        [novo_nome, novo_email, novo_celular, data_atual, id])
+    cursor.execute("UPDATE Fispq SET produto = %s, onu = %s, nome_embarque = %s, update_at = %s WHERE idFispq = %s", 
+        [novo_produto, novo_onu, novo_nome_embarque, data_atual, id])
     
     mysql.get_db().commit()
 
@@ -102,21 +109,23 @@ def create_new_fispq(dados_recebido):
     cursor = mysql.get_db().cursor()
 
     # Pega as informações do banco de dados
-    name = dados_recebido['name']
-    email = dados_recebido['email']
-    celular = dados_recebido ['celular']
-    password = dados_recebido['password']
-    permission_id = dados_recebido ['permission_id']
+    cod_int = dados_recebido['cod_int']
+    produto = dados_recebido['produto']
+    uso = dados_recebido['uso']
+    onu = dados_recebido['onu']
+
+    # onu = dados_recebido.get('onu')
+    # nome_embarque = dados_recebido.get('nome_embarque')
 
     # cria o SQL
-    cursor.execute("SELECT * FROM Fispq WHERE email = %s", [email])
+    cursor.execute("SELECT * FROM Fispq WHERE cod_int = %s", [cod_int])
     fispq = cursor.fetchone()
     if fispq:
         return 'Fispq já existe no banco de dados', 409
 
     # insere as insformações no banco de dados
-    cursor.execute("INSERT INTO Fispq (name, email, celular, password, permission_id) VALUES (%s, %s, %s, %s, %s)", 
-        [name, email, celular, password, permission_id])
+    cursor.execute("INSERT INTO Fispq (cod_int, produto, uso, onu) VALUES (%s, %s, %s, %s)", 
+        [cod_int, produto, uso, onu])
 
     mysql.get_db().commit()
 

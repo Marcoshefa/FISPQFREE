@@ -1,24 +1,28 @@
 from flask import Blueprint, request
 from Decorators import validate_token
-from modules.user.validators import validate_t, validate_user_id
-from modules.user.controllers import list_all_users, update_user, delete_user, user_id, create_new_user
+from modules.user.validators import validate_t, validate_change_password
+from modules.user.controllers import list_all_users, update_user, delete_user, get_user_id, create_new_user, change_password
 
 
 user_routes = Blueprint('user', __name__, url_prefix="/user")
 
-@user_routes.route('/<users>', methods=['GET',])
+
+
+@user_routes.route('/<user_id>', methods=['GET',])
 @validate_token
-def usuario():
-    dados_recebido = request.args
+def usuario(user_id):
+# def usuario():
+    # dados_recebido = request.args
     dados_recebidos = request.user
-    if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(dados_recebido['id']):
+    if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(user_id):
+    # if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int():
         return 'Usuário não tem permissão', 403
 
-    msg, status = validate_user_id(dados_recebido)
-    if not status:
-        return msg, 400
-
-    user = user_id(dados_recebido['id'])
+    # msg, status = validate_user_id(dados_recebido)
+    # if not status:
+    #     return msg, 400
+    user = get_user_id(user_id)
+    # user = get_user_id(dados_recebido["id"])
     return {
         'usuario':user 
     }
@@ -99,3 +103,19 @@ def user_atualisa(id_user):
     return {
         "message": msg
     }, status_code
+
+@user_routes.route('/change_password/<user_id>', methods=["POST"])
+@validate_token
+def change_password_route(user_id):
+    dados_recebidos = request.user
+    if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(user_id):
+        return 'Usuário não tem permissão', 403
+
+    dados_recebidos = request.json
+    msg, status = validate_change_password(dados_recebidos)
+    if not status:
+        return msg, 400
+
+    msg, status = change_password(user_id, dados_recebidos['password'])
+
+    return msg, status

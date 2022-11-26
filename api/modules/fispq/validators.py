@@ -15,3 +15,8 @@ def validate_user_id(dados_recebidos_url):
         return 'ID obrigatorio!', False
 
     return '', True
+
+def validate_f(dados_recebidos):
+    if not dados_recebidos.get('cod_int'):
+        return 'Código interno é Obrigatório', False
+    return '', True

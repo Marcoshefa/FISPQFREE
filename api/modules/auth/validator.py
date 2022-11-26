@@ -63,3 +63,4 @@ def validate_user_company(dados_recebido):
         return 'empresa_id obrigatorio!', False
 
     return '', True
+

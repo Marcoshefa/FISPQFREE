@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 
-from modules.auth.validator import validate_login, validate_empresa, validate_cnpj,validate_user_id, validate_t, validate_usuarioempresa, validate_user_company
-from modules.auth.controllers import login, list_all_users, update_user, delete_user, user_id, create_new_user, create_new_company, empresa_cnpj, list_all_company, delete_company, update_company, create_new_usercompany, list_permission, delele_access
+from modules.auth.validator import validate_login, validate_empresa, validate_cnpj,validate_user_id, validate_usuarioempresa, validate_user_company
+from modules.auth.controllers import login, list_all_users, create_new_company, empresa_cnpj, list_all_company, delete_company, update_company, create_new_usercompany, list_permission, delele_access
 from Decorators import validate_token
 
 auth_routes = Blueprint('auth', __name__)
@@ -12,13 +12,14 @@ def login_route():
     # request.args => para pegar os parametros da url
     
     # validacao dos dados de entrada
+    
     dados_recebido = request.json
     msg, status = validate_login(request.json)
     if not status:
         return msg, 400
 
     # processamento
-    msg, status = login(dados_recebido)
+    msg, user_id, status = login(dados_recebido)
     if status>= 400:
         return msg, status
     
@@ -26,7 +27,9 @@ def login_route():
     return {
         'message': f'Bem-Vindo, login realizado com Sucesso!',
         'email': dados_recebido['email'],
-        "token": msg
+        'token': msg,
+        'user_id': user_id,
+        
     }
 
 # @user_routes.route('/user>', methods=['GET',])

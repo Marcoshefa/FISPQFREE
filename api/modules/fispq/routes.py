@@ -1,26 +1,26 @@
 from flask import Blueprint, request
 from Decorators import validate_token
-from modules.user.validators import validate_t, validate_user_id
-from modules.user.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq
+from modules.fispq.validators import validate_f, validate_user_id
+from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq
 
 
 fispq_routes = Blueprint('fispq', __name__, url_prefix="/fispq")
 
-@fispq_routes.route('/<fispq>', methods=['GET',])
+@fispq_routes.route('/<id_fispq>', methods=['GET',])
 @validate_token
-def fispq():
-    dados_recebido = request.args
+def fispq(id_fispq):
+    # dados_recebido = request.args
     dados_recebidos = request.user
-    if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(dados_recebido['id']):
+    if dados_recebidos['permission_id'] != '1' and dados_recebidos['id'] != int(id_fispq):
         return 'Usuário não tem permissão', 403
 
-    msg, status = validate_user_id(dados_recebido)
-    if not status:
-        return msg, 400
+    # msg, status = validate_user_id(dados_recebido)
+    # if not status:
+    #     return msg, 400
 
-    fispq = fispq_id(dados_recebido['id'])
+    fispq = fispq_id(id_fispq)
     return {
-        'usuario':fispq 
+        'fispq':fispq 
     }
 
 @fispq_routes.route('/', methods=['GET',])
@@ -38,9 +38,10 @@ def listafispq():
 
 @fispq_routes.route('/<id_fispq>', methods=["DELETE"])
 @validate_token
-def fispq_deleted(id_fispq):
+def fispq_deleted_router(id_fispq):
     # dados_recebido_url = request.args
     dados_recebidos = request.user
+    # dados_recebidos = request.json
     if dados_recebidos['permission_id'] != '1':
         return 'Usuário não tem permissão', 403
 
@@ -63,12 +64,12 @@ def novafispq():
     if dados_recebidos['permission_id'] != '1':
         return 'Usuário não tem permissão', 403
 
-    msg, status = validate_t(dados_recebido)
+    msg, status = validate_f(dados_recebido)
     if not status:
         return msg, 400
 
-    dados_recebido_corpo = request.json
-    FISPQS = create_new_fispq(dados_recebido_corpo)
+   
+    FISPQS = create_new_fispq(dados_recebido)
 
     return FISPQS
    

@@ -76,8 +76,8 @@ mysql.init_app(app)
 #     cursor.close()
 
 with app.app_context():
-    # cursor = mysql.get_db().cursor()
-    file_path = '/home/marcos/Desktop/FISPQ/FISPQFREE/scripts/arquivos_example/text.xlsx'
+    cursor = mysql.get_db().cursor()
+    file_path = '/home/marcos/Desktop/FISPQ/FISPQFREE/scripts/arquivos_example/Tab_info.xlsx'
    
     arquivo = pd.read_excel(file_path, sheet_name='Sheet1')
 
@@ -88,14 +88,19 @@ with app.app_context():
 
     values = arquivo.values
 
+    for a,linha in arquivo.iterrows():
+        elemento = linha[0]
 
-    for a in arquivo.iterrows():
-        
-        
-        print(a)
+        for indice_coluna in range(len(arquivo.columns)-1):
+            coluna = arquivo.columns[indice_coluna+1]
+            valor = linha[indice_coluna+1]
 
-  
+            print(elemento, coluna, valor)
 
+            cursor.execute("INSERT INTO Tab_info (Num_guia, Num_ref, Frase) VALUES (%s, %s, %s)", [elemento, coluna, valor])
+            mysql.get_db().commit()
+
+    cursor.close()
     
     # for linha in values:
     #     # for coluna in arquivo.columns:
@@ -103,4 +108,5 @@ with app.app_context():
     #         mysql.get_db().commit()
 
     # cursor.close()
+
 

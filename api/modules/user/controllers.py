@@ -30,7 +30,7 @@ def list_all_users():
 
     return all_users
 
-def user_id(id):
+def get_user_id(id):
     cursor = mysql.get_db().cursor()
 
     cursor.execute("SELECT * FROM User WHERE id = %s", [id])
@@ -75,7 +75,7 @@ def update_user(id, dados_recebido_corpo):
     cursor = mysql.get_db().cursor()
 
     # verificar se existe o usuario com o ID X no banco
-    cursor.execute("SELECT * FROM User WHERE ID = %s", [id])
+    cursor.execute("SELECT * FROM User WHERE id = %s", [id])
     usuario_selecionado = cursor.fetchone()
 
     if not usuario_selecionado:
@@ -125,3 +125,20 @@ def create_new_user(dados_recebido):
     cursor.close()
 
     return 'Usuário cadastrado com sucesso', 201
+
+def change_password(user_id, new_password):
+    cursor = mysql.get_db().cursor()
+
+    cursor.execute("SELECT * FROM User WHERE id = %s", [user_id])
+    user = cursor.fetchone()
+    if not user:
+        return 'Usuário não encontrado!', 404
+
+    cursor.execute("UPDATE User SET password = %s WHERE id = %s", 
+        [new_password, user_id])
+
+    mysql.get_db().commit()
+
+    cursor.close()
+
+    return 'Senha alterada com sucesso!', 200
