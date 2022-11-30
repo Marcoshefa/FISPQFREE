@@ -67,11 +67,14 @@ def novafispq():
     msg, status = validate_f(dados_recebido)
     if not status:
         return msg, 400
+    
+    fispq = create_new_fispq(dados_recebido)
 
+    return fispq
    
-    FISPQS = create_new_fispq(dados_recebido)
+    # FISPQS = create_new_fispq(dados_recebido)
 
-    return FISPQS
+    # return FISPQS
    
 @fispq_routes.route('/<id_fispq>', methods=["PUT"])
 @validate_token
