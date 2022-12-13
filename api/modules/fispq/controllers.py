@@ -36,6 +36,26 @@ def fispq_id(id):
     cursor.execute("SELECT * FROM Fispq WHERE idFispq = %s", [id])
     fispq_selecionada = cursor.fetchone()
 
+    cursor.execute("SELECT * FROM Tab_composicao INNER JOIN Fispq on Tab_composicao.cod_int_comp = Fispq.cod_int WHERE Fispq.idFispq = %s",[id])
+    
+    # cursor.execute("INSERT INTO Tab_composicao (cod_int_comp, substancia, cas, formula_mol, peso_mol, concentracao) VALUES (%s, %s, %s, %s, %s, %s)",
+        # [substancia["cod_int_comp"], substancia["substancia"], substancia["cas"],substancia["fm"],substancia["pm"],substancia["cmm"] ])
+    
+    substancias_selecionada = cursor.fetchall()
+
+    substancias = []
+
+    for substancia1 in substancias_selecionada:
+        new_substancia1 = {
+            
+            'substancia': substancia1[2],
+            'cas': substancia1[3],
+            'fm': substancia1[4],
+            'pm': substancia1[5],
+            'cmm': substancia1[6],
+        }
+        substancias.append(new_substancia1)
+
     if not fispq_selecionada:
         return 'Fispq não encontrada', 404
 
@@ -47,7 +67,6 @@ def fispq_id(id):
         # 'nome_embarque': fispq_selecionada[70],
         'created_at': fispq_selecionada[1],
         'update_at': fispq_selecionada[2],
-
         'produto': fispq_selecionada[5],
         'cod_int': fispq_selecionada[6],
         'uso': fispq_selecionada[7],
@@ -124,8 +143,14 @@ def fispq_id(id):
         'outras_info': fispq_selecionada[77],
         'outras_info2': fispq_selecionada[78],
         'legenda': fispq_selecionada[79],
+        'substancias':substancias,
     }
 
+    # cursor.execute("INSERT INTO Tab_composicao (cod_int_comp, substancia, cas, formula_mol, peso_mol, concentracao) VALUES (%s, %s, %s, %s, %s, %s)",
+        # [substancia["cod_int_comp"], substancia["substancia"], substancia["cas"],substancia["fm"],substancia["pm"],substancia["cmm"] ])
+
+
+    mysql.get_db().commit()
     cursor.close()
     return fispq
 
@@ -159,17 +184,96 @@ def update_fispq(id, dados_recebido_corpo):
         return 'Fispq não encontrada', 404
 
     # organizar as novas informacoes
+    # novo_produto = dados_recebido_corpo['produto']
+    # novo_onu = dados_recebido_corpo['onu']
+    # novo_nome_embarque = dados_recebido_corpo['nome_embarque']
+    data_atual = datetime.now()
     novo_produto = dados_recebido_corpo['produto']
+    novo_cod_int = dados_recebido_corpo['cod_int']
+    novo_uso = dados_recebido_corpo['uso']
+    novo_inalacao = dados_recebido_corpo['inalacao']
+    novo_cont_olhos = dados_recebido_corpo['cont_olhos']
+    novo_cont_pele = dados_recebido_corpo['cont_pele']
+    novo_ingestao = dados_recebido_corpo['ingestao']
+    novo_sintomas = dados_recebido_corpo['sintomas']
+    novo_medico = dados_recebido_corpo['medico']
+    novo_extincao = dados_recebido_corpo['extincao']
+    novo_perigo_esp = dados_recebido_corpo['perigo_esp']
+    novo_medidas_protecao = dados_recebido_corpo['medidas_protecao']
+    novo_servico_emergencia = dados_recebido_corpo['servico_emergencia']
+    novo_servico_emergencia2 = dados_recebido_corpo['servico_emergencia2']
+    novo_precaucao_ambiente = dados_recebido_corpo['precaucao_ambiente']
+    novo_metodos_materiais = dados_recebido_corpo['metodos_materiais']
+    novo_manuseio_seguro = dados_recebido_corpo['manuseio_seguro']
+    novo_medidas_higiene = dados_recebido_corpo['medidas_higiene']
+    novo_condicoes_armazenamento = dados_recebido_corpo['condicoes_armazenamento']
+    novo_limitexposicao = dados_recebido_corpo['limitexposicao']
+    novo_medcontroleng = dados_recebido_corpo['medcontroleng']
+    novo_polhos = dados_recebido_corpo['polhos']
+    novo_ppele = dados_recebido_corpo['ppele']
+    novo_prespiratoria = dados_recebido_corpo['prespiratoria']
+    novo_ptermicos = dados_recebido_corpo['ptermicos']
+    novo_aspecto = dados_recebido_corpo['aspecto']
+    novo_odor = dados_recebido_corpo['odor']
+    novo_ph = dados_recebido_corpo['ph']
+    novo_fusao = dados_recebido_corpo['fusao']
+    novo_ebulicao = dados_recebido_corpo['ebulicao']
+    novo_fulgor = dados_recebido_corpo['fulgor']
+    novo_evaporacao = dados_recebido_corpo['evaporacao']
+    novo_inflamabilidade = dados_recebido_corpo['inflamabilidade']
+    novo_explosividade = dados_recebido_corpo['explosividade']
+    novo_pvapor = dados_recebido_corpo['pvapor']
+    novo_dvapor = dados_recebido_corpo['dvapor']
+    novo_drelativa = dados_recebido_corpo['drelativa']
+    novo_solubilidade = dados_recebido_corpo['solubilidade']
+    novo_particao = dados_recebido_corpo['particao']
+    novo_autoignicao = dados_recebido_corpo['autoignicao']
+    novo_decomposicao = dados_recebido_corpo['decomposicao']
+    novo_viscosidade = dados_recebido_corpo['viscosidade']
+    novo_informacoes = dados_recebido_corpo['informacoes']
+    novo_reatividade = dados_recebido_corpo['reatividade']
+    novo_estabilidadeq = dados_recebido_corpo['estabilidadeq']
+    novo_rperigosas = dados_recebido_corpo['rperigosas']
+    novo_caseremevitadas = dados_recebido_corpo['caseremevitadas']
+    novo_incompativeis = dados_recebido_corpo['incompativeis']
+    novo_pdecomposicao = dados_recebido_corpo['pdecomposicao']
+    novo_toxicidadea = dados_recebido_corpo['toxicidadea']
+    novo_cpele = dados_recebido_corpo['cpele']
+    novo_srespiratoria = dados_recebido_corpo['srespiratoria']
+    novo_mutagenicidade = dados_recebido_corpo['mutagenicidade']
+    novo_carcinogenicidade = dados_recebido_corpo['carcinogenicidade']
+    novo_reproducao = dados_recebido_corpo['reproducao']
+    novo_exposicaou = dados_recebido_corpo['exposicaou']
+    novo_exposicaor = dados_recebido_corpo['exposicaor']
+    novo_aspiracao = dados_recebido_corpo['aspiracao']
+    novo_ecotoxidade = dados_recebido_corpo['ecotoxidade']
+    novo_degradabilidade = dados_recebido_corpo['degradabilidade']
+    novo_bioacumulativo = dados_recebido_corpo['bioacumulativo']
+    novo_mobilidade = dados_recebido_corpo['mobilidade']
+    novo_outros_efeitos = dados_recebido_corpo['outros_efeitos']
+    novo_destinacaofinal = dados_recebido_corpo['destinacaofinal']
+    novo_terrestre = dados_recebido_corpo['terrestre']
     novo_onu = dados_recebido_corpo['onu']
     novo_nome_embarque = dados_recebido_corpo['nome_embarque']
-    data_atual = datetime.now()
-
+    novo_classe = dados_recebido_corpo['classe']
+    novo_n_risco = dados_recebido_corpo['n_risco']
+    novo_grupo_emb = dados_recebido_corpo['grupo_emb']
+    novo_hidroviario = dados_recebido_corpo['hidroviario']
+    novo_aereo = dados_recebido_corpo['aereo']
+    novo_regulamentacoes = dados_recebido_corpo['regulamentacoes']
+    novo_outras_info = dados_recebido_corpo['outras_info']
+    novo_outras_info2 = dados_recebido_corpo['outras_info2']
+    novo_legenda = dados_recebido_corpo['legenda']
 
 
     # atualizar no banco de dados com as novas informacoes para o usuario
-    cursor.execute("UPDATE Fispq SET produto = %s, onu = %s, nome_embarque = %s, update_at = %s WHERE idFispq = %s", 
-        [novo_produto, novo_onu, novo_nome_embarque, data_atual, id])
-    
+    # cursor.execute("UPDATE Fispq SET produto = %s, onu = %s, nome_embarque = %s, update_at = %s WHERE idFispq = %s", 
+    #     [novo_produto, novo_onu, novo_nome_embarque, data_atual, id])
+
+    cursor.execute("UPDATE Fispq SET produto = %s, cod_int = %s, uso = %s, inalacao = %s, cont_olhos = %s, cont_pele = %s, ingestao = %s,sintomas = %s, medico = %s, extincao = %s, perigo_esp = %s, medidas_protecao = %s, servico_emergencia = %s, servico_emergencia2 = %s, precaucao_ambiente = %s, metodos_materiais = %s, manuseio_seguro = %s, medidas_higiene = %s, condicoes_armazenamento = %s, limitexposicao = %s, medcontroleng = %s, polhos = %s, ppele = %s, prespiratoria = %s, ptermicos = %s, aspecto = %s, odor = %s, ph = %s, fusao = %s, ebulicao = %s, fulgor = %s, evaporacao = %s, inflamabilidade = %s, explosividade = %s, pvapor = %s, dvapor= %s, drelativa = %s, solubilidade = %s, particao = %s, autoignicao = %s, decomposicao = %s, viscosidade = %s, informacoes = %s, reatividade = %s, estabilidadeq = %s, rperigosas = %s, caseremevitadas = %s, incompativeis = %s, pdecomposicao = %s, toxicidadea = %s, cpele = %s, srespiratoria = %s, mutagenicidade = %s, carcinogenicidade = %s, reproducao = %s, exposicaou = %s, exposicaor = %s, aspiracao = %s, ecotoxidade = %s, degradabilidade = %s, bioacumulativo = %s, mobilidade = %s, outros_efeitos = %s, destinacaofinal = %s, terrestre = %s, onu = %s, nome_embarque = %s, classe = %s, n_risco = %s, grupo_emb = %s, hidroviario = %s, aereo = %s, regulamentacoes = %s, outras_info = %s, outras_info2 = %s, legenda = %s, update_at = %s WHERE idFispq = %s",
+
+    [novo_produto, novo_cod_int, novo_uso, novo_inalacao, novo_cont_olhos, novo_cont_pele, novo_ingestao, novo_sintomas, novo_medico, novo_extincao, novo_perigo_esp, novo_medidas_protecao, novo_servico_emergencia, novo_servico_emergencia2, novo_precaucao_ambiente, novo_metodos_materiais, novo_manuseio_seguro, novo_medidas_higiene, novo_condicoes_armazenamento, novo_limitexposicao, novo_medcontroleng, novo_polhos, novo_ppele, novo_prespiratoria, novo_ptermicos, novo_aspecto, novo_odor, novo_ph, novo_fusao, novo_ebulicao, novo_fulgor, novo_evaporacao, novo_inflamabilidade, novo_explosividade, novo_pvapor, novo_dvapor, novo_drelativa, novo_solubilidade, novo_particao, novo_autoignicao, novo_decomposicao, novo_viscosidade, novo_informacoes, novo_reatividade, novo_estabilidadeq, novo_rperigosas, novo_caseremevitadas, novo_incompativeis, novo_pdecomposicao, novo_toxicidadea, novo_cpele, novo_srespiratoria, novo_mutagenicidade, novo_carcinogenicidade, novo_reproducao, novo_exposicaou, novo_exposicaor, novo_aspiracao, novo_ecotoxidade, novo_degradabilidade, novo_bioacumulativo, novo_mobilidade, novo_outros_efeitos, novo_destinacaofinal, novo_terrestre, novo_onu, novo_nome_embarque, novo_classe, novo_n_risco, novo_grupo_emb, novo_hidroviario, novo_aereo, novo_regulamentacoes, novo_outras_info, novo_outras_info2, novo_legenda, data_atual, id])
+
     mysql.get_db().commit()
 
     cursor.close()
@@ -243,6 +347,7 @@ def create_new_fispq(dados_recebido):
     outras_info2 = dados_recebido['outras_info2']
     legenda = dados_recebido['legenda']
     nome_embarque = dados_recebido['nome_embarque']
+    substancias = dados_recebido['substancias']
 
     # onu = dados_recebido.get('onu')
     # nome_embarque = dados_recebido.get('nome_embarque')
@@ -259,8 +364,66 @@ def create_new_fispq(dados_recebido):
         [cod_int, produto, uso, limitexposicao, medcontroleng, polhos, ppele, prespiratoria, ptermicos, aspecto, odor, ph, fusao, ebulicao, fulgor, evaporacao, inflamabilidade, explosividade, pvapor, dvapor, drelativa, solubilidade, particao, autoignicao, decomposicao, viscosidade, informacoes, reatividade, estabilidadeq, rperigosas, caseremevitadas, incompativeis, pdecomposicao, toxicidadea, cpele, srespiratoria, mutagenicidade, carcinogenicidade, reproducao, exposicaou, exposicaor, aspiracao, ecotoxidade, degradabilidade, bioacumulativo, mobilidade, outros_efeitos, destinacaofinal, terrestre, onu, nome_embarque, classe, n_risco, grupo_emb, hidroviario, aereo, regulamentacoes, outras_info, outras_info2, legenda])
 
     mysql.get_db().commit()
+    for substancia in substancias:
+        cursor.execute("INSERT INTO Tab_composicao (cod_int_comp, substancia, cas, formula_mol, peso_mol,concentracao) VALUES (%s, %s, %s, %s, %s, %s)",
+        [cod_int, substancia["substancia"], substancia["cas"],substancia["fm"],substancia["pm"],substancia["cmm"] ])
+  
+        mysql.get_db().commit()
 
     #fecha a instancia do banco de dados
     cursor.close()
 
     return 'Fispq cadastrada com sucesso', 201
+
+def create_new_fispq_comp(dados_recebido):
+
+    # instancia o banco de dados
+    cursor = mysql.get_db().cursor()
+
+    # Pega as informações do banco de dados
+    cod_int_comp = dados_recebido['cod_int_comp']
+    substancia = dados_recebido['substancia']
+    cas = dados_recebido['cas']
+    formula_mol = dados_recebido['fm']
+    peso_mol = dados_recebido['pm']
+    concentracao = dados_recebido['cmm']
+   
+
+    # cria o SQL
+    cursor.execute("SELECT * FROM Tab_composicao WHERE cod_int_comp = %s", [cod_int_comp])
+    fispq = cursor.fetchone()
+    if fispq:
+        return 'Fispq já existe no banco de dados', 409
+
+    # insere as insformações no banco de dados
+    cursor.execute("INSERT INTO Tab_composicao (cod_int_comp, substancia, cas, formula_mol, peso_mol, concentracao) VALUES (%s, %s, %s, %s, %s, %s)", 
+                  
+        [cod_int_comp, substancia, cas, formula_mol, peso_mol, concentracao])
+
+    mysql.get_db().commit()
+
+    #fecha a instancia do banco de dados
+    cursor.close()
+
+    return 'Fispq cadastrada com sucesso', 201
+
+def lista_frase_perigo():
+    cursor = mysql.get_db().cursor()
+
+    cursor.execute("SELECT * FROM Frases_perigo")
+    frase_db = cursor.fetchall()
+
+    all_frases = []
+    for frase in frase_db:
+        frase_per = {
+            'codigo': frase[0],
+            'frases_perigo': frase[1],
+        }
+
+        all_frases.append(frase_per)
+
+    cursor.close()
+    return all_frases
+
+
+ 

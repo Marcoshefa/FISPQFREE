@@ -1,7 +1,8 @@
 from flask import Blueprint, request
 from Decorators import validate_token
-from modules.fispq.validators import validate_f, validate_user_id
-from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq
+from modules.fispq.validators import validate_f, validate_c
+from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq, create_new_fispq_comp, lista_frase_perigo
+
 
 
 fispq_routes = Blueprint('fispq', __name__, url_prefix="/fispq")
@@ -75,6 +76,22 @@ def novafispq():
     # FISPQS = create_new_fispq(dados_recebido)
 
     # return FISPQS
+
+# @fispq_routes.route('/comp/', methods=["POST"])
+# @validate_token
+# def novafispqcomp():
+#     dados_recebido = request.json
+#     dados_recebidos = request.user
+#     if dados_recebidos['permission_id'] != '1':
+#         return 'Usuário não tem permissão', 403
+
+#     msg, status = validate_c(dados_recebido)
+#     if not status:
+#         return msg, 400
+    
+#     fispqcomp = create_new_fispq_comp(dados_recebido)
+
+#     return fispqcomp
    
 @fispq_routes.route('/<id_fispq>', methods=["PUT"])
 @validate_token
@@ -94,3 +111,16 @@ def fispq_atualisa(id_fispq):
     return {
         "message": msg
     }, status_code
+
+# @fispq_routes.route('/frase_perigo', methods=['GET',])
+# @validate_token
+# def frase_perigo():
+#     dados_recebidos = request.user
+#     if dados_recebidos['permission_id'] != '1':
+#         return 'Usuário não tem permissão', 403
+    
+#     frases_per = lista_frase_perigo()
+
+#     return {
+#         'frase_per_lista': frases_per
+#     }

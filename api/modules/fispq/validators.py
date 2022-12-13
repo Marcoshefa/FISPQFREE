@@ -20,3 +20,8 @@ def validate_f(dados_recebidos):
     if not dados_recebidos.get('cod_int'):
         return 'Código interno é Obrigatório', False
     return '', True
+
+def validate_c(dados_recebidos):
+    if not dados_recebidos.get('cod_int_comp'):
+        return 'Código interno é Obrigatório', False
+    return '', True
