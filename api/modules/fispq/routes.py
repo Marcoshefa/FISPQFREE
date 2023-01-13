@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from Decorators import validate_token
 from modules.fispq.validators import validate_f, validate_c
-from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq, create_new_fispq_comp, lista_frase_perigo
+from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq, get_frases_by_onu
 
 
 
@@ -114,7 +114,17 @@ def fispq_atualisa(id_fispq):
 
 # @fispq_routes.route('/frase_perigo', methods=['GET',])
 # @validate_token
-# def frase_perigo():
+
+
+
+@fispq_routes.route('/frases_by_onu/<n_onu>', methods=['GET'])
+@validate_token
+def frases_by_onu(n_onu):
+    resposta = get_frases_by_onu(n_onu)
+
+    return resposta
+
+    # def frase_perigo():
 #     dados_recebidos = request.user
 #     if dados_recebidos['permission_id'] != '1':
 #         return 'Usuário não tem permissão', 403
@@ -124,3 +134,15 @@ def fispq_atualisa(id_fispq):
 #     return {
 #         'frase_per_lista': frases_per
 #     }
+
+# @fispq_routes.route('/frase_banco', methods=['GET',])
+# @validate_token
+# def frase_banco():
+#     dados_recebidos = request.user
+#     if dados_recebidos['permission_id'] != '1':
+#         return 'Usuário não tem permissão', 403
+
+    # fispqbanco = fispq_banco
+    # return {
+    #     'fispqbanco':fispqbanco 
+    # }
