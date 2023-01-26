@@ -17,8 +17,8 @@ def list_all_fispqs():
         new_fispq = {
             'idFispq': fispq[0],
             'produto': fispq[5],
-            'onu': fispq[69],
-            'nome_embarque': fispq[70],
+            'onu': fispq[68],
+            'nome_embarque': fispq[69],
             'created_at': fispq[1],
             'update_at': fispq[2],
             
@@ -347,6 +347,9 @@ def create_new_fispq(dados_recebido):
     legenda = dados_recebido['legenda']
     nome_embarque = dados_recebido['nome_embarque']
     substancias = dados_recebido['substancias']
+    # todas_frases_Perigo = dados_recebido['todas_frases_Perigo']
+    # todas_frases_Precaucao = dados_recebido['todas_frases_Precaucao']
+    # frase_Advertencia = dados_recebido['frase_Advertencia']
 
     # cria o SQL
     cursor.execute("SELECT * FROM Fispq WHERE cod_int = %s", [cod_int])
@@ -361,8 +364,8 @@ def create_new_fispq(dados_recebido):
 
     mysql.get_db().commit()
     for substancia in substancias:
-        cursor.execute("INSERT INTO Tab_composicao (cod_int_comp, substancia, cas, formula_mol, peso_mol,concentracao) VALUES (%s, %s, %s, %s, %s, %s)",
-        [substancia['cod_int_comp'], substancia["substancia"], substancia["cas"],substancia["fm"],substancia["pm"],substancia["cmm"] ])
+        cursor.execute("INSERT INTO Tab_composicao (cod_int, substancia, cas, formula_mol, peso_mol,concentracao) VALUES (%s, %s, %s, %s, %s, %s)",
+        [cod_int, substancia["substancia"], substancia["cas"],substancia["fm"],substancia["pm"],substancia["cmm"] ])
   
         mysql.get_db().commit()
 
@@ -403,121 +406,6 @@ def create_new_fispq_comp(dados_recebido):
 
     return 'Fispq cadastrada com sucesso', 201
 
-
-
-# def lista_frase_perigo():
-#     cursor = mysql.get_db().cursor()
-
-#     cursor.execute("SELECT * FROM Frases_perigo")
-#     frase_db = cursor.fetchall()
-
-#     all_frases = []
-#     for frase in frase_db:
-#         frase_per = {
-#             'codigo': frase[0],
-#             'frases_perigo': frase[1],
-#         }
-
-#         all_frases.append(frase_per)
-
-#     cursor.close()
-#     return all_frases
-
-# def fispq_banco():
-#     cursor = mysql.get_db().cursor()
-
-#     cursor.execute("SELECT * FROM Banco")
-
-#     frases_banco = cursor.fetone()
-
-#     fispqbanco = {
-#         'idFispq': frases_banco[0],
-#         'created_at': frases_banco[1],
-#         'update_at': frases_banco[2],
-#         'produto': frases_banco[5],
-#         'cod_int': frases_banco[6],
-#         'uso': frases_banco[7],
-#         'inalacao': frases_banco[8],
-#         'cont_olhos': frases_banco[9],
-#         'cont_pele': frases_banco[10],
-#         'ingestao': frases_banco[11],
-#         'sintomas': frases_banco[12],
-#         'medico': frases_banco[13],
-#         'extincao': frases_banco[14],
-#         'perigo_esp': frases_banco[15],
-#         'medidas_protecao': frases_banco[16],
-#         'servico_emergencia': frases_banco[17],
-#         'servico_emergencia2': frases_banco[18],
-#         'precaucao_ambiente': frases_banco[19],
-#         'metodos_materiais': frases_banco[20],
-#         'manuseio_seguro': frases_banco[21],
-#         'medidas_higiene': frases_banco[22],
-#         'condicoes_armazenamento': frases_banco[23],
-#         'limitexposicao': frases_banco[24],
-#         'medcontroleng': frases_banco[25],
-#         'polhos': frases_banco[26],
-#         'ppele': frases_banco[27],
-#         'prespiratoria': frases_banco[28],
-#         'ptermicos': frases_banco[29],
-#         'aspecto': frases_banco[30],
-#         'odor': frases_banco[31],
-#         'ph': frases_banco[32], 
-#         'fusao': frases_banco[33],
-#         'ebulicao': frases_banco[34],
-#         'fulgor': frases_banco[35],
-#         'evaporacao': frases_banco[36],
-#         'inflamabilidade': frases_banco[37],
-#         'explosividade': frases_banco[38],
-#         'pvapor': frases_banco[39],
-#         'dvapor': frases_banco[79],
-#         'drelativa': frases_banco[40],
-#         'solubilidade': frases_banco[41],
-#         'particao': frases_banco[42],
-#         'autoignicao': frases_banco[43],
-#         'decomposicao': frases_banco[44],
-#         'viscosidade': frases_banco[45],
-#         'informacoes': frases_banco[46],
-#         'reatividade': frases_banco[47],
-#         'estabilidadeq': frases_banco[48],
-#         'rperigosas': frases_banco[49],
-#         'caseremevitadas': frases_banco[50],
-#         'incompativeis': frases_banco[51],
-#         'pdecomposicao': frases_banco[52],
-#         'toxicidadea': frases_banco[53],
-#         'cpele': frases_banco[54],
-#         'srespiratoria': frases_banco[55],
-#         'mutagenicidade': frases_banco[56],
-#         'carcinogenicidade': frases_banco[57],
-#         'reproducao': frases_banco[58],
-#         'exposicaou': frases_banco[59],
-#         'exposicaor': frases_banco[60],
-#         'aspiracao': frases_banco[61],
-#         'ecotoxidade': frases_banco[81],
-#         'degradabilidade': frases_banco[62],
-#         'bioacumulativo': frases_banco[63],
-#         'mobilidade': frases_banco[64],
-#         'outros_efeitos': frases_banco[65],
-#         'destinacaofinal': frases_banco[66],
-#         'terrestre': frases_banco[67],
-#         'onu': frases_banco[68],
-#         'nome_embarque': frases_banco[69],
-#         'classe': frases_banco[70],
-#         'n_risco': frases_banco[71],
-#         'grupo_emb': frases_banco[72],
-#         'hidroviario': frases_banco[73],
-#         'aereo': frases_banco[74],
-#         'regulamentacoes': frases_banco[75],
-#         'outras_info': frases_banco[76],
-#         'outras_info2': frases_banco[77],
-#         'legenda': frases_banco[78],
-#     }
-#     mysql.get_db().commit()
-
-#     cursor.close()
-
-#     return fispqbanco
-
-
 def get_frases_by_onu(n_onu):
     cursor = mysql.get_db().cursor()
 
@@ -536,6 +424,7 @@ def get_frases_by_onu(n_onu):
     resposta = {
         'numero_onu': n_onu,
         'numero_guia': frases_onu[0][1],
+        'Nome_aprop': frases_onu[2],
         'frases': {}
     }
 
@@ -543,3 +432,60 @@ def get_frases_by_onu(n_onu):
         resposta['frases'][frase[4]] = frase[5]
 
     return resposta
+
+def list_all_categoria():
+    cursor = mysql.get_db().cursor()
+
+    cursor.execute("SELECT * FROM relacao_frases")
+
+    frasesprecs_db = cursor.fetchall()
+
+    all_categorias = []
+
+    for categoria in frasesprecs_db:
+        new_categoria = {
+            'Num': categoria[0],
+            'Categoria': categoria[3],
+        }
+
+        all_categorias .append(new_categoria )
+
+    cursor.close()
+
+    return all_categorias 
+
+
+def list_all_categoria_frases(nums):
+    cursor = mysql.get_db().cursor()
+
+    cursor.execute("SELECT * FROM relacao_frases WHERE Num in %(Nums)s", {"Nums":nums.split(",")})
+
+    frases_db = cursor.fetchall()
+
+    all_frases_perigo = []
+    all_frases_precaucao = []
+    all_frases_advertencia = []
+
+    for frase in frases_db:
+        if frase[4] not in all_frases_perigo:
+            all_frases_perigo.append(frase[4])
+
+        if frase[7]not in all_frases_advertencia and 'Perigo'not in all_frases_advertencia and 'Atenção'not in all_frases_advertencia:
+            all_frases_advertencia.append(frase[7])
+           
+
+        cursor.execute("SELECT * FROM Tab_frase_precaucao WHERE cod_precaucao in %(Nums)s", {"Nums":frase[5].split(", ")})
+        frases_precaucao = cursor.fetchall()
+        for frase_precaucao in frases_precaucao:
+            if frase_precaucao[1] not in all_frases_precaucao:
+                all_frases_precaucao.append(frase_precaucao[1])
+
+        # TODO: devolver palavra_advertencia
+
+    cursor.close()
+
+    return {
+        'frases_perigo': all_frases_perigo,
+        'frases_precaucao': all_frases_precaucao,
+        'frases_advertencia':all_frases_advertencia
+    }

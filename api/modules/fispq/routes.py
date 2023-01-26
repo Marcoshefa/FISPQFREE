@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from Decorators import validate_token
-from modules.fispq.validators import validate_f, validate_c
-from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq, get_frases_by_onu
+from modules.fispq.validators import validate_f
+from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq, get_frases_by_onu, list_all_categoria, list_all_categoria_frases
 
 
 
@@ -112,11 +112,6 @@ def fispq_atualisa(id_fispq):
         "message": msg
     }, status_code
 
-# @fispq_routes.route('/frase_perigo', methods=['GET',])
-# @validate_token
-
-
-
 @fispq_routes.route('/frases_by_onu/<n_onu>', methods=['GET'])
 @validate_token
 def frases_by_onu(n_onu):
@@ -124,25 +119,30 @@ def frases_by_onu(n_onu):
 
     return resposta
 
-    # def frase_perigo():
-#     dados_recebidos = request.user
-#     if dados_recebidos['permission_id'] != '1':
-#         return 'Usuário não tem permissão', 403
+
+@fispq_routes.route('/classificacao/', methods=['GET',])
+@validate_token
+def listafrasesclassificacao():
+    dados_recebidos = request.user
+    if dados_recebidos['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
     
-#     frases_per = lista_frase_perigo()
+    new_categorias = list_all_categoria()
 
-#     return {
-#         'frase_per_lista': frases_per
-#     }
+    return {
+        'categorias_list': new_categorias
+    }
 
-# @fispq_routes.route('/frase_banco', methods=['GET',])
-# @validate_token
-# def frase_banco():
-#     dados_recebidos = request.user
-#     if dados_recebidos['permission_id'] != '1':
-#         return 'Usuário não tem permissão', 403
 
-    # fispqbanco = fispq_banco
-    # return {
-    #     'fispqbanco':fispqbanco 
-    # }
+@fispq_routes.route('/classificacao/frases', methods=['GET'])
+@validate_token
+def listafrasesprecaucao():
+    dados_recebidos = request.user
+    if dados_recebidos['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+
+    nums = request.args['nums']
+    
+    all_frases = list_all_categoria_frases(nums)
+
+    return all_frases
