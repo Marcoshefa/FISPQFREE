@@ -36,25 +36,25 @@ def fispq_id(id):
     cursor.execute("SELECT * FROM Fispq WHERE idFispq = %s", [id])
     fispq_selecionada = cursor.fetchone()
 
-    cursor.execute("SELECT * FROM Tab_composicao INNER JOIN Fispq on Tab_composicao.cod_int_comp = Fispq.cod_int WHERE Fispq.idFispq = %s",[id])
+    # cursor.execute("SELECT * FROM Tab_composicao INNER JOIN Fispq on Tab_composicao.cod_int_comp = Fispq.cod_int WHERE Fispq.idFispq = %s",[id])
     
     # cursor.execute("INSERT INTO Tab_composicao (cod_int_comp, substancia, cas, formula_mol, peso_mol, concentracao) VALUES (%s, %s, %s, %s, %s, %s)",
         # [substancia["cod_int_comp"], substancia["substancia"], substancia["cas"],substancia["fm"],substancia["pm"],substancia["cmm"] ])
     
-    substancias_selecionada = cursor.fetchall()
+    # substancias_selecionada = cursor.fetchall()
 
-    substancias = []
+    # substancias = []
 
-    for substancia1 in substancias_selecionada:
-        new_substancia1 = {
+    # for substancia1 in substancias_selecionada:
+    #     new_substancia1 = {
             
-            'substancia': substancia1[2],
-            'cas': substancia1[3],
-            'fm': substancia1[4],
-            'pm': substancia1[5],
-            'cmm': substancia1[6],
-        }
-        substancias.append(new_substancia1)
+    #         'substancia': substancia1[2],
+    #         'cas': substancia1[3],
+    #         'fm': substancia1[4],
+    #         'pm': substancia1[5],
+    #         'cmm': substancia1[6],
+    #     }
+    #     substancias.append(new_substancia1)
 
     if not fispq_selecionada:
         return 'Fispq não encontrada', 404
@@ -121,26 +121,26 @@ def fispq_id(id):
         'exposicaou': fispq_selecionada[59],
         'exposicaor': fispq_selecionada[60],
         'aspiracao': fispq_selecionada[61],
-        'ecotoxidade': fispq_selecionada[81],
+        'ecotoxidade': fispq_selecionada[80],
         'degradabilidade': fispq_selecionada[62],
         'bioacumulativo': fispq_selecionada[63],
         'mobilidade': fispq_selecionada[64],
         'outros_efeitos': fispq_selecionada[65],
         'destinacaofinal': fispq_selecionada[66],
-        'terrestre': fispq_selecionada[67],
-        'onu': fispq_selecionada[68],
-        'nome_embarque': fispq_selecionada[69],
-        'classe': fispq_selecionada[70],
-        'n_risco': fispq_selecionada[71],
-        'grupo_emb': fispq_selecionada[72],
-        'hidroviario': fispq_selecionada[73],
-        'aereo': fispq_selecionada[74],
-        'regulamentacoes': fispq_selecionada[75],
-        'outras_info': fispq_selecionada[76],
-        'outras_info2': fispq_selecionada[77],
-        'loculares': fispq_selecionada[77],
-        'legenda': fispq_selecionada[82],
-        'substancias':substancias,
+        'terrestre': fispq_selecionada[68],
+        'onu': fispq_selecionada[69],
+        'nome_embarque': fispq_selecionada[70],
+        'classe': fispq_selecionada[71],
+        'n_risco': fispq_selecionada[72],
+        'grupo_emb': fispq_selecionada[73],
+        'hidroviario': fispq_selecionada[74],
+        'aereo': fispq_selecionada[75],
+        'regulamentacoes': fispq_selecionada[76],
+        'outras_info': fispq_selecionada[77],
+        'loculares': fispq_selecionada[78],
+
+
+        # 'substancias':substancias,
     }
 
     # cursor.execute("INSERT INTO Tab_composicao (cod_int_comp, substancia, cas, formula_mol, peso_mol, concentracao) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -287,6 +287,22 @@ def create_new_fispq(dados_recebido):
     cod_int = dados_recebido['cod_int']
     produto = dados_recebido['produto']
     uso = dados_recebido['uso']
+    inalacao = dados_recebido['inalacao']
+    cont_olhos = dados_recebido['cont_olhos']
+    cont_pele = dados_recebido['cont_pele']
+    ingestao = dados_recebido['ingestao']
+    sintomas = dados_recebido['sintomas']
+    medico = dados_recebido['medico']
+    extincao = dados_recebido['extincao']
+    perigo_esp = dados_recebido['perigo_esp']
+    medidas_protecao = dados_recebido['medidas_protecao']
+    servico_emergencia = dados_recebido['servico_emergencia']
+    servico_emergencia2 = dados_recebido['servico_emergencia2']
+    precaucao_ambiente = dados_recebido['precaucao_ambiente']
+    metodos_materiais = dados_recebido['metodos_materiais']
+    manuseio_seguro = dados_recebido['manuseio_seguro']
+    medidas_higiene = dados_recebido['medidas_higiene']
+    condicoes_armazenamento = dados_recebido['condicoes_armazenamento']
     limitexposicao = dados_recebido['limitexposicao']
     medcontroleng = dados_recebido['medcontroleng']
     polhos = dados_recebido['polhos']
@@ -342,14 +358,12 @@ def create_new_fispq(dados_recebido):
     aereo = dados_recebido['aereo']
     regulamentacoes = dados_recebido['regulamentacoes']
     outras_info = dados_recebido['outras_info']
-    outras_info2 = dados_recebido['outras_info2']
     loculares = dados_recebido['loculares']
-    legenda = dados_recebido['legenda']
     nome_embarque = dados_recebido['nome_embarque']
     substancias = dados_recebido['substancias']
-    # todas_frases_Perigo = dados_recebido['todas_frases_Perigo']
-    # todas_frases_Precaucao = dados_recebido['todas_frases_Precaucao']
-    # frase_Advertencia = dados_recebido['frase_Advertencia']
+    todas_frases_Perigo = dados_recebido['todas_frases_Perigo']
+    todas_frases_Precaucao = dados_recebido['todas_frases_Precaucao']
+    frase_Advertencia = dados_recebido['frase_Advertencia']
 
     # cria o SQL
     cursor.execute("SELECT * FROM Fispq WHERE cod_int = %s", [cod_int])
@@ -358,9 +372,9 @@ def create_new_fispq(dados_recebido):
         return 'Fispq já existe no banco de dados', 409
 
     # insere as insformações no banco de dados
-    cursor.execute("INSERT INTO Fispq (cod_int, produto, uso, limitexposicao, medcontroleng, polhos, ppele, prespiratoria, ptermicos, aspecto, odor, ph, fusao, ebulicao, fulgor, evaporacao, inflamabilidade, explosividade, pvapor, dvapor, drelativa, solubilidade, particao, autoignicao, decomposicao, viscosidade, informacoes, reatividade, estabilidadeq, rperigosas, caseremevitadas, incompativeis, pdecomposicao, toxicidadea, cpele, srespiratoria, mutagenicidade, carcinogenicidade, reproducao, exposicaou, exposicaor, aspiracao, ecotoxidade, degradabilidade, bioacumulativo, mobilidade, outros_efeitos, destinacaofinal, terrestre, onu, nome_embarque, classe, n_risco, grupo_emb, hidroviario, aereo, regulamentacoes, outras_info, outras_info2, loculares, legenda) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+    cursor.execute("INSERT INTO Fispq (cod_int, produto, uso, inalacao, cont_olhos, cont_pele, ingestao, sintomas, medico, extincao, perigo_esp, medidas_protecao, servico_emergencia, servico_emergencia2, precaucao_ambiente, metodos_materiais, manuseio_seguro, medidas_higiene, condicoes_armazenamento, limitexposicao, medcontroleng, polhos, ppele, prespiratoria, ptermicos, aspecto, odor, ph, fusao, ebulicao, fulgor, evaporacao, inflamabilidade, explosividade, pvapor, dvapor, drelativa, solubilidade, particao, autoignicao, decomposicao, viscosidade, informacoes, reatividade, estabilidadeq, rperigosas, caseremevitadas, incompativeis, pdecomposicao, toxicidadea, cpele, srespiratoria, mutagenicidade, carcinogenicidade, reproducao, exposicaou, exposicaor, aspiracao, ecotoxidade, degradabilidade, bioacumulativo, mobilidade, outros_efeitos, destinacaofinal, terrestre, onu, nome_embarque, classe, n_risco, grupo_emb, hidroviario, aereo, regulamentacoes, outras_info, loculares, todas_frases_Perigo, todas_frases_Precaucao, frase_Advertencia) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
                   
-        [cod_int, produto, uso, limitexposicao, medcontroleng, polhos, ppele, prespiratoria, ptermicos, aspecto, odor, ph, fusao, ebulicao, fulgor, evaporacao, inflamabilidade, explosividade, pvapor, dvapor, drelativa, solubilidade, particao, autoignicao, decomposicao, viscosidade, informacoes, reatividade, estabilidadeq, rperigosas, caseremevitadas, incompativeis, pdecomposicao, toxicidadea, cpele, srespiratoria, mutagenicidade, carcinogenicidade, reproducao, exposicaou, exposicaor, aspiracao, ecotoxidade, degradabilidade, bioacumulativo, mobilidade, outros_efeitos, destinacaofinal, terrestre, onu, nome_embarque, classe, n_risco, grupo_emb, hidroviario, aereo, regulamentacoes, outras_info, outras_info2, loculares, legenda])
+        [cod_int, produto, uso, inalacao, cont_olhos, cont_pele, ingestao, sintomas, medico, extincao, perigo_esp, medidas_protecao, servico_emergencia, servico_emergencia2, precaucao_ambiente, metodos_materiais, manuseio_seguro, medidas_higiene, condicoes_armazenamento, limitexposicao, medcontroleng, polhos, ppele, prespiratoria, ptermicos, aspecto, odor, ph, fusao, ebulicao, fulgor, evaporacao, inflamabilidade, explosividade, pvapor, dvapor, drelativa, solubilidade, particao, autoignicao, decomposicao, viscosidade, informacoes, reatividade, estabilidadeq, rperigosas, caseremevitadas, incompativeis, pdecomposicao, toxicidadea, cpele, srespiratoria, mutagenicidade, carcinogenicidade, reproducao, exposicaou, exposicaor, aspiracao, ecotoxidade, degradabilidade, bioacumulativo, mobilidade, outros_efeitos, destinacaofinal, terrestre, onu, nome_embarque, classe, n_risco, grupo_emb, hidroviario, aereo, regulamentacoes, outras_info, loculares, todas_frases_Perigo, todas_frases_Precaucao, frase_Advertencia])
 
     mysql.get_db().commit()
     for substancia in substancias:
@@ -465,6 +479,7 @@ def list_all_categoria_frases(nums):
     all_frases_perigo = []
     all_frases_precaucao = []
     all_frases_advertencia = []
+    all_pictograma = []
 
     for frase in frases_db:
         if frase[4] not in all_frases_perigo:
@@ -473,15 +488,15 @@ def list_all_categoria_frases(nums):
         if frase[7]not in all_frases_advertencia and 'Perigo'not in all_frases_advertencia and 'Atenção'not in all_frases_advertencia:
             all_frases_advertencia.append(frase[7])
            
+        if frase[6] not in all_frases_perigo:
+            all_pictograma.append(frase[6])
 
         cursor.execute("SELECT * FROM Tab_frase_precaucao WHERE cod_precaucao in %(Nums)s", {"Nums":frase[5].split(", ")})
         frases_precaucao = cursor.fetchall()
         for frase_precaucao in frases_precaucao:
             if frase_precaucao[1] not in all_frases_precaucao:
-                all_frases_precaucao.append(frase_precaucao[1])
-
-        # TODO: devolver palavra_advertencia
-
+                all_frases_precaucao.append(frase_precaucao[0] +' '+ frase_precaucao[1])
+#TODO:
     cursor.close()
 
     return {
