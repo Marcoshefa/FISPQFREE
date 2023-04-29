@@ -12,14 +12,14 @@ def login(dados_recebido):
     usuario_selecionado = cursor.fetchone()
     
     if not usuario_selecionado:
-        return 'Usuário não encontrado', 404
+        return 'Usuário não encontrado', None, 404
 
     # cursor.execute("SELECT Empresa_ID_empresa FROM User_has_Empresa WHERE User_ID = %s", usuario_selecionado[0])
     # empresa_selecionada = cursor.fetchall()
 
 
     if usuario_selecionado[4] != dados_recebido['password']:
-        return 'Senha Incorreta', 403
+        return 'Senha Incorreta', usuario_selecionado[0], 403
 
     data_hora_atual = datetime.now(tz=pytz.timezone('America/Sao_Paulo'))
     dados = {
