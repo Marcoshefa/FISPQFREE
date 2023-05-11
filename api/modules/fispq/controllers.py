@@ -16,6 +16,7 @@ def list_all_fispqs():
     for fispq in fispqs_db:
         new_fispq = {
             'idFispq': fispq[0],
+            'cod_int': fispq[6],
             'produto': fispq[5],
             'onu': fispq[68],
             'nome_embarque': fispq[69],
@@ -121,7 +122,7 @@ def fispq_id(id):
         'exposicaou': fispq_selecionada[59],
         'exposicaor': fispq_selecionada[60],
         'aspiracao': fispq_selecionada[61],
-        'ecotoxidade': fispq_selecionada[79],
+        'ecotoxidade': fispq_selecionada[84],
         'degradabilidade': fispq_selecionada[62],
         'bioacumulativo': fispq_selecionada[63],
         'mobilidade': fispq_selecionada[64],
@@ -137,10 +138,10 @@ def fispq_id(id):
         'aereo': fispq_selecionada[74],
         'regulamentacoes': fispq_selecionada[75],
         'outras_info': fispq_selecionada[76],
-        'loculares': fispq_selecionada[80],
-        'todas_frases_Perigo':fispq_selecionada[81],
-        'todas_frases_Precaucao':fispq_selecionada[82],
-        'frase_Advertencia':fispq_selecionada[83],
+        'loculares': fispq_selecionada[78],
+        'todas_frases_Perigo':fispq_selecionada[79],
+        'todas_frases_Precaucao':fispq_selecionada[80],
+        'frase_Advertencia':fispq_selecionada[81],
 
         # 'substancias':substancias,
     }
@@ -366,6 +367,8 @@ def create_new_fispq(dados_recebido):
     todas_frases_Precaucao = dados_recebido['todas_frases_Precaucao']
     frase_Advertencia = dados_recebido['frase_Advertencia']
     pictogramas = dados_recebido['pictogramas']
+    todas_frases_classificacao = dados_recebido['todas_frases_classificacao']
+
 
     # cria o SQL
     cursor.execute("SELECT * FROM Fispq WHERE cod_int = %s", [cod_int])
@@ -374,9 +377,9 @@ def create_new_fispq(dados_recebido):
         return 'Fispq já existe no banco de dados', 409
 
     # insere as insformações no banco de dados
-    cursor.execute("INSERT INTO Fispq (cod_int, produto, uso, inalacao, cont_olhos, cont_pele, ingestao, sintomas, medico, extincao, perigo_esp, medidas_protecao, servico_emergencia, servico_emergencia2, precaucao_ambiente, metodos_materiais, manuseio_seguro, medidas_higiene, condicoes_armazenamento, limitexposicao, medcontroleng, polhos, ppele, prespiratoria, ptermicos, aspecto, odor, ph, fusao, ebulicao, fulgor, evaporacao, inflamabilidade, explosividade, pvapor, dvapor, drelativa, solubilidade, particao, autoignicao, decomposicao, viscosidade, informacoes, reatividade, estabilidadeq, rperigosas, caseremevitadas, incompativeis, pdecomposicao, toxicidadea, cpele, srespiratoria, mutagenicidade, carcinogenicidade, reproducao, exposicaou, exposicaor, aspiracao, ecotoxidade, degradabilidade, bioacumulativo, mobilidade, outros_efeitos, destinacaofinal, terrestre, onu, nome_embarque, classe, n_risco, grupo_emb, hidroviario, aereo, regulamentacoes, outras_info, loculares, todas_frases_Perigo, todas_frases_Precaucao, frase_Advertencia, pictogramas) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+    cursor.execute("INSERT INTO Fispq (cod_int, produto, uso, inalacao, cont_olhos, cont_pele, ingestao, sintomas, medico, extincao, perigo_esp, medidas_protecao, servico_emergencia, servico_emergencia2, precaucao_ambiente, metodos_materiais, manuseio_seguro, medidas_higiene, condicoes_armazenamento, limitexposicao, medcontroleng, polhos, ppele, prespiratoria, ptermicos, aspecto, odor, ph, fusao, ebulicao, fulgor, evaporacao, inflamabilidade, explosividade, pvapor, dvapor, drelativa, solubilidade, particao, autoignicao, decomposicao, viscosidade, informacoes, reatividade, estabilidadeq, rperigosas, caseremevitadas, incompativeis, pdecomposicao, toxicidadea, cpele, srespiratoria, mutagenicidade, carcinogenicidade, reproducao, exposicaou, exposicaor, aspiracao, ecotoxidade, degradabilidade, bioacumulativo, mobilidade, outros_efeitos, destinacaofinal, terrestre, onu, nome_embarque, classe, n_risco, grupo_emb, hidroviario, aereo, regulamentacoes, outras_info, loculares, todas_frases_Perigo, todas_frases_Precaucao, frase_Advertencia, pictogramas, todas_frases_classificacao) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
                   
-        [cod_int, produto, uso, inalacao, cont_olhos, cont_pele, ingestao, sintomas, medico, extincao, perigo_esp, medidas_protecao, servico_emergencia, servico_emergencia2, precaucao_ambiente, metodos_materiais, manuseio_seguro, medidas_higiene, condicoes_armazenamento, limitexposicao, medcontroleng, polhos, ppele, prespiratoria, ptermicos, aspecto, odor, ph, fusao, ebulicao, fulgor, evaporacao, inflamabilidade, explosividade, pvapor, dvapor, drelativa, solubilidade, particao, autoignicao, decomposicao, viscosidade, informacoes, reatividade, estabilidadeq, rperigosas, caseremevitadas, incompativeis, pdecomposicao, toxicidadea, cpele, srespiratoria, mutagenicidade, carcinogenicidade, reproducao, exposicaou, exposicaor, aspiracao, ecotoxidade, degradabilidade, bioacumulativo, mobilidade, outros_efeitos, destinacaofinal, terrestre, onu, nome_embarque, classe, n_risco, grupo_emb, hidroviario, aereo, regulamentacoes, outras_info, loculares, todas_frases_Perigo, todas_frases_Precaucao, frase_Advertencia, pictogramas])
+        [cod_int, produto, uso, inalacao, cont_olhos, cont_pele, ingestao, sintomas, medico, extincao, perigo_esp, medidas_protecao, servico_emergencia, servico_emergencia2, precaucao_ambiente, metodos_materiais, manuseio_seguro, medidas_higiene, condicoes_armazenamento, limitexposicao, medcontroleng, polhos, ppele, prespiratoria, ptermicos, aspecto, odor, ph, fusao, ebulicao, fulgor, evaporacao, inflamabilidade, explosividade, pvapor, dvapor, drelativa, solubilidade, particao, autoignicao, decomposicao, viscosidade, informacoes, reatividade, estabilidadeq, rperigosas, caseremevitadas, incompativeis, pdecomposicao, toxicidadea, cpele, srespiratoria, mutagenicidade, carcinogenicidade, reproducao, exposicaou, exposicaor, aspiracao, ecotoxidade, degradabilidade, bioacumulativo, mobilidade, outros_efeitos, destinacaofinal, terrestre, onu, nome_embarque, classe, n_risco, grupo_emb, hidroviario, aereo, regulamentacoes, outras_info, loculares, todas_frases_Perigo, todas_frases_Precaucao, frase_Advertencia, pictogramas, todas_frases_classificacao])
 
     mysql.get_db().commit()
     for substancia in substancias:
@@ -478,12 +481,16 @@ def list_all_categoria_frases(nums):
 
     frases_db = cursor.fetchall()
 
+    all_classificacao = []
     all_frases_perigo = []
     all_frases_precaucao = []
     all_frases_advertencia = ""
     all_pictograma = []
 
     for frase in frases_db:
+        if frase[3] not in all_classificacao:
+            all_classificacao.append(frase[3])
+
         if frase[4] not in all_frases_perigo:
             all_frases_perigo.append(frase[4])
 
@@ -502,6 +509,8 @@ def list_all_categoria_frases(nums):
     cursor.close()
 
     return {
+    
+        'frases_classificacao': all_classificacao,
         'frases_perigo': all_frases_perigo,
         'frases_precaucao': all_frases_precaucao,
         'frases_advertencia': all_frases_advertencia,
