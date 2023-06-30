@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from Decorators import validate_token
 from modules.fispq.validators import validate_f
-from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq, get_frases_by_onu, list_all_categoria, list_all_categoria_frases
+from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq, get_frases_by_onu, list_all_categoria, list_all_categoria_frases, gerar_pdf_fispq
 
 
 
@@ -146,3 +146,15 @@ def listafrasesprecaucao():
     all_frases = list_all_categoria_frases(nums)
 
     return all_frases
+
+
+@fispq_routes.route('/gerar_pdf/<id_fispq>', methods=['GET'])
+@validate_token
+def gerar_pdf(id_fispq):
+    dados_recebidos = request.user
+    if dados_recebidos['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+    
+    resultado = gerar_pdf_fispq(id_fispq)
+
+    return resultado

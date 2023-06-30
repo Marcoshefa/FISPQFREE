@@ -6,3 +6,4 @@ PyMySQL
 pytz
 flask_cors
 python-dateutil
+weasyprint

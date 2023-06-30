@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FISPQ</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            size: 595px 842px;
+            margin: 40px 25px;
+            padding-top: 140px;
+            border: 0px !important;
+            border-radius: 0px !important;
+        }
+
+        .page {
+            page-break-before: always;
+        }
+
+        table {
+            border: 0.7px solid #000;
+            width: 100%;
+            border-spacing: 0;
+        }        
+
+        table td {
+            border: 0.7px solid #000;
+            padding: 5px;
+            font-size: 10px;
+        }
+
+        table.borda-fina {
+            border: 0.25px solid #000;
+            width: 100%;
+            border-spacing: 0;
+        }
+
+        table.borda-fina td {
+            border: 0.25px solid #000;
+            padding: 5px;
+            font-size: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <!-- TABLE 1 -->
+        <table>
+            <tr>
+                <td colspan="2"><strong>1. Identificação do produto e da empresa</strong></td>
+            </tr>
+            <tr>
+                <td style="width: 25px;"><strong>Nome</strong></td>
+                <td>{{ produto }}</td>
+            </tr>
+            <tr>
+                <td style="width: 25px;"><strong>Códigos</strong></td>
+                <td>{{ cod_int }}</td>
+            </tr>
+            <tr>
+                <td style="width: 25px;"><strong>Uso recomendado</strong></td>
+                <td>Reagente para uso em laboratório</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="font-size: 9px; text-align: center;">
+                    <strong>Quimlab Produtos de Química Fina LTDA</strong><br>
+                    Endereço: Rodovia Geraldo Scavone, 2.300 - Jardim Califórnia - Jacareí - SP<br>
+                    CEP: 12305-490<br>
+                    Telefone da empresa: 12 3955-4646<br>
+                    Telefone para emergências: 12 3955-4646<br>
+                    Fax: 12 3958-5627<br>
+                    E-mail: quimlab@quimlab.com.br
+                </td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 2 -->
+        <table>
+            <tr>
+                <td><strong>2. Identificação de perigos</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    CLASSIFICAÇÃO DE PERIGO:<br>
+
+                    <br><br>
+                    FRASE DE PERIGO:<br>
+
+                    <br><br>
+                    FRASE DE PERIGO:<br>
+
+                    <br><br>
+                    FRASE DE PRECAUÇÃO:<br>
+
+                    <br><br>
+                    ELEMENTO DE ROTULAGEM:<br>
+                    
+                    <br><br>
+                    PALAVRA DE ADVERTÊNCIA:<br>
+
+                    <br><br>
+                    OUTROS PERIGOS QUE NÃO RESULTAM EM UMA CLASSIFICAÇÃO:<br>
+                    O produto não possui outros perigos.
+                </td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 3 -->
+        <table>
+            <tr>
+                <td><strong>3. Composição e informações sobre os ingredientes</strong></td>
+            </tr>
+            
+            <tr>
+                <td style="padding: 10px 15px; border-bottom: none;">
+                    <table class="borda-fina" style="page-break-inside: avoid;">
+                        <tr>
+                            <td>Substâncias</td>
+                            <td>CAS</td>
+                            <td>Fórmula molecular</td>
+                            <td>Peso molecular</td>
+                            <td>Classificação</td>
+                            <td>Concentração</td>
+                        </tr>
+                        {% for sub in substancias %}
+                        <tr>
+                            <td>{{ sub['substancia'] }}</td>
+                            <td>{{ sub['cas'] }}</td>
+                            <td>{{ sub['fm'] }}</td>
+                            <td>{{ sub['pm'] }}</td>
+                            <td> - </td>
+                            <td>{{ sub['cmm'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 10px 0px 20px 0; text-align: center; border-top: 0px;">As substâncias mencionadas se referem aquelas utilizadas na formulação do produto.</td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 4 -->
+        <table>
+            <tr>
+                <td><strong>4. Medidas de primeiros-socorros</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 5 -->
+        <table>
+            <tr>
+                <td><strong>5. Medidas de combate a incêndio</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <p><b>Meios de extinção apropriados:</b> {{ extincao }}</p>
+                        
+                    <p><b>Perigos  específicos  da  substância  ou  mistura:</b> {{ perigo_esp }}</p>
+                        
+                    <p><b>Medidas de proteção da equipe de combate a incêndio:</b> {{ medidas_protecao }}</p>
+                </td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 6 -->
+        <table>
+            <tr>
+                <td><strong>6. Medidas de controle para derramamento ou vazamento</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 7 -->
+        <table>
+            <tr>
+                <td><strong>7. Manuseio e Armazenamento</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 8 -->
+        <table>
+            <tr>
+                <td><strong>8. Controle de exposição e proteção individual</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 9 -->
+        <table>
+            <tr>
+                <td><strong>9. Propriedades físicas e químicas</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 10 -->
+        <table>
+            <tr>
+                <td><strong>10. Estabilidade e reatividade</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 11 -->
+        <table>
+            <tr>
+                <td><strong>11. Informações toxicológicas</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 12 -->
+        <table>
+            <tr>
+                <td><strong>12. Informações ecológicas</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 13 -->
+        <table>
+            <tr>
+                <td><strong>13. Considerações sobre destinação final</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 14 -->
+        <table>
+            <tr>
+                <td><strong>14. Informações sobre transporte</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 15 -->
+        <table>
+            <tr>
+                <td><strong>15. Informações sobre regulamentações</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    Decreto Federal nº 2.657, de 3 de julho de 1998 <br>
+                    Norma ABNT-NBR 14725:2012. <br>
+                    Portaria n° 229 de 24 de maio de 2011
+                </td>
+            </tr>
+        </table>
+
+        <!-- ESPAÇAMENTO -->
+        <div style="width: 100; height: 20px;"></div>
+
+        <!-- TABLE 16 -->
+        <table>
+            <tr>
+                <td><strong>16. Outras informações</strong></td>
+            </tr>
+            <tr>
+                <td style="font-size: 8px;">
+                    <p style="text-align: center; width: 100%; text-decoration: underline; font-weight: 700; margin: 0; font-size: 9px;">Centros de Informações Toxicológicas</p>
+                    <br><br>
+
+                    <u>Belo Horizonte</u> - Serviço de Toxicologia de Minas Gerais - Hospital João XXIII <br>
+                    Fone: (31) 3239.9224/3239.9223 (Hospital) (31) 3239-9308 / 3224-4000 (Tel. CIT) Fax: (31) 3239.9260(CIT)
+                    <br><br>
+
+                    <u>Porto Alegre</u> - Centro de Informações Toxicológicas do Rio Grande do Sul <br>
+                    Fone: (31) 3239.9224/3239.9223 (Hospital) (31) 3239-9308 / 3224-4000 (Tel. CIT) Fax: (31) 3239.9260(CIT)
+                    <br><br>
+
+                    <u>Recife</u> - Centro de Assistência Toxicológica de Pernambuco - Hospital da Restauração - 1º andar <br>
+                    Fone: (31) 3239.9224/3239.9223 (Hospital) (31) 3239-9308 / 3224-4000 (Tel. CIT) Fax: (31) 3239.9260(CIT)
+                    <br><br>
+
+                    <u>Rio de Janeiro</u> - Centro de Controle de Intoxicações do Rio de Janeiro - Hospital Universitário Clementino Fraga Filho <br>
+                    Fone: (31) 3239.9224/3239.9223 (Hospital) (31) 3239-9308 / 3224-4000 (Tel. CIT) Fax: (31) 3239.9260(CIT)
+                    <br><br>
+
+                    <u>Salvador</u> - Centro de Informações Anti-Veneno da Bahia - CIAVE - Hospital Geral Roberto Santos <br>
+                    Fone: (31) 3239.9224/3239.9223 (Hospital) (31) 3239-9308 / 3224-4000 (Tel. CIT) Fax: (31) 3239.9260(CIT)
+                    <br><br>
+
+                    <u>São Paulo</u> - Centro de Controle de Intoxicações de São Paulo - Hospital Municipal Dr. Artur Ribeiro de Saboya  <br>
+                    Fone: (31) 3239.9224/3239.9223 (Hospital) (31) 3239-9308 / 3224-4000 (Tel. CIT) Fax: (31) 3239.9260(CIT)
+                    <br><br>
+
+                    Legendas e abreviaturas
+                    <br><br>
+
+                    CAS - Chemical Abstracts Service<br>
+                    ONU - Organização das Nações Unidas<br>
+                    ACGIH - American Conference of Governmental Industrial Hygienists<br>
+                    TLV - Threshold Limit Values (limites de exposição)<br>
+                    TWA - Time-Weighted Average (média ponderada pelo tempo)<br>
+                    STEL - Short-Term Exposure Limit (exposição de curta duração)<br>
+                    DL50 - Dose letal 50%<br>
+                    CL50 - Concentração letal 50%<br>
+                    CE50 - Concentração Efetiva
+                    <br><br>
+
+                    <p style="margin: 0; width: 100%; text-align: center;">Para mais informações visite o site <a href="https://www.gov.br/anvisa/pt-br/assuntos/agrotoxicos/disque-intoxicacao">https://www.gov.br/anvisa/pt-br/assuntos/agrotoxicos/disque-intoxicacao</a></p>
+                    <br><br>
+
+                    <p style="margin: 0; width: 100%; text-align: center;">O não cumprimento das informações acima descritas, isenta o fabricante de responsabilidade pelo uso indevido do produto. As indicações baseiam-se no nível atual de nossos conhecimentos e servem para a caracterização do produto no que se refere às medidas de segurança a tomar. Estas indicações não implicam em qualquer garantia das propriedades do produto acima descrito.</p>
+                    <br><br>
+
+                    <p style="margin: 0; width: 100%; text-align: center;">Permitido fazer número ilimitado de cópias físicas, somente para uso interno.</p>
+                    <br><br>
+                </td>
+            </tr>
+        </table>
+    </div>  
+</body>
+</html>

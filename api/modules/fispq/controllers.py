@@ -3,6 +3,9 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from database import mysql
+from weasyprint import HTML
+from jinja2 import Environment, FileSystemLoader
+
 
 def list_all_fispqs():
     cursor = mysql.get_db().cursor()
@@ -48,7 +51,6 @@ def fispq_id(id):
 
     for substancia1 in substancias_selecionada:
         new_substancia1 = {
-            
             'substancia': substancia1[2],
             'cas': substancia1[3],
             'fm': substancia1[4],
@@ -542,10 +544,61 @@ def list_all_categoria_frases(nums):
     cursor.close()
 
     return {
-    
         'frases_classificacao': all_classificacao,
         'frases_perigo': all_frases_perigo,
         'frases_precaucao': all_frases_precaucao,
         'frases_advertencia': all_frases_advertencia,
         'pictogramas': all_pictograma
     }
+
+
+# funcoes usadas para gerar o pdf
+def get_header(page, total_pages, data_revisao, templates):
+    variables = dict(
+        data_revisao = data_revisao,
+        page = page,
+        total_pages = total_pages
+    )
+    template_header = templates.get_template('header.html').render(**variables)
+    html_header = HTML(string=template_header)
+    content = html_header.render()
+
+    body = content.pages[0]._page_box.all_children()[0].all_children()[0]
+    return body.copy_with_children(body.all_children())
+
+def gera_arquivo_pdf(fispq_infos, templates):
+    html_formatado = templates.get_template('fispq.html').render(**fispq_infos)
+
+    new_document = HTML(string=html_formatado).render()
+
+    total_pages = len(new_document.pages)
+    data_revisao = fispq_infos['update_at'].strftime("%d/%m/%Y")
+
+    pages = []
+    counter = 0
+    for page in new_document.pages:
+        counter += 1
+        
+        header = get_header(counter, total_pages, data_revisao, templates)
+        page._page_box.children += tuple(header.all_children())
+
+        pages.append(page)
+
+    new_document.pages = pages
+    new_document.write_pdf('./example.pdf')
+
+    return True
+
+
+def gerar_pdf_fispq(id_fispq):
+    # pega as informacoes da fispq
+    fispq_infos = fispq_id(id_fispq)
+
+    # gerar o pdf com as informaçoes
+    templates = Environment(loader=FileSystemLoader("templates/"))
+
+    pdf = gera_arquivo_pdf(fispq_infos, templates)
+
+    # retornar o pdf
+    return 'ok'
+
