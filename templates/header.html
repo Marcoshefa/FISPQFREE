@@ -37,13 +37,12 @@
     <body>
         <div>
             <table class="borda-fina">
-                <img src="file://templates/logo.png" class="logo" />
-            
+                <img src="file://{{ root_path }}logo.png" class="logo" />
                 <tr>
                     <td colspan="4"><br><br></td>
                 </tr>
                 <tr>
-                    <td colspan="4" style="font-size: 12px;"><strong>FICHA DE INFORMAÇÕES DE SEGURANÇA DE PRODUTOS QUÍMICOS FISPQ</strong></td>
+                    <td colspan="4" style="font-size: 12px;"><strong>FICHA COM DADOS DE SEGURANÇA</strong></td>
                 </tr>
                 <tr>
                     <td style="width: 25px;"><strong>Revisão</strong></td>
@@ -52,8 +51,8 @@
                     <td><strong>Revisão</strong></td>
                 </tr>
                 <tr>
-                    <td>01</td>
-                    <td></td>
+                    <td>{{ versao }}</td>
+                    <td>{{ produto }}</td>
                     <td>{{ data_revisao }}</td>
                     <td>Página {{ page }} de {{ total_pages }}</td>
                 </tr>

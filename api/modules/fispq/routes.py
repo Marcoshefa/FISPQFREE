@@ -1,7 +1,7 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, send_file
 from Decorators import validate_token
 from modules.fispq.validators import validate_f
-from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq, get_frases_by_onu, list_all_categoria, list_all_categoria_frases, gerar_pdf_fispq
+from modules.fispq.controllers import list_all_fispqs, update_fispq, delete_fispq, fispq_id, create_new_fispq, get_frases_by_onu, list_all_categoria, list_all_categoria_frases, gerar_pdf_fispq, duplicate_fispq
 
 
 
@@ -69,9 +69,27 @@ def novafispq():
     if not status:
         return msg, 400
     
+    
     fispq = create_new_fispq(dados_recebido)
 
     return fispq
+
+
+@fispq_routes.route('/duplicate/', methods=["POST"])
+@validate_token
+def duplicafispq():
+    dados_recebido = request.json
+    dados_recebidos = request.user
+    if dados_recebidos['permission_id'] != '1':
+        return 'Usuário não tem permissão', 403
+
+    msg, status = validate_f(dados_recebido)
+    if not status:
+        return msg, 400
+    
+    fispq1 = duplicate_fispq(dados_recebido)
+
+    return fispq1
    
     # FISPQS = create_new_fispq(dados_recebido)
 
@@ -111,6 +129,9 @@ def fispq_atualisa(id_fispq):
     return {
         "message": msg
     }, status_code
+
+
+
 
 @fispq_routes.route('/frases_by_onu/<n_onu>', methods=['GET'])
 @validate_token
@@ -157,4 +178,9 @@ def gerar_pdf(id_fispq):
     
     resultado = gerar_pdf_fispq(id_fispq)
 
-    return resultado
+    return send_file(
+        resultado,
+        as_attachment=True,
+        download_name='fispq.pdf',
+        mimetype='application/pdf'
+    )

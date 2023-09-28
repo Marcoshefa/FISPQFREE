@@ -20,19 +20,26 @@
         }
 
         table {
-            border: 0.7px solid #000;
+            /* border: 0.7px solid #000; */
             width: 100%;
             border-spacing: 0;
         }        
 
-        table td {
-            border: 0.7px solid #000;
+        .subtitulo {
+            border: 0.7px solid c2bebe;
             padding: 5px;
-            font-size: 10px;
+            font-size: 8px;
+            background-color: #c2bebe;
+        }
+
+        td {
+            /* border: 0.7px solid #000; */
+            padding: 5px;
+            font-size: 8px;
         }
 
         table.borda-fina {
-            border: 0.25px solid #000;
+            /* border: 0.25px solid #000; */
             width: 100%;
             border-spacing: 0;
         }
@@ -40,8 +47,19 @@
         table.borda-fina td {
             border: 0.25px solid #000;
             padding: 5px;
-            font-size: 10px;
+            font-size: 8px;
             text-align: center;
+        }
+
+        .pictogramas {
+            display: flex;
+            padding: 5px;
+            width: 100%;
+        }
+
+        .pictogramas img {
+            width: 50px;
+            margin: 0px 5px;
         }
     </style>
 </head>
@@ -51,7 +69,7 @@
         <!-- TABLE 1 -->
         <table>
             <tr>
-                <td colspan="2"><strong>1. Identificação do produto e da empresa</strong></td>
+                <td class="subtitulo" colspan="2"><strong>1. Identificação</strong></td>
             </tr>
             <tr>
                 <td style="width: 25px;"><strong>Nome</strong></td>
@@ -84,29 +102,40 @@
         <!-- TABLE 2 -->
         <table>
             <tr>
-                <td><strong>2. Identificação de perigos</strong></td>
+                <td class="subtitulo"><strong>2. Identificação de perigos</strong></td>
             </tr>
             <tr>
                 <td>
-                    CLASSIFICAÇÃO DE PERIGO:<br>
-
+                    <strong>CLASSIFICAÇÃO DE PERIGO:</strong><br>
+                    {{ todas_frases_classificacao | replace("\n","<br>") }}
                     <br><br>
-                    FRASE DE PERIGO:<br>
-
-                    <br><br>
-                    FRASE DE PERIGO:<br>
-
-                    <br><br>
-                    FRASE DE PRECAUÇÃO:<br>
-
-                    <br><br>
-                    ELEMENTO DE ROTULAGEM:<br>
+                    <strong>FRASE DE PERIGO:</strong><br>
                     
+                    {{ todas_frases_Perigo | replace("\n","<br>")  }}
+                
                     <br><br>
-                    PALAVRA DE ADVERTÊNCIA:<br>
+                    <strong>FRASE DE PRECAUÇÃO:</strong><br>
+                    {{ todas_frases_Precaucao | replace("\n","<br>") }}
+                    <br><br>
+                    <strong>ELEMENTO DE ROTULAGEM:</strong><br>
+                    <div class ='pictogramas'>
+                        
+                    
+                        {% for pictograma in pictogramas %}
+                        <img src="file://{{ root_path }}pictogramas/{{ pictograma }}.jpg"/>   
+                        {% endfor %}
 
+                        {% if not pictogramas %}
+                        Não aplicavél
+                        {% endif %}
+
+                    </div>
                     <br><br>
-                    OUTROS PERIGOS QUE NÃO RESULTAM EM UMA CLASSIFICAÇÃO:<br>
+
+                    <strong>PALAVRA DE ADVERTÊNCIA:</strong><br>
+                    {{ frase_Advertencia }}
+                    <br><br>
+                    <strong>OUTROS PERIGOS QUE NÃO RESULTAM EM UMA CLASSIFICAÇÃO:</strong><br>
                     O produto não possui outros perigos.
                 </td>
             </tr>
@@ -118,7 +147,7 @@
         <!-- TABLE 3 -->
         <table>
             <tr>
-                <td><strong>3. Composição e informações sobre os ingredientes</strong></td>
+                <td class="subtitulo"><strong>3. Composição e informações sobre os ingredientes</strong></td>
             </tr>
             
             <tr>
@@ -157,10 +186,22 @@
         <!-- TABLE 4 -->
         <table>
             <tr>
-                <td><strong>4. Medidas de primeiros-socorros</strong></td>
+                <td class="subtitulo"><strong>4. Medidas de primeiros-socorros</strong></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <p><b>Em caso de inalação:</b> {{ inalacao }}</p>
+                        
+                    <p><b>Em caso de contato com a pele:</b> {{ cont_pele }}</p>
+                        
+                    <p><b>Em caso de contato com os olhos:</b> {{ cont_olhos }}</p>
+                
+                    <p><b>Em caso de ingestão:</b> {{ ingestao }}</p>
+                    
+                    <p><b>Sintomas e efeitos mais importantes, agudos ou tardios::</b> {{ sintomas }}</p>
+                
+                    <p><b>Notas para o médico:</b> {{ medico }}</p>
+                </td>
             </tr>
         </table>
 
@@ -170,7 +211,7 @@
         <!-- TABLE 5 -->
         <table>
             <tr>
-                <td><strong>5. Medidas de combate a incêndio</strong></td>
+                <td class="subtitulo"><strong>5. Medidas de combate a incêndio</strong></td>
             </tr>
             <tr>
                 <td>
@@ -189,10 +230,18 @@
         <!-- TABLE 6 -->
         <table>
             <tr>
-                <td><strong>6. Medidas de controle para derramamento ou vazamento</strong></td>
+                <td class="subtitulo"><strong>6. Medidas de controle para derramamento ou vazamento</strong></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <p><b>Para o pessoal que não faz parte do serviço de emergência.</b> {{ servico_emergencia }}</p>
+                        
+                    <p><b>Para o pessoal do serviço de emergência</b> {{ servico_emergencia2 }}</p>
+                        
+                    <p><b>Precauções para o meio ambiente</b> {{ precaucao_ambiente }}</p>
+
+                    <p><b>Métodos e materiais para contenção da limpeza</b> {{ metodos_materiais }}</p>
+                </td>
             </tr>
         </table>
 
@@ -202,10 +251,16 @@
         <!-- TABLE 7 -->
         <table>
             <tr>
-                <td><strong>7. Manuseio e Armazenamento</strong></td>
+                <td class="subtitulo"><strong>7. Manuseio e Armazenamento</strong></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <p><b>Precauções para o manuseio seguro:</b> {{ manuseio_seguro }}</p>
+                        
+                    <p><b>Medidas de higiene:</b> {{ medidas_higiene }}</p>
+                        
+                    <p><b>Condições de armazenamento seguro, incluindo qualquer incompatibilidade: </b> {{ condicoes_armazenamento }}</p>
+                </td>
             </tr>
         </table>
 
@@ -215,10 +270,22 @@
         <!-- TABLE 8 -->
         <table>
             <tr>
-                <td><strong>8. Controle de exposição e proteção individual</strong></td>
+                <td class="subtitulo"><strong>8. Controle de exposição e proteção individual</strong></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <b>Parâmetros de controle</b><br>
+                        
+                    <b>Limites de exposição:</b> {{ limitexposicao }}
+                        
+                    <p><b>Medidas de controle de engenharia</b> {{ medcontroleng }}</p>
+
+                    <b>Medidas de proteção pessoal</b><br>
+                    <b>Proteção para os olhos/face:</b> {{ polhos }}<br>
+                    <b>Proteção da pele:</b> {{ ppele }}<br>
+                    <b>Proteção respiratória:</b> {{ prespiratoria }}<br>
+                    <b>Perigos térmicos:</b> {{ ptermicos }}
+                </td>
             </tr>
         </table>
 
@@ -228,10 +295,30 @@
         <!-- TABLE 9 -->
         <table>
             <tr>
-                <td><strong>9. Propriedades físicas e químicas</strong></td>
+                <td class="subtitulo"><strong>9. Propriedades físicas e químicas</strong></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <b>Aspecto:</b> {{ aspecto }}<br>
+                    <b>Odor:</b> {{ odor }}<br>
+                    <b>pH:</b> {{ ph }}<br>
+                    <b>Ponto de Fusão:</b> {{ fusao }}<br>
+                    <b>Ponto de ebulição:</b> {{ ebulicao }}<br>
+                    <b>Ponto de fulgor:</b> {{ fulgor }}<br>
+                    <b>Taxa de evaporação:</b> {{ evaporacao }}<br>
+                    <b>Inflamabilidade:</b> {{ inflamabilidade }}<br>
+                    <b>Limite inferior/ superior de inflamabilidade ou explosividade:</b> {{ explosividade }}<br>
+                    <b>Pressão de vapor:</b> {{ pvapor }}<br>
+                    <b>Densidade de vapor:</b> {{ dvapor }}<br>
+                    <b>Densidade relativa:</b> {{ drelativa }}<br>
+                    <b>Solubilidade:</b> {{ solubilidade }}<br>
+                    <b>Coeficiente de partição – n-octanol/água:</b> {{ particao }}<br>
+                    <b>Temperatura de auto-ignição:</b> {{ autoignicao }}<br>
+                    <b>Temperatura de decomposição:</b> {{ decomposicao }}<br>
+                    <b>Característica da partícula:</b> {{ particula }}<br>
+                    <b>Viscosidade:</b> {{ viscosidade }}<br>
+                    <b>Outras informações:</b> {{ informacoes }}<br>
+                </td>
             </tr>
         </table>
 
@@ -241,10 +328,17 @@
         <!-- TABLE 10 -->
         <table>
             <tr>
-                <td><strong>10. Estabilidade e reatividade</strong></td>
+                <td class="subtitulo"><strong>10. Estabilidade e reatividade</strong></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <b>Reatividade:</b> {{ reatividade }}<br>
+                    <b>Estabilidade Química:</b> {{ estabilidadeq }}<br>
+                    <b>Possibilidade de reações perigosas:</b> {{ rperigosas }}<br>
+                    <b>Condições a serem evitadas:</b> {{ caseremevitadas }}<br>
+                    <b>Materiais ou substâncias incompatíveis:</b> {{ incompativeis }}<br>
+                    <b>Produtos perigosos da decomposição:</b> {{ pdecomposicao }}<br>
+                </td>
             </tr>
         </table>
 
@@ -254,10 +348,21 @@
         <!-- TABLE 11 -->
         <table>
             <tr>
-                <td><strong>11. Informações toxicológicas</strong></td>
+                <td class="subtitulo"><strong>11. Informações toxicológicas</strong></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <b>Toxicidade aguda:</b> {{ toxicidadea }}<br>
+                    <b>Corrosão/irritação da pele:</b> {{ cpele }}<br>
+                    <b>Lesões oculares graves/ irritação ocular:</b> {{ loculares }}<br>
+                    <b>Sensibilização respiratória ou à pele:</b> {{ srespiratoria }}<br>
+                    <b>Mutagenicidade em células germinativas:</b> {{ mutagenicidade }}<br>
+                    <b>Carcinogenicidade:</b> {{ carcinogenicidade }}<br>
+                    <b>Toxicidade à reprodução:</b> {{ reproducao }}<br>
+                    <b>Toxicidade para órgãos-alvo específicos - exposição única:</b> {{ exposicaou }}<br>
+                    <b>Toxicidade para órgãos-alvo específicos - exposição repetida:</b> {{ exposicaor }}<br>
+                    <b>Perigo por aspiração:</b> {{ aspiracao }}<br>
+                </td>
             </tr>
         </table>
 
@@ -267,10 +372,16 @@
         <!-- TABLE 12 -->
         <table>
             <tr>
-                <td><strong>12. Informações ecológicas</strong></td>
+                <td class="subtitulo"><strong>12. Informações ecológicas</strong></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <b>Ecotoxidade:</b> {{ ecotoxidade }}<br>
+                    <b>Persistência e degradabilidade:</b> {{ degradabilidade }}<br>
+                    <b>Potencial Bioacumulativo: </b> {{ bioacumulativo }}<br>
+                    <b>Mobilidade no solo:</b> {{ mobilidade }}<br>
+                    <b>Outros efeitos adversos:</b> {{ medidas_protecao }}<br>
+                </td>
             </tr>
         </table>
 
@@ -280,10 +391,12 @@
         <!-- TABLE 13 -->
         <table>
             <tr>
-                <td><strong>13. Considerações sobre destinação final</strong></td>
+                <td class="subtitulo"><strong>13. Considerações sobre destinação final</strong></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <p>{{ destinacaofinal }}</p>
+                </td>
             </tr>
         </table>
 
@@ -293,10 +406,48 @@
         <!-- TABLE 14 -->
         <table>
             <tr>
-                <td><strong>14. Informações sobre transporte</strong></td>
+                <td class="subtitulo"><strong>14. Informações sobre transporte</strong></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <p><b>TERRESTRE</b></p>
+                    <p>Resolução n°5.998, de 3 de novembro de 2022 - Atualiza o Regulamento para o Transporte Rodoviário de Produtos Perigosos, aprova suas Instruções Complementares, e dá outras providências</p>
+
+                    <b>Número ONU:</b>{{ onu }}<br>
+                    <b>Nome apropriado para embarque:</b>{{ nome_embarque }}<br>
+                    <b>Classe/subclasse:</b>{{ classe }}<br>
+                    <b>Número de risco:</b>{{ n_risco }}<br>
+                    <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
+
+                    <p><b>HIDROVIÁRIO</b></p>
+                    <p>DPC - Diretoria de Portos e Costas (transporte de águas brasileiras)Normas de autoridade Marítima (NORMAM)<br>
+                        NORMAM 01/DPC: Embarcações empregada na Navegação em Mar Aberto<br>
+                        NORMAM 02/DPC: Embarcações Empregadas na Navegação Interior<br>
+                        IMO - "International Maritime Organization" (Organização Marítima Internacional)<br>
+                        International Maritime Dangerous Googs Code(IMDG Code)
+                    </p>
+
+                    <b>Número ONU:</b>{{ onu }}<br>
+                    <b>Nome apropriado para embarque:</b>{{ nome_embarque }}<br>
+                    <b>Classe/subclasse:</b>{{ classe }}<br>
+                    <b>Número de risco:</b>{{ n_risco }}<br>
+                    <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
+
+                    <p><b>AÉREO</b></p>
+                    <p>ANAC - Agência Nacional de Aviação Civil - Resolução n°129 de 8 de dezembro de 2009.<br>
+                        RBAC N°175 - REGULAMENTO BRASILEIRO DA AVIAÇÃO CIVIL - TRANSPORTE DE ARTIGOS PERIGOSOS EM AERONAVES CIVIS.<br>
+                        IS N° 175-001-INSTRUÇÃO SUPLEMENTAR IS<br>
+                        ICAO - "International Civil Aviation Organization"(Organização da Aviação Civil Internacional)-DOC 9284-NA/905<br>
+                        IATA - "International Air Transport Association" (Associação Internacional de Transporte Aéreo)<br>
+                        Dangerous Goods Regulation (DGR)
+                    </p>
+
+                    <b>Número ONU:</b>{{ onu }}<br>
+                    <b>Nome apropriado para embarque:</b>{{ nome_embarque }}<br>
+                    <b>Classe/subclasse:</b>{{ classe }}<br>
+                    <b>Número de risco:</b>{{ n_risco }}<br>
+                    <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
+                </td>
             </tr>
         </table>
 
@@ -306,13 +457,13 @@
         <!-- TABLE 15 -->
         <table>
             <tr>
-                <td><strong>15. Informações sobre regulamentações</strong></td>
+                <td class="subtitulo"><strong>15. Informações sobre regulamentações</strong></td>
             </tr>
             <tr>
                 <td>
-                    Decreto Federal nº 2.657, de 3 de julho de 1998 <br>
-                    Norma ABNT-NBR 14725:2012. <br>
-                    Portaria n° 229 de 24 de maio de 2011
+                    Decreto Federal nº 2.657, de 3 de julho de 1998.<br>
+                    Norma ABNT-NBR 14725:2012.<br>
+                    nPortaria n° 229 de 24 de maio de 2011.
                 </td>
             </tr>
         </table>
@@ -323,13 +474,14 @@
         <!-- TABLE 16 -->
         <table>
             <tr>
-                <td><strong>16. Outras informações</strong></td>
-            </tr>
-            <tr>
-                <td style="font-size: 8px;">
+                <td class="subtitulo"><strong>16. Outras informações</strong></td>
+            </tr>          
+        </table>
+            <!-- <tr> -->
+                <!-- <td style="font-size: 8px;"> -->
                     <p style="text-align: center; width: 100%; text-decoration: underline; font-weight: 700; margin: 0; font-size: 9px;">Centros de Informações Toxicológicas</p>
                     <br><br>
-
+                <div style="font-size: 8px;">
                     <u>Belo Horizonte</u> - Serviço de Toxicologia de Minas Gerais - Hospital João XXIII <br>
                     Fone: (31) 3239.9224/3239.9223 (Hospital) (31) 3239-9308 / 3224-4000 (Tel. CIT) Fax: (31) 3239.9260(CIT)
                     <br><br>
@@ -375,10 +527,11 @@
                     <br><br>
 
                     <p style="margin: 0; width: 100%; text-align: center;">Permitido fazer número ilimitado de cópias físicas, somente para uso interno.</p>
-                    <br><br>
-                </td>
-            </tr>
-        </table>
+                    
+            </div>
+                <!-- </td> -->
+            <!-- </tr> -->
+        <!-- </table> -->
     </div>  
 </body>
 </html>
