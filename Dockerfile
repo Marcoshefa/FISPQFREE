@@ -5,6 +5,7 @@ WORKDIR /api
 COPY api /api/
 COPY templates /api/templates/
 RUN pip install -r requirements.txt
+RUN mkdir /api/pdfs
 
 ENV FLASK_APP=app.py
 

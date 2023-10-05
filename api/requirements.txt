@@ -1,4 +1,4 @@
-Flask
+Flask==2.3.3
 Flask-MySQL
 mysqlclient
 PyJWT==2.4.0

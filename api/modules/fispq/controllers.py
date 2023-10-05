@@ -6,6 +6,7 @@ from dateutil.relativedelta import relativedelta
 from database import mysql
 from weasyprint import HTML
 from jinja2 import Environment, FileSystemLoader
+from uuid import uuid4
 import os
 
 
@@ -727,12 +728,20 @@ def gera_arquivo_pdf(fispq_infos, templates):
         pages.append(page)
 
     new_document.pages = pages
-    pdf = new_document.write_pdf()
 
-    return pdf
+    pdf_id = str(uuid4())
+    new_document.write_pdf(f"./pdfs/{pdf_id}.pdf")
+
+    return pdf_id
 
 
 def gerar_pdf_fispq(id_fispq):
+    if os.path.exists('./pdfs'):
+        # remove os pdfs antigos
+        for root, _, files in os.walk('./pdfs'):
+            for file in files:
+                os.remove(os.path.join(root, file))
+
     # pega as informacoes da fispq
     fispq_infos = fispq_id(id_fispq)
 
@@ -740,12 +749,11 @@ def gerar_pdf_fispq(id_fispq):
     root_path = os.path.join(os.path.abspath(''), 'templates/')
     templates = Environment(loader=FileSystemLoader(root_path))
     fispq_infos['root_path'] = root_path
-    pdf = gera_arquivo_pdf(fispq_infos, templates)
+    pdf_id = gera_arquivo_pdf(fispq_infos, templates)
 
-    byte_pdf = BytesIO()
-    byte_pdf.write(pdf)
-    byte_pdf.seek(0)
+    fispq_infos = None
+    templates = None
 
     # retornar o pdf
-    return byte_pdf
+    return pdf_id
 

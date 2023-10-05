@@ -23,22 +23,6 @@
             "jinja": true,
             "justMyCode": true
         },
-        {
-            "name": "API_FISPQFREE2",
-            "type": "python",
-            "request": "launch",
-            "module": "flask",
-            "env": {
-                "FLASK_APP": "rota.py",
-                "FLASK_ENV": "development"
-            },
-            "args": [
-                "run",
-                "--no-debugger"
-            ],
-            "jinja": true,
-            "justMyCode": true
-        },
 
         {
             "name": "Python: Current File",

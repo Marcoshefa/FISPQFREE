@@ -176,11 +176,7 @@ def gerar_pdf(id_fispq):
     if dados_recebidos['permission_id'] != '1':
         return 'Usuário não tem permissão', 403
     
-    resultado = gerar_pdf_fispq(id_fispq)
+    pdf_id = gerar_pdf_fispq(id_fispq)
 
-    return send_file(
-        resultado,
-        as_attachment=True,
-        download_name='fispq.pdf',
-        mimetype='application/pdf'
-    )
+    resultado = f"./pdfs/{pdf_id}.pdf"
+    return send_file(resultado)
