@@ -85,6 +85,8 @@
             </tr>
             <tr>
                 <td colspan="2" style="font-size: 9px; text-align: center;">
+                    <br>
+                    <br>
                     <strong>Quimlab Produtos de Química Fina LTDA</strong><br>
                     Endereço: Rodovia Geraldo Scavone, 2.300 - Jardim Califórnia - Jacareí - SP<br>
                     CEP: 12305-490<br>
@@ -116,6 +118,7 @@
                     <br><br>
                     <strong>FRASE DE PRECAUÇÃO:</strong><br>
                     {{ todas_frases_Precaucao | replace("\n","<br>") }}
+
                     <br><br>
                     <strong>ELEMENTO DE ROTULAGEM:</strong><br>
                     <div class ='pictogramas'>
@@ -126,7 +129,7 @@
                         {% endfor %}
 
                         {% if not pictogramas %}
-                        Não aplicavél
+                        Não aplicável
                         {% endif %}
 
                     </div>
@@ -154,12 +157,12 @@
                 <td style="padding: 10px 15px; border-bottom: none;">
                     <table class="borda-fina" style="page-break-inside: avoid;">
                         <tr>
-                            <td>Substâncias</td>
-                            <td>CAS</td>
-                            <td>Fórmula molecular</td>
-                            <td>Peso molecular</td>
-                            <td>Classificação</td>
-                            <td>Concentração</td>
+                            <td><strong>Substâncias</strong></td>
+                            <td><strong>CAS</strong></td>
+                            <td><strong>Fórmula molecular</strong></td>
+                            <td><strong>Peso molecular</strong></td>
+                            <td><strong>Classificação</strong></td>
+                            <td><strong>Concentração %</strong></td>
                         </tr>
                         {% for sub in substancias %}
                         <tr>
@@ -167,7 +170,7 @@
                             <td>{{ sub['cas'] }}</td>
                             <td>{{ sub['fm'] }}</td>
                             <td>{{ sub['pm'] }}</td>
-                            <td> - </td>
+                            <td>{{ sub['classif'] }}</td>
                             <td>{{ sub['cmm'] }}</td>
                         </tr>
                         {% endfor %}
@@ -198,9 +201,9 @@
                 
                     <p><b>Em caso de ingestão:</b> {{ ingestao }}</p>
                     
-                    <p><b>Sintomas e efeitos mais importantes, agudos ou tardios::</b> {{ sintomas }}</p>
+                    <p><b>Sintomas e efeitos mais importantes, agudos ou tardios:</b> {{ sintomas }}</p>
                 
-                    <p><b>Notas para o médico:</b> {{ medico }}</p>
+                    <p><b>Indicação de atenção médica imediata e tratamentos especiais requeridos, se necessário:</b> {{ medico }}</p>
                 </td>
             </tr>
         </table>
@@ -215,11 +218,11 @@
             </tr>
             <tr>
                 <td>
-                    <p><b>Meios de extinção apropriados:</b> {{ extincao }}</p>
+                    <p><b>Meios de extinção:</b> {{ extincao }}</p>
                         
-                    <p><b>Perigos  específicos  da  substância  ou  mistura:</b> {{ perigo_esp }}</p>
+                    <p><b>Perigos especifícos provenientes da substância ou mistura:</b> {{ perigo_esp }}</p>
                         
-                    <p><b>Medidas de proteção da equipe de combate a incêndio:</b> {{ medidas_protecao }}</p>
+                    <p><b>Medidas de proteção especiais para a equipe de combate à incêndio:</b> {{ medidas_protecao }}</p>
                 </td>
             </tr>
         </table>
@@ -234,13 +237,13 @@
             </tr>
             <tr>
                 <td>
-                    <p><b>Para o pessoal que não faz parte do serviço de emergência.</b> {{ servico_emergencia }}</p>
+                    <p><b>Para o pessoal que não faz parte do serviço de emergência:</b> {{ servico_emergencia }}</p>
                         
-                    <p><b>Para o pessoal do serviço de emergência</b> {{ servico_emergencia2 }}</p>
+                    <p><b>Para o pessoal do serviço de emergência:</b> {{ servico_emergencia2 }}</p>
                         
-                    <p><b>Precauções para o meio ambiente</b> {{ precaucao_ambiente }}</p>
+                    <p><b>Precauções para o meio ambiente:</b> {{ precaucao_ambiente }}</p>
 
-                    <p><b>Métodos e materiais para contenção da limpeza</b> {{ metodos_materiais }}</p>
+                    <p><b>Métodos e materiais para contenção da limpeza:</b> {{ metodos_materiais }}</p>
                 </td>
             </tr>
         </table>
@@ -251,13 +254,13 @@
         <!-- TABLE 7 -->
         <table>
             <tr>
-                <td class="subtitulo"><strong>7. Manuseio e Armazenamento</strong></td>
+                <td class="subtitulo"><strong>7. Manuseio e armazenamento</strong></td>
             </tr>
             <tr>
                 <td>
                     <p><b>Precauções para o manuseio seguro:</b> {{ manuseio_seguro }}</p>
                         
-                    <p><b>Medidas de higiene:</b> {{ medidas_higiene }}</p>
+                    <p>{{ medidas_higiene }}</p>
                         
                     <p><b>Condições de armazenamento seguro, incluindo qualquer incompatibilidade: </b> {{ condicoes_armazenamento }}</p>
                 </td>
@@ -278,7 +281,7 @@
                         
                     <b>Limites de exposição:</b> {{ limitexposicao }}
                         
-                    <p><b>Medidas de controle de engenharia</b> {{ medcontroleng }}</p>
+                    <p><b>Medidas de controle de engenharia:</b> {{ medcontroleng }}</p>
 
                     <b>Medidas de proteção pessoal</b><br>
                     <b>Proteção para os olhos/face:</b> {{ polhos }}<br>
@@ -299,24 +302,25 @@
             </tr>
             <tr>
                 <td>
-                    <b>Aspecto:</b> {{ aspecto }}<br>
+                    <b>Estado físico:</b> {{ aspecto }}<br>
+                    <b>Cor:</b> {{ cor }} <br>
                     <b>Odor:</b> {{ odor }}<br>
-                    <b>pH:</b> {{ ph }}<br>
-                    <b>Ponto de Fusão:</b> {{ fusao }}<br>
+                    <b>Ponto de Fusão/ponto de congelamento:</b> {{ fusao }}<br>
                     <b>Ponto de ebulição:</b> {{ ebulicao }}<br>
-                    <b>Ponto de fulgor:</b> {{ fulgor }}<br>
-                    <b>Taxa de evaporação:</b> {{ evaporacao }}<br>
                     <b>Inflamabilidade:</b> {{ inflamabilidade }}<br>
                     <b>Limite inferior/ superior de inflamabilidade ou explosividade:</b> {{ explosividade }}<br>
-                    <b>Pressão de vapor:</b> {{ pvapor }}<br>
-                    <b>Densidade de vapor:</b> {{ dvapor }}<br>
-                    <b>Densidade relativa:</b> {{ drelativa }}<br>
-                    <b>Solubilidade:</b> {{ solubilidade }}<br>
-                    <b>Coeficiente de partição – n-octanol/água:</b> {{ particao }}<br>
+                    <b>Ponto de fulgor:</b> {{ fulgor }}<br>
                     <b>Temperatura de auto-ignição:</b> {{ autoignicao }}<br>
                     <b>Temperatura de decomposição:</b> {{ decomposicao }}<br>
+                    <b>pH:</b> {{ ph }}<br>
+                    <b>Viscosidade cinemática:</b> {{ viscosidade }}<br>
+                    <b>Solubilidade:</b> {{ solubilidade }}<br>
+                    <b>Coeficiente de partição – n-octanol/água:</b> {{ particao }}<br>
+                    <!-- <b>Taxa de evaporação:</b> {{ evaporacao }}<br> -->
+                    <b>Pressão de vapor:</b> {{ pvapor }}<br>
+                    <b>Densidade relativa:</b> {{ drelativa }}<br>
+                    <b>Densidade de vapor relativa:</b> {{ dvapor }}<br>
                     <b>Característica da partícula:</b> {{ particula }}<br>
-                    <b>Viscosidade:</b> {{ viscosidade }}<br>
                     <b>Outras informações:</b> {{ informacoes }}<br>
                 </td>
             </tr>
@@ -380,7 +384,7 @@
                     <b>Persistência e degradabilidade:</b> {{ degradabilidade }}<br>
                     <b>Potencial Bioacumulativo: </b> {{ bioacumulativo }}<br>
                     <b>Mobilidade no solo:</b> {{ mobilidade }}<br>
-                    <b>Outros efeitos adversos:</b> {{ medidas_protecao }}<br>
+                    <b>Outros efeitos adversos:</b> {{ outros_efeitos }}<br>
                 </td>
             </tr>
         </table>
@@ -462,8 +466,8 @@
             <tr>
                 <td>
                     Decreto Federal nº 2.657, de 3 de julho de 1998.<br>
-                    Norma ABNT-NBR 14725:2012.<br>
-                    nPortaria n° 229 de 24 de maio de 2011.
+                    Norma ABNT-NBR 14725.<br>
+                    Portaria n° 229 de 24 de maio de 2011.
                 </td>
             </tr>
         </table>

@@ -8,10 +8,16 @@ from flask import Flask
 app = Flask(__name__)
 
 
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+# app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+# app.config['MYSQL_DATABASE_PORT'] = 3306
+# app.config['MYSQL_DATABASE_USER'] = 'root'
+# app.config['MYSQL_DATABASE_PASSWORD'] = 'Marcos21111984!'
+# app.config['MYSQL_DATABASE_DB'] = 'DB_FISPQ'
+
+app.config['MYSQL_DATABASE_HOST'] = 'fispqfree.com.br'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'Marcos21111984!'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'serverdb'
 app.config['MYSQL_DATABASE_DB'] = 'DB_FISPQ'
 
 mysql = MySQL()
