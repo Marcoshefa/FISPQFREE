@@ -137,6 +137,10 @@
 
                     <strong>PALAVRA DE ADVERTÊNCIA:</strong><br>
                     {{ frase_Advertencia }}
+
+                        {%if not frase_Advertencia%}
+                        N/E
+                        {%endif%}
                     <br><br>
                     <strong>OUTROS PERIGOS QUE NÃO RESULTAM EM UMA CLASSIFICAÇÃO:</strong><br>
                     O produto não possui outros perigos.
@@ -422,6 +426,7 @@
                     <b>Classe/subclasse:</b>{{ classe }}<br>
                     <b>Número de risco:</b>{{ n_risco }}<br>
                     <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
+                    <b>Perigo ao meio ambiente:</b>{{ pmambiente }}<br>
 
                     <p><b>HIDROVIÁRIO</b></p>
                     <p>DPC - Diretoria de Portos e Costas (transporte de águas brasileiras)Normas de autoridade Marítima (NORMAM)<br>
@@ -436,6 +441,7 @@
                     <b>Classe/subclasse:</b>{{ classe }}<br>
                     <b>Número de risco:</b>{{ n_risco }}<br>
                     <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
+                    <b>Perigo ao meio ambiente:</b>{{ pmambiente }}<br>
 
                     <p><b>AÉREO</b></p>
                     <p>ANAC - Agência Nacional de Aviação Civil - Resolução n°129 de 8 de dezembro de 2009.<br>
@@ -451,6 +457,9 @@
                     <b>Classe/subclasse:</b>{{ classe }}<br>
                     <b>Número de risco:</b>{{ n_risco }}<br>
                     <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
+                    <b>Perigo ao meio ambiente:</b>{{ pmambiente }}<br>
+
+                    <b>Medidas e condições específicas de precaução:</b>{{ mceprecaucao}}
                 </td>
             </tr>
         </table>
