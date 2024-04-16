@@ -51,6 +51,14 @@
             text-align: center;
         }
 
+        .endereco {
+                position: absolute;
+                top: 100px;
+                left: 90px;
+                width: 350px;
+
+            }
+
         .pictogramas {
             display: flex;
             padding: 5px;
@@ -87,19 +95,22 @@
                 <td colspan="2" style="font-size: 9px; text-align: center;">
                     <br>
                     <br>
-                    <strong>Quimlab Produtos de Química Fina LTDA</strong><br>
+                    <!-- <strong>Quimlab Produtos de Química Fina LTDA</strong><br>
                     Endereço: Rodovia Geraldo Scavone, 2.300 - Jardim Califórnia - Jacareí - SP<br>
                     CEP: 12305-490<br>
                     Telefone da empresa: 12 3955-4646<br>
                     Telefone para emergências: 12 3955-4646<br>
                     Fax: 12 3958-5627<br>
-                    E-mail: quimlab@quimlab.com.br
+                    E-mail: quimlab@quimlab.com.br -->
                 </td>
+                
+                    <img src="file://{{ root_path }}empresas/{{ empresa }}.jpg" class="endereco"/> 
+                
             </tr>
         </table>
 
         <!-- ESPAÇAMENTO -->
-        <div style="width: 100; height: 20px;"></div>
+        <div style="width: 100; height: 80px;"></div>
 
         <!-- TABLE 2 -->
         <table>

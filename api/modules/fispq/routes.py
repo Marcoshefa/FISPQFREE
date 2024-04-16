@@ -178,6 +178,6 @@ def gerar_pdf(id_fispq):
     
     pdf_id = gerar_pdf_fispq(id_fispq)
 
-    resultado = f"../pdfs/{pdf_id}.pdf"
-    # resultado = f"./pdfs/{pdf_id}.pdf"
+    # resultado = f"../pdfs/{pdf_id}.pdf"
+    resultado = f"./pdfs/{pdf_id}.pdf"
     return send_file(resultado)
