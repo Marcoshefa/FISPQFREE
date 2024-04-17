@@ -708,12 +708,13 @@ def list_all_categoria_frases(nums):
 
 
 # funcoes usadas para gerar o pdf
-def get_header(page, total_pages, data_revisao, nome_do_produto, versao, root_path, templates):
+def get_header(page, total_pages, data_revisao, nome_do_produto, versao, empresa, root_path, templates):
     variables = dict(
         data_revisao = data_revisao,
         page = page,
         total_pages = total_pages,
         produto = nome_do_produto,
+        empresa = empresa,
         versao = versao,
         root_path =root_path,
         
@@ -736,6 +737,7 @@ def gera_arquivo_pdf(fispq_infos, templates):
         data_revisao = fispq_infos['update_at'].strftime("%d/%m/%Y")
     nome_do_produto = fispq_infos["produto"]
     versao = fispq_infos["versao"] 
+    empresa = fispq_infos["empresa"] 
     root_path = fispq_infos['root_path']
 
     pages = []
@@ -743,7 +745,7 @@ def gera_arquivo_pdf(fispq_infos, templates):
     for page in new_document.pages:
         counter += 1
         
-        header = get_header(counter, total_pages, data_revisao, nome_do_produto, versao, root_path, templates)
+        header = get_header(counter, total_pages, data_revisao, nome_do_produto, versao, empresa, root_path, templates)
 
         page._page_box.children += tuple(header.all_children())
 
