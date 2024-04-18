@@ -87,6 +87,7 @@
                 <td class="subtitulo" colspan="2"><strong>1. Identificação</strong></td>
             </tr>
             <tr>
+                <td style="width: 25px;"><strong>Nome</strong></td>
                 <td>{{ produto }}</td>
             </tr>
             <tr>
@@ -214,15 +215,15 @@
             </tr>
             <tr>
                 <td>
-                    <p><b>Em caso de inalação:</b> {{ inalacao }}</p>
+                    <p><b>Em caso de inalação:</b> {{ inalacao | replace("\n","<br>")}}</p>
                         
-                    <p><b>Em caso de contato com a pele:</b> {{ cont_pele }}</p>
+                    <p><b>Em caso de contato com a pele:</b> {{ cont_pele | replace("\n","<br>")}}</p>
                         
-                    <p><b>Em caso de contato com os olhos:</b> {{ cont_olhos }}</p>
+                    <p><b>Em caso de contato com os olhos:</b> {{ cont_olhos | replace("\n","<br>")}}</p>
                 
-                    <p><b>Em caso de ingestão:</b> {{ ingestao }}</p>
+                    <p><b>Em caso de ingestão:</b> {{ ingestao | replace("\n","<br>")}}</p>
                     
-                    <p><b>Sintomas e efeitos mais importantes, agudos ou tardios:</b> {{ sintomas }}</p>
+                    <p><b>Sintomas e efeitos mais importantes, agudos ou tardios:</b> {{ sintomas | replace("\n","<br>")}}</p>
                 
                     <p><b>Indicação de atenção médica imediata e tratamentos especiais requeridos, se necessário:</b> {{ medico }}</p>
                 </td>
@@ -233,17 +234,17 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 5 -->
-        <table>
+        <table style="page-break-inside: avoid;">
             <tr>
                 <td class="subtitulo"><strong>5. Medidas de combate a incêndio</strong></td>
             </tr>
             <tr>
                 <td>
-                    <p><b>Meios de extinção:</b> {{ extincao }}</p>
+                    <p><b>Meios de extinção:</b> {{ extincao | replace("\n","<br>")}}</p>
                         
-                    <p><b>Perigos especifícos provenientes da substância ou mistura:</b> {{ perigo_esp }}</p>
+                    <p><b>Perigos especifícos provenientes da substância ou mistura:</b> {{ perigo_esp | replace("\n","<br>")}}</p>
                         
-                    <p><b>Medidas de proteção especiais para a equipe de combate à incêndio:</b> {{ medidas_protecao }}</p>
+                    <p><b>Medidas de proteção especiais para a equipe de combate à incêndio:</b> {{ medidas_protecao | replace("\n","<br>")}}</p>
                 </td>
             </tr>
         </table>
@@ -252,19 +253,19 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 6 -->
-        <table>
+        <table style="page-break-inside: avoid;">
             <tr>
                 <td class="subtitulo"><strong>6. Medidas de controle para derramamento ou vazamento</strong></td>
             </tr>
             <tr>
                 <td>
-                    <p><b>Para o pessoal que não faz parte do serviço de emergência:</b> {{ servico_emergencia }}</p>
+                    <p><b>Para o pessoal que não faz parte do serviço de emergência:</b> {{ servico_emergencia | replace("\n","<br>")}}</p>
                         
-                    <p><b>Para o pessoal do serviço de emergência:</b> {{ servico_emergencia2 }}</p>
+                    <p><b>Para o pessoal do serviço de emergência:</b> {{ servico_emergencia2 | replace("\n","<br>")}}</p>
                         
-                    <p><b>Precauções para o meio ambiente:</b> {{ precaucao_ambiente }}</p>
+                    <p><b>Precauções para o meio ambiente:</b> {{ precaucao_ambiente | replace("\n","<br>")}}</p>
 
-                    <p><b>Métodos e materiais para contenção da limpeza:</b> {{ metodos_materiais }}</p>
+                    <p><b>Métodos e materiais para contenção da limpeza:</b> {{ metodos_materiais | replace("\n","<br>")}}</p>
                 </td>
             </tr>
         </table>
@@ -273,17 +274,17 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 7 -->
-        <table>
+        <table style="page-break-inside: avoid;">
             <tr>
                 <td class="subtitulo"><strong>7. Manuseio e armazenamento</strong></td>
             </tr>
             <tr>
                 <td>
-                    <p><b>Precauções para o manuseio seguro:</b> {{ manuseio_seguro }}</p>
+                    <p><b>Precauções para o manuseio seguro:</b> {{ manuseio_seguro | replace("\n","<br>")}}</p>
                         
-                    <p>{{ medidas_higiene }}</p>
+                    <p>{{ medidas_higiene | replace("\n","<br>")}}</p>
                         
-                    <p><b>Condições de armazenamento seguro, incluindo qualquer incompatibilidade: </b> {{ condicoes_armazenamento }}</p>
+                    <p><b>Condições de armazenamento seguro, incluindo qualquer incompatibilidade: </b> {{ condicoes_armazenamento | replace("\n","<br>")}}</p>
                 </td>
             </tr>
         </table>
@@ -300,15 +301,15 @@
                 <td>
                     <b>Parâmetros de controle</b><br>
                         
-                    <b>Limites de exposição:</b> {{ limitexposicao }}
+                    <b>Limites de exposição:</b> {{ limitexposicao | replace("\n","<br>") }}
                         
-                    <p><b>Medidas de controle de engenharia:</b> {{ medcontroleng }}</p>
+                    <p><b>Medidas de controle de engenharia:</b> {{ medcontroleng | replace("\n","<br>")}}</p>
 
                     <b>Medidas de proteção pessoal</b><br>
-                    <b>Proteção para os olhos/face:</b> {{ polhos }}<br>
-                    <b>Proteção da pele:</b> {{ ppele }}<br>
-                    <b>Proteção respiratória:</b> {{ prespiratoria }}<br>
-                    <b>Perigos térmicos:</b> {{ ptermicos }}
+                    <b>Proteção para os olhos/face:</b> {{ polhos | replace("\n","<br>")}}<br>
+                    <b>Proteção da pele:</b> {{ ppele | replace("\n","<br>")}}<br>
+                    <b>Proteção respiratória:</b> {{ prespiratoria | replace("\n","<br>")}}<br>
+                    <b>Perigos térmicos:</b> {{ ptermicos | replace("\n","<br>")}}
                 </td>
             </tr>
         </table>
@@ -362,7 +363,7 @@
                     <b>Possibilidade de reações perigosas:</b> {{ rperigosas }}<br>
                     <b>Condições a serem evitadas:</b> {{ caseremevitadas }}<br>
                     <b>Materiais ou substâncias incompatíveis:</b> {{ incompativeis }}<br>
-                    <b>Produtos perigosos da decomposição:</b> {{ pdecomposicao }}<br>
+                    <b>Produtos perigosos da decomposição:</b> {{ pdecomposicao | replace("\n","<br>")}}<br>
                 </td>
             </tr>
         </table>
@@ -377,16 +378,16 @@
             </tr>
             <tr>
                 <td>
-                    <b>Toxicidade aguda:</b> {{ toxicidadea }}<br>
-                    <b>Corrosão/irritação da pele:</b> {{ cpele }}<br>
+                    <b>Toxicidade aguda:</b> {{ toxicidadea | replace("\n","<br>")}}<br>
+                    <b>Corrosão/irritação da pele:</b> {{ cpele | replace("\n","<br>")}}<br>
                     <b>Lesões oculares graves/ irritação ocular:</b> {{ loculares }}<br>
-                    <b>Sensibilização respiratória ou à pele:</b> {{ srespiratoria }}<br>
-                    <b>Mutagenicidade em células germinativas:</b> {{ mutagenicidade }}<br>
-                    <b>Carcinogenicidade:</b> {{ carcinogenicidade }}<br>
-                    <b>Toxicidade à reprodução:</b> {{ reproducao }}<br>
-                    <b>Toxicidade para órgãos-alvo específicos - exposição única:</b> {{ exposicaou }}<br>
-                    <b>Toxicidade para órgãos-alvo específicos - exposição repetida:</b> {{ exposicaor }}<br>
-                    <b>Perigo por aspiração:</b> {{ aspiracao }}<br>
+                    <b>Sensibilização respiratória ou à pele:</b> {{ srespiratoria | replace("\n","<br>")}}<br>
+                    <b>Mutagenicidade em células germinativas:</b> {{ mutagenicidade | replace("\n","<br>")}}<br>
+                    <b>Carcinogenicidade:</b> {{ carcinogenicidade | replace("\n","<br>")}}<br>
+                    <b>Toxicidade à reprodução:</b> {{ reproducao | replace("\n","<br>")}}<br>
+                    <b>Toxicidade para órgãos-alvo específicos - exposição única:</b> {{ exposicaou | replace("\n","<br>")}}<br>
+                    <b>Toxicidade para órgãos-alvo específicos - exposição repetida:</b> {{ exposicaor | replace("\n","<br>")}}<br>
+                    <b>Perigo por aspiração:</b> {{ aspiracao | replace("\n","<br>")}}<br>
                 </td>
             </tr>
         </table>
@@ -401,11 +402,11 @@
             </tr>
             <tr>
                 <td>
-                    <b>Ecotoxidade:</b> {{ ecotoxidade }}<br>
-                    <b>Persistência e degradabilidade:</b> {{ degradabilidade }}<br>
-                    <b>Potencial Bioacumulativo: </b> {{ bioacumulativo }}<br>
-                    <b>Mobilidade no solo:</b> {{ mobilidade }}<br>
-                    <b>Outros efeitos adversos:</b> {{ outros_efeitos }}<br>
+                    <b>Ecotoxidade:</b> {{ ecotoxidade | replace("\n","<br>")}}<br>
+                    <b>Persistência e degradabilidade:</b> {{ degradabilidade | replace("\n","<br>")}}<br>
+                    <b>Potencial Bioacumulativo: </b> {{ bioacumulativo | replace("\n","<br>")}}<br>
+                    <b>Mobilidade no solo:</b> {{ mobilidade | replace("\n","<br>")}}<br>
+                    <b>Outros efeitos adversos:</b> {{ outros_efeitos | replace("\n","<br>")}}<br>
                 </td>
             </tr>
         </table>
@@ -420,7 +421,7 @@
             </tr>
             <tr>
                 <td>
-                    <p>{{ destinacaofinal }}</p>
+                    <p>{{ destinacaofinal | replace("\n","<br>")}}</p>
                 </td>
             </tr>
         </table>
@@ -439,11 +440,11 @@
                     <p>Resolução n°5.998, de 3 de novembro de 2022 - Atualiza o Regulamento para o Transporte Rodoviário de Produtos Perigosos, aprova suas Instruções Complementares, e dá outras providências</p>
 
                     <b>Número ONU:</b>{{ onu }}<br>
-                    <b>Nome apropriado para embarque:</b>{{ nome_embarque }}<br>
+                    <b>Nome apropriado para embarque:</b>{{ nome_embarque | replace("\n","<br>")}}<br>
                     <b>Classe/subclasse:</b>{{ classe }}<br>
                     <b>Número de risco:</b>{{ n_risco }}<br>
                     <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
-                    <b>Perigo ao meio ambiente:</b>{{ pmambiente }}<br>
+                    <b>Perigo ao meio ambiente:</b>{{ pmambiente | replace("\n","<br>")}}<br>
 
                     <p><b>HIDROVIÁRIO</b></p>
                     <p>DPC - Diretoria de Portos e Costas (transporte de águas brasileiras)Normas de autoridade Marítima (NORMAM)<br>
@@ -458,7 +459,7 @@
                     <b>Classe/subclasse:</b>{{ classe }}<br>
                     <b>Número de risco:</b>{{ n_risco }}<br>
                     <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
-                    <b>Perigo ao meio ambiente:</b>{{ pmambiente }}<br>
+                    <b>Perigo ao meio ambiente:</b>{{ pmambiente | replace("\n","<br>")}}<br>
 
                     <p><b>AÉREO</b></p>
                     <p>ANAC - Agência Nacional de Aviação Civil - Resolução n°129 de 8 de dezembro de 2009.<br>
@@ -474,9 +475,8 @@
                     <b>Classe/subclasse:</b>{{ classe }}<br>
                     <b>Número de risco:</b>{{ n_risco }}<br>
                     <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
-                    <b>Perigo ao meio ambiente:</b>{{ pmambiente }}<br>
-
-                    <b>Medidas e condições específicas de precaução:</b>{{ mceprecaucao}}
+                    <b>Perigo ao meio ambiente:</b>{{ pmambiente | replace("\n","<br>")}}<br><br>
+                    <b>Medidas e condições específicas de precaução:</b>{{ mceprecaucao | replace("\n","<br>")}}
                 </td>
             </tr>
         </table>
