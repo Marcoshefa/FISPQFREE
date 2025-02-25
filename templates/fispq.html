@@ -81,6 +81,9 @@
             width: 140px;
                 
         }
+        .evitar-quebra {
+            page-break-inside: avoid;
+        }
     </style>
 </head>
 
@@ -126,6 +129,7 @@
 
         <!-- TABLE 2 -->
         <table>
+            <div style="page-break-inside: avoid;">
             <tr>
                 <td class="subtitulo"><strong>2. Identificação de perigos</strong></td>
             </tr>
@@ -134,14 +138,18 @@
                     <strong>CLASSIFICAÇÃO DE PERIGO:</strong><br>
                     {{ todas_frases_classificacao | replace("\n","<br>") }}
                     <br><br>
-                    <strong>FRASE DE PERIGO:</strong><br>
-                    
+            </div>  
+            <div style="page-break-inside: avoid;">
+
+                    <strong>FRASE DE PERIGO:</strong><br>      
                     {{ todas_frases_Perigo | replace("\n","<br>")  }}
-                
                     <br><br>
+            </div>  
+            
                     <strong>FRASE DE PRECAUÇÃO:</strong><br>
                     {{ todas_frases_Precaucao | replace("\n","<br>") }}
-
+            
+            <div style="page-break-inside: avoid;">
                     <br><br>
                     <strong>ELEMENTO DE ROTULAGEM:</strong><br>
                     <div class ='pictogramas'>
@@ -157,7 +165,7 @@
 
                     </div>
                     <br><br>
-
+            <div style="page-break-inside: avoid;">
                     <strong>PALAVRA DE ADVERTÊNCIA:</strong><br>
                     {{ frase_Advertencia }}
 
@@ -165,6 +173,7 @@
                         N/E
                         {%endif%}
                     <br><br>
+            </div> 
                     <strong>OUTROS PERIGOS QUE NÃO RESULTAM EM UMA CLASSIFICAÇÃO:</strong><br>
                     O produto não possui outros perigos.
                 </td>
@@ -175,7 +184,7 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 3 -->
-        <table>
+        <table class="borda-fina" style="page-break-inside: avoid;">
             <tr>
                 <td class="subtitulo"><strong>3. Composição e informações sobre os ingredientes</strong></td>
             </tr>
@@ -214,25 +223,27 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 4 -->
-        <table>
-            <tr>
-                <td class="subtitulo"><strong>4. Medidas de primeiros-socorros</strong></td>
-            </tr>
-            <tr>
-                <td>
-                    <p><b>Em caso de inalação:</b> {{ inalacao | replace("\n","<br>")}}</p>
-                        
-                    <p><b>Em caso de contato com a pele:</b> {{ cont_pele | replace("\n","<br>")}}</p>
-                        
-                    <p><b>Em caso de contato com os olhos:</b> {{ cont_olhos | replace("\n","<br>")}}</p>
-                
-                    <p><b>Em caso de ingestão:</b> {{ ingestao | replace("\n","<br>")}}</p>
+        
+        <table style="page-break-inside: avoid;">
+            
+                <tr>
+                    <td class="subtitulo"><strong>4. Medidas de primeiros-socorros</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><b>Em caso de inalação:</b> {{ inalacao | replace("\n","<br>")}}</p> 
+            
+                        <p><b>Em caso de contato com a pele:</b> {{ cont_pele | replace("\n","<br>")}}</p>
+                            
+                        <p><b>Em caso de contato com os olhos:</b> {{ cont_olhos | replace("\n","<br>")}}</p>
                     
-                    <p><b>Sintomas e efeitos mais importantes, agudos ou tardios:</b> {{ sintomas | replace("\n","<br>")}}</p>
-                
-                    <p><b>Indicação de atenção médica imediata e tratamentos especiais requeridos, se necessário:</b> {{ medico }}</p>
-                </td>
-            </tr>
+                        <p><b>Em caso de ingestão:</b> {{ ingestao | replace("\n","<br>")}}</p>
+                        
+                        <p><b>Sintomas e efeitos mais importantes, agudos ou tardios:</b> {{ sintomas | replace("\n","<br>")}}</p>
+                    
+                        <p><b>Indicação de atenção médica imediata e tratamentos especiais requeridos, se necessário:</b> {{ medico }}</p>
+                    </td>
+                </tr>
         </table>
 
         <!-- ESPAÇAMENTO -->
@@ -298,16 +309,19 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 8 -->
+        
         <table>
-            <tr>
-                <td class="subtitulo"><strong>8. Controle de exposição e proteção individual</strong></td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Parâmetros de controle</b><br>
-                        
-                    <b>Limites de exposição:</b> <br>
-                    <div class="formatted-text">{{ limitexposicao | replace("\n","<br>") }}</div>
+            <div style="page-break-inside: avoid;">
+                <tr>
+                    <td class="subtitulo"><strong>8. Controle de exposição e proteção individual</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Parâmetros de controle</b><br>
+                            
+                        <b>Limites de exposição:</b> <br>
+                        <div class="formatted-text">{{ limitexposicao | replace("\n","<br>") }}</div>
+            </div>
                         
                     <p><b>Medidas de controle de engenharia:</b> {{ medcontroleng | replace("\n","<br>")}}</p>
 
@@ -333,6 +347,7 @@
                     <b>Estado físico:</b> {{ aspecto }}<br>
                     <b>Cor:</b> {{ cor }} <br>
                     <b>Odor:</b> {{ odor }}<br>
+                    <b>pH:</b> {{ ph }}<br>
                     <b>Ponto de Fusão/ponto de congelamento:</b> {{ fusao }}<br>
                     <b>Ponto de ebulição:</b> {{ ebulicao }}<br>
                     <b>Inflamabilidade:</b> {{ inflamabilidade }}<br>
@@ -340,7 +355,6 @@
                     <b>Ponto de fulgor:</b> {{ fulgor }}<br>
                     <b>Temperatura de auto-ignição:</b> {{ autoignicao }}<br>
                     <b>Temperatura de decomposição:</b> {{ decomposicao }}<br>
-                    <b>pH:</b> {{ ph }}<br>
                     <b>Viscosidade cinemática:</b> {{ viscosidade }}<br>
                     <b>Solubilidade:</b> {{ solubilidade }}<br>
                     <b>Coeficiente de partição – n-octanol/água:</b> {{ particao }}<br>
@@ -358,33 +372,36 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 10 -->
-        <table>
-            <tr>
-                <td class="subtitulo"><strong>10. Estabilidade e reatividade</strong></td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Reatividade:</b> {{ reatividade }}<br>
-                    <b>Estabilidade Química:</b> {{ estabilidadeq }}<br>
-                    <b>Possibilidade de reações perigosas:</b> {{ rperigosas }}<br>
-                    <b>Condições a serem evitadas:</b> {{ caseremevitadas }}<br>
-                    <b>Materiais ou substâncias incompatíveis:</b> {{ incompativeis }}<br>
-                    <b>Produtos perigosos da decomposição:</b> {{ pdecomposicao | replace("\n","<br>")}}<br>
-                </td>
-            </tr>
-        </table>
+            <table style="page-break-inside: avoid;">
+                <tr>
+                    <td class="subtitulo"><strong>10. Estabilidade e reatividade</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Reatividade:</b> {{ reatividade }}<br>
+                        <b>Estabilidade Química:</b> {{ estabilidadeq }}<br>
+                        <b>Possibilidade de reações perigosas:</b> {{ rperigosas }}<br>
+                        <b>Condições a serem evitadas:</b> {{ caseremevitadas }}<br>
+                        <b>Materiais ou substâncias incompatíveis:</b> {{ incompativeis }}<br>
+                        <b>Produtos perigosos da decomposição:</b> {{ pdecomposicao | replace("\n","<br>")}}<br>
+                    </td>
+                </tr>
+            </table>
 
         <!-- ESPAÇAMENTO -->
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 11 -->
-        <table>
+        <table style="page-break-inside: avoid;">
+        
             <tr>
                 <td class="subtitulo"><strong>11. Informações toxicológicas</strong></td>
             </tr>
             <tr>
                 <td>
-                    <b>Toxicidade aguda:</b> {{ toxicidadea | replace("\n","<br>")}}<br>
+                    <b>Toxicidade aguda:</b> <br>
+                    <div class="formatted-text">{{ toxicidadea | replace("\n","<br>") }}</div>
+                    <!-- <b>Toxicidade aguda:</b> {{ toxicidadea | replace("\n","<br>")}}<br> -->
                     <b>Corrosão/irritação da pele:</b> {{ cpele | replace("\n","<br>")}}<br>
                     <b>Lesões oculares graves/ irritação ocular:</b> {{ loculares }}<br>
                     <b>Sensibilização respiratória ou à pele:</b> {{ srespiratoria | replace("\n","<br>")}}<br>
@@ -402,7 +419,7 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 12 -->
-        <table>
+        <table style="page-break-inside: avoid;">
             <tr>
                 <td class="subtitulo"><strong>12. Informações ecológicas</strong></td>
             </tr>
@@ -437,20 +454,28 @@
 
         <!-- TABLE 14 -->
         <table>
-            <tr>
-                <td class="subtitulo"><strong>14. Informações sobre transporte</strong></td>
-            </tr>
-            <tr>
-                <td>
-                    <p><b>TERRESTRE</b></p>
-                    <p>Resolução n°5.998, de 3 de novembro de 2022 - Atualiza o Regulamento para o Transporte Rodoviário de Produtos Perigosos, aprova suas Instruções Complementares, e dá outras providências</p>
-
-                    <b>Número ONU:</b>{{ onu }}<br>
-                    <b>Nome apropriado para embarque:</b>{{ nome_embarque | replace("\n","<br>")}}<br>
-                    <b>Classe/subclasse:</b>{{ classe }}<br>
-                    <b>Número de risco:</b>{{ n_risco }}<br>
-                    <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
-                    <b>Perigo ao meio ambiente:</b>{{ pmambiente | replace("\n","<br>")}}<br>
+            <div style="page-break-inside: avoid;">
+                <tr>
+                    <td class="subtitulo"><strong>14. Informações sobre transporte</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><b>TERRESTRE</b></p>
+                        <p>Resolução n°5.998, de 3 de novembro de 2022 - Atualiza o Regulamento para o Transporte Rodoviário de Produtos Perigosos, aprova suas Instruções Complementares, e dá outras providências</p>
+                    </td>
+                </tr>
+            </div>
+            
+                <tr>
+                    <td>
+                        <b>Número ONU:</b>{{ onu }}<br>
+                        <b>Nome apropriado para embarque:</b>{{ nome_embarque | replace("\n","<br>")}}<br>
+                        <b>Classe/subclasse:</b>{{ classe }}<br>
+                        <b>Número de risco:</b>{{ n_risco }}<br>
+                        <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
+                        <b>Perigo ao meio ambiente:</b>{{ pmambiente | replace("\n","<br>")}}<br>
+            
+            <div style="page-break-inside: avoid;">
 
                     <p><b>HIDROVIÁRIO</b></p>
                     <p>DPC - Diretoria de Portos e Costas (transporte de águas brasileiras)Normas de autoridade Marítima (NORMAM)<br>
@@ -459,13 +484,15 @@
                         IMO - "International Maritime Organization" (Organização Marítima Internacional)<br>
                         International Maritime Dangerous Googs Code(IMDG Code)
                     </p>
-
+            </div>
                     <b>Número ONU:</b>{{ onu }}<br>
                     <b>Nome apropriado para embarque:</b>{{ nome_embarque }}<br>
                     <b>Classe/subclasse:</b>{{ classe }}<br>
                     <b>Número de risco:</b>{{ n_risco }}<br>
                     <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
                     <b>Perigo ao meio ambiente:</b>{{ pmambiente | replace("\n","<br>")}}<br>
+
+            <div style="page-break-inside: avoid;">
 
                     <p><b>AÉREO</b></p>
                     <p>ANAC - Agência Nacional de Aviação Civil - Resolução n°129 de 8 de dezembro de 2009.<br>
@@ -475,7 +502,7 @@
                         IATA - "International Air Transport Association" (Associação Internacional de Transporte Aéreo)<br>
                         Dangerous Goods Regulation (DGR)
                     </p>
-
+            </div>
                     <b>Número ONU:</b>{{ onu }}<br>
                     <b>Nome apropriado para embarque:</b>{{ nome_embarque }}<br>
                     <b>Classe/subclasse:</b>{{ classe }}<br>
@@ -491,7 +518,7 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 15 -->
-        <table>
+        <table style="page-break-inside: avoid;">
             <tr>
                 <td class="subtitulo"><strong>15. Informações sobre regulamentações</strong></td>
             </tr>

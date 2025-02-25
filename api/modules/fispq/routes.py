@@ -37,16 +37,19 @@ def listafispq():
         'fispqs_list': new_fispqs
     }
 
-@fispq_routes.route('/<id_fispq>', methods=["DELETE"])
+# @fispq_routes.route('/<id_fispq>', methods=["DELETE"])
+@fispq_routes.route('/<cod_int>', methods=["DELETE"])
 @validate_token
-def fispq_deleted_router(id_fispq):
+# def fispq_deleted_router(id_fispq):
+def fispq_deleted_router(cod_int):
     # dados_recebido_url = request.args
     dados_recebidos = request.user
     # dados_recebidos = request.json
     if dados_recebidos['permission_id'] != '1':
         return 'Usuário não tem permissão', 403
 
-    msg, status_code = delete_fispq(id_fispq)
+    msg, status_code = delete_fispq(cod_int)
+    # msg, status_code = delete_fispq(id_fispq)
     if status_code > 300:
         return {
             "error": msg
@@ -179,8 +182,8 @@ def gerar_pdf(id_fispq):
     pdf_id = gerar_pdf_fispq(id_fispq)
 
     # Habilita gerar PDF na maquina local de desenvolvimento
-    resultado = f"../pdfs/{pdf_id}.pdf"
+    # resultado = f"../pdfs/{pdf_id}.pdf"
 
     # Habilita gerar PDF no ambiente de produção(Quimlab)
-    # resultado = f"./pdfs/{pdf_id}.pdf"
+    resultado = f"./pdfs/{pdf_id}.pdf"
     return send_file(resultado)

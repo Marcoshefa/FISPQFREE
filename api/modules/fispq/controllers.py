@@ -191,17 +191,42 @@ def fispq_id(id):
     return fispq
 
 
-def delete_fispq(id_fispq):
+def delete_fispq(cod_int):
     cursor = mysql.get_db().cursor()
+# def get_frases_by_onu(n_onu):
+#     cursor = mysql.get_db().cursor()
 
+
+
+    # frases_onu = cursor.fetchall()
     # verificar se existe o usuario com o ID X no banco
-    cursor.execute("SELECT * FROM Fispq WHERE idFispq = %s", [id_fispq])
+
+    cursor.execute("SELECT * FROM Fispq WHERE cod_int = %s", [cod_int])
     fispq_selecionado = cursor.fetchone()
+    #     cursor.execute("""
+#         SELECT * 
+#         FROM Tab_onu_none_aprop as onu
+#         INNER JOIN Tab_info as info ON onu.N_Guia = info.Num_guia
+#         WHERE onu.N_ONU = %s
+#     """, [n_onu])
+        #     cursor.execute("""
+#         SELECT * 
+#         FROM Fispq as fispq
+#         INNER JOIN Tab_composicao as composicao ON fispq.cod_int = composicao.cod_int
+#         WHERE fispq.idFispq= %s
+#     """, [idFispq])
 
     if not fispq_selecionado:
         return 'Fispq não encontrada', 404
     
-    cursor.execute("DELETE FROM Fispq WHERE idFispq = %s", [id_fispq])
+    cursor.execute("DELETE FROM Fispq WHERE cod_int = %s", [cod_int])
+    mysql.get_db().commit()
+
+    cursor.execute("DELETE FROM Tab_composicao WHERE cod_int = %s", [cod_int])
+    
+
+    # cursor.execute("SELECT * FROM Fispq WHERE cod_int = %s", [cod_int])
+    # fispq_selecionado = cursor.fetchone()
 
     mysql.get_db().commit()
 
