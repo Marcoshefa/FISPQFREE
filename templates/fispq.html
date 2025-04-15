@@ -36,6 +36,8 @@
             /* border: 0.7px solid #000; */
             padding: 5px;
             font-size: 8px;
+            /* white-space: nowrap; Evita quebra de linha */
+            page-break-inside: avoid;
         }
         .formatted-text {
             font-size: 8px;
@@ -129,7 +131,7 @@
 
         <!-- TABLE 2 -->
         <table>
-            <div style="page-break-inside: avoid;">
+            <!-- <div style="page-break-inside: avoid;"> -->
             <tr>
                 <td class="subtitulo"><strong>2. Identificação de perigos</strong></td>
             </tr>
@@ -138,19 +140,30 @@
                     <strong>CLASSIFICAÇÃO DE PERIGO:</strong><br>
                     {{ todas_frases_classificacao | replace("\n","<br>") }}
                     <br><br>
-            </div>  
-            <div style="page-break-inside: avoid;">
+                </tr>
+            </tr>
+            <!-- </div>   -->
+            <!-- <div style="page-break-inside: avoid;"> -->
 
+            <tr>  
+                <td>
                     <strong>FRASE DE PERIGO:</strong><br>      
                     {{ todas_frases_Perigo | replace("\n","<br>")  }}
                     <br><br>
-            </div>  
-            
+                </td>
+            </tr>  
+            <!-- </div>   -->
+            <tr> 
+                <td>
                     <strong>FRASE DE PRECAUÇÃO:</strong><br>
                     {{ todas_frases_Precaucao | replace("\n","<br>") }}
             
-            <div style="page-break-inside: avoid;">
+            <!-- <div style="page-break-inside: avoid;"> -->
                     <br><br>
+                </td>
+            </tr> 
+            <tr> 
+                <td>       
                     <strong>ELEMENTO DE ROTULAGEM:</strong><br>
                     <div class ='pictogramas'>
                         
@@ -165,7 +178,12 @@
 
                     </div>
                     <br><br>
-            <div style="page-break-inside: avoid;">
+                </td> 
+            <!-- </div> -->
+            <!-- <div style="page-break-inside: avoid;"> -->
+            </tr> 
+            <tr>  
+                <td> 
                     <strong>PALAVRA DE ADVERTÊNCIA:</strong><br>
                     {{ frase_Advertencia }}
 
@@ -173,7 +191,11 @@
                         N/E
                         {%endif%}
                     <br><br>
-            </div> 
+                </td>
+            <!-- </div>  -->
+            </tr> 
+            <tr> 
+                <td> 
                     <strong>OUTROS PERIGOS QUE NÃO RESULTAM EM UMA CLASSIFICAÇÃO:</strong><br>
                     O produto não possui outros perigos.
                 </td>
@@ -310,19 +332,17 @@
 
         <!-- TABLE 8 -->
         
-        <table>
-            <div style="page-break-inside: avoid;">
-                <tr>
-                    <td class="subtitulo"><strong>8. Controle de exposição e proteção individual</strong></td>
-                </tr>
-                <tr>
-                    <td>
-                        <b>Parâmetros de controle</b><br>
-                            
-                        <b>Limites de exposição:</b> <br>
-                        <div class="formatted-text">{{ limitexposicao | replace("\n","<br>") }}</div>
-            </div>
+        <table style="page-break-inside: avoid;">
+            <tr>
+                <td class="subtitulo"><strong>8. Controle de exposição e proteção individual</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Parâmetros de controle</b><br>
                         
+                    <b>Limites de exposição:</b> <br>
+                    <div class="formatted-text">{{ limitexposicao | replace("\n","<br>") }}</div>
+                    
                     <p><b>Medidas de controle de engenharia:</b> {{ medcontroleng | replace("\n","<br>")}}</p>
 
                     <b>Medidas de proteção pessoal</b><br>
@@ -338,7 +358,7 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 9 -->
-        <table>
+        <table style="page-break-inside: avoid;">
             <tr>
                 <td class="subtitulo"><strong>9. Propriedades físicas e químicas</strong></td>
             </tr>
@@ -438,7 +458,7 @@
         <div style="width: 100; height: 20px;"></div>
 
         <!-- TABLE 13 -->
-        <table>
+        <table style="page-break-inside: avoid;">
             <tr>
                 <td class="subtitulo"><strong>13. Considerações sobre destinação final</strong></td>
             </tr>
@@ -454,62 +474,74 @@
 
         <!-- TABLE 14 -->
         <table>
-            <div style="page-break-inside: avoid;">
-                <tr>
-                    <td class="subtitulo"><strong>14. Informações sobre transporte</strong></td>
-                </tr>
-                <tr>
-                    <td>
-                        <p><b>TERRESTRE</b></p>
-                        <p>Resolução n°5.998, de 3 de novembro de 2022 - Atualiza o Regulamento para o Transporte Rodoviário de Produtos Perigosos, aprova suas Instruções Complementares, e dá outras providências</p>
-                    </td>
-                </tr>
-            </div>
+            <!-- <div style="page-break-inside: avoid;"> -->
+            <tr>
+                <td class="subtitulo"><strong>14. Informações sobre transporte</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <p><b>TERRESTRE</b></p>
+                    <p>Resolução n°5.998, de 3 de novembro de 2022 - Atualiza o Regulamento para o Transporte Rodoviário de Produtos Perigosos, aprova suas Instruções Complementares, e dá outras providências</p>
+                </td> 
+            </tr>
+            <!-- </div> -->
             
-                <tr>
-                    <td>
-                        <b>Número ONU:</b>{{ onu }}<br>
-                        <b>Nome apropriado para embarque:</b>{{ nome_embarque | replace("\n","<br>")}}<br>
-                        <b>Classe/subclasse:</b>{{ classe }}<br>
-                        <b>Número de risco:</b>{{ n_risco }}<br>
-                        <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
-                        <b>Perigo ao meio ambiente:</b>{{ pmambiente | replace("\n","<br>")}}<br>
-            
-            <div style="page-break-inside: avoid;">
-
-                    <p><b>HIDROVIÁRIO</b></p>
-                    <p>DPC - Diretoria de Portos e Costas (transporte de águas brasileiras)Normas de autoridade Marítima (NORMAM)<br>
-                        NORMAM 01/DPC: Embarcações empregada na Navegação em Mar Aberto<br>
-                        NORMAM 02/DPC: Embarcações Empregadas na Navegação Interior<br>
-                        IMO - "International Maritime Organization" (Organização Marítima Internacional)<br>
-                        International Maritime Dangerous Googs Code(IMDG Code)
-                    </p>
-            </div>
-                    <b>Número ONU:</b>{{ onu }}<br>
-                    <b>Nome apropriado para embarque:</b>{{ nome_embarque }}<br>
-                    <b>Classe/subclasse:</b>{{ classe }}<br>
-                    <b>Número de risco:</b>{{ n_risco }}<br>
-                    <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
-                    <b>Perigo ao meio ambiente:</b>{{ pmambiente | replace("\n","<br>")}}<br>
-
-            <div style="page-break-inside: avoid;">
-
-                    <p><b>AÉREO</b></p>
-                    <p>ANAC - Agência Nacional de Aviação Civil - Resolução n°129 de 8 de dezembro de 2009.<br>
-                        RBAC N°175 - REGULAMENTO BRASILEIRO DA AVIAÇÃO CIVIL - TRANSPORTE DE ARTIGOS PERIGOSOS EM AERONAVES CIVIS.<br>
-                        IS N° 175-001-INSTRUÇÃO SUPLEMENTAR IS<br>
-                        ICAO - "International Civil Aviation Organization"(Organização da Aviação Civil Internacional)-DOC 9284-NA/905<br>
-                        IATA - "International Air Transport Association" (Associação Internacional de Transporte Aéreo)<br>
-                        Dangerous Goods Regulation (DGR)
-                    </p>
-            </div>
-                    <b>Número ONU:</b>{{ onu }}<br>
-                    <b>Nome apropriado para embarque:</b>{{ nome_embarque }}<br>
-                    <b>Classe/subclasse:</b>{{ classe }}<br>
-                    <b>Número de risco:</b>{{ n_risco }}<br>
-                    <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
-                    <b>Perigo ao meio ambiente:</b>{{ pmambiente | replace("\n","<br>")}}<br><br>
-                    <b>Medidas e condições específicas de precaução:</b>{{ mceprecaucao | replace("\n","<br>")}}
+            <tr>
+                <td>
+                    <b>Número ONU:</b> {{ onu }}<br>
+                    <b>Nome apropriado para embarque:</b> {{ nome_embarque | replace("\n","<br>")}}<br>
+                    <b>Classe/subclasse:</b> {{ classe }}<br>
+                    <b>Número de risco:</b> {{ n_risco }}<br>
+                    <b>Grupo de embalagem:</b> {{ grupo_emb }}<br>
+                    <b>Perigo ao meio ambiente:</b> {{ pmambiente | replace("\n","<br>")}}<br>
+                </td>
+            </tr>
+            <!-- <div style="page-break-inside: avoid;"> -->
+            <tr>
+                <td>
+                <p><b>HIDROVIÁRIO</b></p>
+                <p>DPC - Diretoria de Portos e Costas (transporte de águas brasileiras)Normas de autoridade Marítima (NORMAM)<br>
+                    NORMAM 01/DPC: Embarcações empregada na Navegação em Mar Aberto<br>
+                    NORMAM 02/DPC: Embarcações Empregadas na Navegação Interior<br>
+                    IMO - "International Maritime Organization" (Organização Marítima Internacional)<br>
+                    International Maritime Dangerous Googs Code(IMDG Code)
+                </p>
+                </td>
+            </tr>
+            <!-- </div> -->
+            <tr>
+                <td>
+                <b>Número UN:</b> {{ onu }}<br>
+                <b>Nome apropriado para embarque:</b> {{ nome_embarque_h }}<br>
+                <b>Classe/subclasse:</b> {{ classe }}<br>
+                <b>Número de risco:</b> {{ n_risco }}<br>
+                <b>Grupo de embalagem:</b>{{ grupo_emb }}<br>
+                <b>Perigo ao meio ambiente:</b> {{ pmambiente | replace("\n","<br>")}}<br>
+                </td>
+            </tr>
+            <!-- <div style="page-break-inside: avoid;"> -->
+            <tr>
+                <td>
+                <p><b>AÉREO</b></p>
+                <p>ANAC - Agência Nacional de Aviação Civil - Resolução n°129 de 8 de dezembro de 2009.<br>
+                    RBAC N°175 - REGULAMENTO BRASILEIRO DA AVIAÇÃO CIVIL - TRANSPORTE DE ARTIGOS PERIGOSOS EM AERONAVES CIVIS.<br>
+                    IS N° 175-001-INSTRUÇÃO SUPLEMENTAR IS<br>
+                    ICAO - "International Civil Aviation Organization"(Organização da Aviação Civil Internacional)-DOC 9284-NA/905<br>
+                    IATA - "International Air Transport Association" (Associação Internacional de Transporte Aéreo)<br>
+                    Dangerous Goods Regulation (DGR)
+                </p>
+                </td>
+            </tr>
+            <!-- </div> -->
+            <tr>
+                <td>
+                <b>Número UN:</b> {{ onu }}<br>
+                <b>Nome apropriado para embarque:</b> {{ nome_embarque_a }}<br>
+                <b>Classe/subclasse:</b> {{ classe }}<br>
+                <b>Número de risco:</b> {{ n_risco }}<br>
+                <b>Grupo de embalagem:</b> {{ grupo_emb }}<br>
+                <b>Perigo ao meio ambiente:</b> {{ pmambiente | replace("\n","<br>")}}<br><br>
+                <b>Medidas e condições específicas de precaução:</b> {{ mceprecaucao | replace("\n","<br>")}}
                 </td>
             </tr>
         </table>
@@ -525,7 +557,7 @@
             <tr>
                 <td>
                     Decreto Federal nº 2.657, de 3 de julho de 1998.<br>
-                    Norma ABNT-NBR 14725.<br>
+                    Norma ABNT-NBR 14725:2023.<br>
                     Portaria n° 229 de 24 de maio de 2011.
                 </td>
             </tr>
