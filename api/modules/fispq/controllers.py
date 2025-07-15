@@ -24,6 +24,7 @@ def list_all_fispqs():
             'idFispq': fispq[0],
             'cod_int': fispq[6],
             'produto': fispq[5],
+            'empresa': fispq[90],
             'onu': fispq[68],
             'nome_embarque': fispq[69],
             'created_at': fispq[1],
